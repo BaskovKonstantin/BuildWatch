@@ -1,0 +1,4252 @@
+{
+  "models": [
+    {
+      "id": "uisikdag/autotrain-detr-resnet-50-excavator-detection",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 20,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "tensorboard",
+        "safetensors",
+        "detr",
+        "object-detection",
+        "autotrain",
+        "vision",
+        "dataset:uisikdag/excavators",
+        "base_model:facebook/detr-resnet-50",
+        "base_model:finetune:facebook/detr-resnet-50",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2LVL",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 6,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:finetune:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Gemma3_12B_4bit",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 6,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "gemma3",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/gemma-3-12b-it-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/gemma-3-12b-it-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2VL_7B_4bit",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 7,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2.5VL_7B_4bit",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 5,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_5_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2.5-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Qwen2.5-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Llama-32-11B_vl_7B_4bit_1epoch",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 4,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "mllama",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Llama-3.2-11B-Vision-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Llama-3.2-11B-Vision-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Llama-32-11B_vl_7B_4bit_3e",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 5,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "mllama",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Llama-3.2-11B-Vision-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Llama-3.2-11B-Vision-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2VL_7B_4bit_3e",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 2,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Gemma3_12B_4bit_3e",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 5,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "gemma3",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/gemma-3-12b-it-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/gemma-3-12b-it-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2VL_2B_4bit_2e",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 4,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:quantized:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_Qwen2VL_2B_2e",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 3,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "base_model:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "base_model:finetune:unsloth/Qwen2-VL-7B-Instruct-unsloth-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_QWEN2VL_7B_4bit_final_3ep",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 3,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_QWEN2VL_7B_4bit_final_5ep",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 3,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_QWEN2VL_7B_16it_final_5ep",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 5,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_QWEN2VL_7B_0804",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 4,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "hnv2520/excavator_QWEN2VL_7B_4b_it_final_4ep_0804",
+      "pipeline": "image-text-to-text",
+      "likes": 0,
+      "downloads": 3,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "image-text-to-text",
+        "text-generation-inference",
+        "unsloth",
+        "conversational",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "4-bit",
+        "bitsandbytes",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "LegrandFrederic/excavator_digger",
+      "pipeline": "robotics",
+      "likes": 0,
+      "downloads": 6,
+      "library": "lerobot",
+      "tags": [
+        "lerobot",
+        "safetensors",
+        "act",
+        "robotics",
+        "dataset:LegrandFrederic/excavate_bboxes",
+        "arxiv:2304.13705",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "Sinan2961/Excavator",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "suk4lee/act_excavator_policy",
+      "pipeline": "robotics",
+      "likes": 0,
+      "downloads": 6,
+      "library": "lerobot",
+      "tags": [
+        "lerobot",
+        "safetensors",
+        "robotics",
+        "act",
+        "dataset:suk4lee/excavator-motion-lerobot",
+        "arxiv:2304.13705",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "Quazii/qwen_excavator_lora",
+      "pipeline": "text-generation",
+      "likes": 0,
+      "downloads": 8,
+      "library": "peft",
+      "tags": [
+        "peft",
+        "safetensors",
+        "base_model:adapter:Qwen/Qwen2.5-7B-Instruct",
+        "llama-factory",
+        "lora",
+        "transformers",
+        "text-generation",
+        "conversational",
+        "base_model:Qwen/Qwen2.5-7B-Instruct",
+        "license:other",
+        "region:us"
+      ],
+      "query": "excavator"
+    },
+    {
+      "id": "Myat-Pandora/construction-accident-ner",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "TiddlerDrown/Khambat_Bay_Construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:openrail",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "keremberke/yolov5n-construction-safety",
+      "pipeline": "object-detection",
+      "likes": 18,
+      "downloads": 161,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/construction-safety-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "keremberke/yolov5s-construction-safety",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 170,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/construction-safety-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "keremberke/yolov5m-construction-safety",
+      "pipeline": "object-detection",
+      "likes": 5,
+      "downloads": 137,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/construction-safety-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "uisikdag/yolo-v5-construction-machine-detection",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 66,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "model-index",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "yiming19/segformer-b0-finetuned-segments-construction-1",
+      "pipeline": "image-segmentation",
+      "likes": 1,
+      "downloads": 17,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "pytorch",
+        "segformer",
+        "vision",
+        "image-segmentation",
+        "generated_from_trainer",
+        "license:other",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "yipengr/detr-resnet-50_finetuned_construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "deyelive/detr-resnet-50-finetuned-construction-safety",
+      "pipeline": "object-detection",
+      "likes": 5,
+      "downloads": 0,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "detr",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/protective-equipment-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "cringgaard/ResNet18_Construction_baseline",
+      "pipeline": "image-classification",
+      "likes": 0,
+      "downloads": 0,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "pytorch",
+        "resnet",
+        "image-classification",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "geonp/construction_lm_outputs",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Aditya8005/llama2-qlora-finetunined-Material-recommendation-and-optimization-for-road-construction",
+      "pipeline": null,
+      "likes": 2,
+      "downloads": 8,
+      "library": "peft",
+      "tags": [
+        "peft",
+        "pytorch",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Bazaar/cv_construction_vehicle_identification",
+      "pipeline": "image-classification",
+      "likes": 1,
+      "downloads": 19,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "safetensors",
+        "vit",
+        "image-classification",
+        "huggingpics",
+        "zh",
+        "en",
+        "license:apache-2.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "DigitalKay/construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:bigscience-openrail-m",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ahhany/constructionEmbeddingModel",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 17,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "pytorch",
+        "bert",
+        "feature-extraction",
+        "sentence-similarity",
+        "transformers",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ahhany/ConstructionEmbeddingBERT",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 76,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "pytorch",
+        "bert",
+        "feature-extraction",
+        "sentence-similarity",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "prtm/ConstructionAdviserModelDraft1",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "text-generation-inference",
+        "unsloth",
+        "llama",
+        "trl",
+        "en",
+        "base_model:unsloth/llama-3-8b-bnb-4bit",
+        "base_model:finetune:unsloth/llama-3-8b-bnb-4bit",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "juungwon/Llama-3-instruction-constructionsafety",
+      "pipeline": "text-generation",
+      "likes": 0,
+      "downloads": 25,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "llama3",
+        "meta",
+        "facebook",
+        "conversational",
+        "ko",
+        "en",
+        "license:cc-by-4.0",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us",
+        "deploy:azure"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "DBCMLAB/Llama-3-instruction-constructionsafety-layertuning",
+      "pipeline": "text-generation",
+      "likes": 2,
+      "downloads": 39,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "llama3",
+        "meta",
+        "facebook",
+        "conversational",
+        "ko",
+        "license:cc-by-nc-4.0",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us",
+        "deploy:azure"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "SHUBH4M/3D_Construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "adetolu/Construction-Begins-on-New-Regional-Hospital-4e-updated",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "OfficialKeerat00/llama3_8b_QLORA_finetuned_construction_classification",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "unsloth",
+        "arxiv:1910.09700",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Heng666/paligemma_construction_safety",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 5,
+      "library": "peft",
+      "tags": [
+        "peft",
+        "tensorboard",
+        "safetensors",
+        "generated_from_trainer",
+        "base_model:google/paligemma-3b-pt-224",
+        "base_model:adapter:google/paligemma-3b-pt-224",
+        "license:gemma",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "DBCMLAB/KoAlpaca-Pyglot-12.8B-ConstructionSafety",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 3,
+      "library": null,
+      "tags": [
+        "safetensors",
+        "gpt_neox",
+        "ko",
+        "dataset:DBCMLAB/Constructionsafety_QApairs",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Gigon/ruBert_for_construction_resourse_classification",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 6,
+      "library": null,
+      "tags": [
+        "safetensors",
+        "bert",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "jsostmann/home_construction_company_Mistral",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 3,
+      "library": "peft",
+      "tags": [
+        "peft",
+        "safetensors",
+        "mistral",
+        "arxiv:1910.09700",
+        "base_model:mistralai/Mistral-7B-v0.1",
+        "base_model:adapter:mistralai/Mistral-7B-v0.1",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "djbp/swin-base-patch4-window7-224-in22k-construction_type",
+      "pipeline": "image-classification",
+      "likes": 0,
+      "downloads": 10,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "tensorboard",
+        "safetensors",
+        "swin",
+        "image-classification",
+        "generated_from_trainer",
+        "dataset:imagefolder",
+        "base_model:microsoft/swin-base-patch4-window7-224-in22k",
+        "base_model:finetune:microsoft/swin-base-patch4-window7-224-in22k",
+        "license:apache-2.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "vonet/construction-classifier",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "ru",
+        "base_model:mistralai/Mistral-Small-Instruct-2409",
+        "base_model:finetune:mistralai/Mistral-Small-Instruct-2409",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "chc-harvard/tiktok_comment_knowledge_construction_binary",
+      "pipeline": "text-classification",
+      "likes": 0,
+      "downloads": 7,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "bert",
+        "text-classification",
+        "arxiv:1910.09700",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 56,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:1765",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-v2",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 56,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:1765",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-adapter",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 17,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:1412",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-adapter-v2",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 18,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:1412",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-adapter-v3",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 21,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:4236",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-cat",
+      "pipeline": "sentence-similarity",
+      "likes": 1,
+      "downloads": 56,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:5295",
+        "loss:MatryoshkaLoss",
+        "loss:TripletLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:2205.13147",
+        "arxiv:1703.07737",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-esp-cat",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 23,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:10590",
+        "loss:Matryoshka2dLoss",
+        "loss:MatryoshkaLoss",
+        "loss:MultipleNegativesRankingLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:2402.14776",
+        "arxiv:2205.13147",
+        "arxiv:1705.00652",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RamsesDIIP/me5-large-construction-esp-cat-v2",
+      "pipeline": "sentence-similarity",
+      "likes": 0,
+      "downloads": 57,
+      "library": "sentence-transformers",
+      "tags": [
+        "sentence-transformers",
+        "safetensors",
+        "xlm-roberta",
+        "sentence-similarity",
+        "feature-extraction",
+        "generated_from_trainer",
+        "dataset_size:10590",
+        "loss:MultipleNegativesRankingLoss",
+        "multilingual",
+        "arxiv:1908.10084",
+        "arxiv:1705.00652",
+        "base_model:intfloat/multilingual-e5-large",
+        "base_model:finetune:intfloat/multilingual-e5-large",
+        "license:apache-2.0",
+        "model-index",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "featherless-ai-quants/DBCMLAB-Llama-3-instruction-constructionsafety-layertuning-GGUF",
+      "pipeline": "text-generation",
+      "likes": 0,
+      "downloads": 678,
+      "library": null,
+      "tags": [
+        "gguf",
+        "text-generation",
+        "base_model:DBCMLAB/Llama-3-instruction-constructionsafety-layertuning",
+        "base_model:quantized:DBCMLAB/Llama-3-instruction-constructionsafety-layertuning",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "RichardErkhov/juungwon_-_Llama-3-instruction-constructionsafety-gguf",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 745,
+      "library": null,
+      "tags": [
+        "gguf",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "featherless-ai-quants/juungwon-Llama-3-instruction-constructionsafety-GGUF",
+      "pipeline": "text-generation",
+      "likes": 0,
+      "downloads": 573,
+      "library": null,
+      "tags": [
+        "gguf",
+        "text-generation",
+        "base_model:juungwon/Llama-3-instruction-constructionsafety",
+        "base_model:quantized:juungwon/Llama-3-instruction-constructionsafety",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "tensorblock/Llama-3-instruction-constructionsafety-layertuning-GGUF",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 77,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "gguf",
+        "llama3",
+        "meta",
+        "facebook",
+        "TensorBlock",
+        "GGUF",
+        "ko",
+        "base_model:DBCMLAB/Llama-3-instruction-constructionsafety-layertuning",
+        "base_model:quantized:DBCMLAB/Llama-3-instruction-constructionsafety-layertuning",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Vuhu/construction_embedding",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 7,
+      "library": null,
+      "tags": [
+        "safetensors",
+        "roberta",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Vuhu/vietname_construction_5k5",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 6,
+      "library": null,
+      "tags": [
+        "safetensors",
+        "roberta",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Vuhu/construction_vietname_6k1",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 5,
+      "library": null,
+      "tags": [
+        "safetensors",
+        "roberta",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "tensorblock/Llama-3-instruction-constructionsafety-GGUF",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 52,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "gguf",
+        "llama3",
+        "meta",
+        "facebook",
+        "TensorBlock",
+        "GGUF",
+        "ko",
+        "en",
+        "base_model:juungwon/Llama-3-instruction-constructionsafety",
+        "base_model:quantized:juungwon/Llama-3-instruction-constructionsafety",
+        "license:cc-by-4.0",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "cosmo3769/construction-safety-od-finetuned-paligemma",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 6,
+      "library": "peft",
+      "tags": [
+        "peft",
+        "tensorboard",
+        "safetensors",
+        "generated_from_trainer",
+        "base_model:google/paligemma-3b-pt-224",
+        "base_model:adapter:google/paligemma-3b-pt-224",
+        "license:gemma",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "fevot/construction-yolov8",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "woon0416/Meta-Llama-3.1-8B-construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 6,
+      "library": null,
+      "tags": [
+        "pytorch",
+        "llama",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "woon0416/Meta-Llama-3.1-8B-construction-gguf",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 22,
+      "library": null,
+      "tags": [
+        "gguf",
+        "llama",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "AScythe/detr-resnet-50-construction-safety-finetuned",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "haruo666/lego_bulldozer",
+      "pipeline": "text-to-image",
+      "likes": 0,
+      "downloads": 4,
+      "library": "diffusers",
+      "tags": [
+        "diffusers",
+        "stable-diffusion",
+        "stable-diffusion-diffusers",
+        "text-to-image",
+        "lora",
+        "base_model:runwayml/stable-diffusion-v1-5",
+        "base_model:adapter:runwayml/stable-diffusion-v1-5",
+        "license:creativeml-openrail-m",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "haruo666/lego_bulldozer_lora",
+      "pipeline": "text-to-image",
+      "likes": 0,
+      "downloads": 9,
+      "library": "diffusers",
+      "tags": [
+        "diffusers",
+        "stable-diffusion",
+        "stable-diffusion-diffusers",
+        "text-to-image",
+        "lora",
+        "base_model:runwayml/stable-diffusion-v1-5",
+        "base_model:adapter:runwayml/stable-diffusion-v1-5",
+        "license:creativeml-openrail-m",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "John6666/anime-bulldozer-v2-sdxl",
+      "pipeline": "text-to-image",
+      "likes": 3,
+      "downloads": 21,
+      "library": "diffusers",
+      "tags": [
+        "diffusers",
+        "safetensors",
+        "text-to-image",
+        "stable-diffusion",
+        "stable-diffusion-xl",
+        "anime",
+        "license:other",
+        "endpoints_compatible",
+        "diffusers:StableDiffusionXLPipeline",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "BrejBala/Bluebook_for_Bulldozers",
+      "pipeline": "tabular-regression",
+      "likes": 0,
+      "downloads": 0,
+      "library": "scikit-learn",
+      "tags": [
+        "scikit-learn",
+        "tabular-regression",
+        "regression",
+        "random-forest",
+        "kaggle",
+        "bluebook-for-bulldozers",
+        "feature-engineering",
+        "time-series",
+        "heavy-equipment",
+        "auction-prices",
+        "en",
+        "license:mit",
+        "model-index",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "lilvans/bulldozer-model",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "dumptruckdaddy/lena-flux-lora",
+      "pipeline": "text-to-image",
+      "likes": 0,
+      "downloads": 19,
+      "library": "diffusers",
+      "tags": [
+        "diffusers",
+        "text-to-image",
+        "lora",
+        "flux",
+        "template:diffusion-lora",
+        "base_model:black-forest-labs/FLUX.1-dev",
+        "base_model:adapter:black-forest-labs/FLUX.1-dev",
+        "license:other",
+        "region:us"
+      ],
+      "query": "dump-truck"
+    },
+    {
+      "id": "dumptruckdaddy/lena-flux-lora-kohya",
+      "pipeline": "text-to-image",
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "lora",
+        "flux",
+        "text-to-image",
+        "base_model:black-forest-labs/FLUX.1-dev",
+        "base_model:adapter:black-forest-labs/FLUX.1-dev",
+        "region:us"
+      ],
+      "query": "dump-truck"
+    },
+    {
+      "id": "dumptruckdaddy/mara-flux-lora-kohya",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "dump-truck"
+    },
+    {
+      "id": "JunYuanNYP/construction-yolov8",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "phat06/Construction-safety-yolov8",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "baskarmother/yolov8-ppe-construction",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 276,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "vision",
+        "object-detection",
+        "yolov8",
+        "ppe",
+        "construction-safety",
+        "safety",
+        "license:mit",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "baskarmother/yolov8s-ppe-construction-v2",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 19,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "object-detection",
+        "ppe",
+        "construction-safety",
+        "yolov8",
+        "ml-intern",
+        "license:cc-by-4.0",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "newtechdevng/construction-detection-yolov8",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "killuminati1/construction-ppe-yolov8",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 342,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "yolov8",
+        "object-detection",
+        "ppe-detection",
+        "construction-safety",
+        "computer-vision",
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "assentian1970/construction_yolov11",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "Ashwani-0101/Yolo11L-construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "Ashwani-0101/YOLOV11M-Construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "Ashwani-0101/YOLO11S-Construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "ngandugilbert/yolo-construction-safety",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "MohamedASAK/Construction_Hazard_Detection_using_YOLO26",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "thalostech2025/thalos-construction-ppe-v1",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "thalostech2025/dfine-small-construction-ppe-v1",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 18,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "d_fine",
+        "object-detection",
+        "vision",
+        "generated_from_trainer",
+        "base_model:ustc-community/dfine-small-coco",
+        "base_model:finetune:ustc-community/dfine-small-coco",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "thalostech2025/dfine-small-construction-ppe-v2",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 15,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "d_fine",
+        "object-detection",
+        "generated_from_trainer",
+        "base_model:ustc-community/dfine-small-coco",
+        "base_model:finetune:ustc-community/dfine-small-coco",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "thalostech2025/dfine-small-construction-ppe-v3",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "mky1324/gemma-3-4b-Tower_crane-gguf",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 10,
+      "library": null,
+      "tags": [
+        "gguf",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+      ],
+      "query": "tower crane"
+    },
+    {
+      "id": "jccj/wheel-loader-model-hf",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 0,
+      "library": "transformers",
+      "tags": [
+        "transformers",
+        "safetensors",
+        "text-generation-inference",
+        "unsloth",
+        "llama",
+        "trl",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    },
+    {
+      "id": "jccj/wheel-loader-model-gguf",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 48,
+      "library": null,
+      "tags": [
+        "gguf",
+        "llama",
+        "llama.cpp",
+        "unsloth",
+        "endpoints_compatible",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    },
+    {
+      "id": "keremberke/yolov5m-license-plate",
+      "pipeline": "object-detection",
+      "likes": 55,
+      "downloads": 9073,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/license-plate-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-valorant",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 147,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/valorant-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-valorant",
+      "pipeline": "object-detection",
+      "likes": 5,
+      "downloads": 136,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/valorant-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-valorant",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 178,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/valorant-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-football",
+      "pipeline": "object-detection",
+      "likes": 8,
+      "downloads": 168,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/football-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-football",
+      "pipeline": "object-detection",
+      "likes": 4,
+      "downloads": 166,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/football-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-football",
+      "pipeline": "object-detection",
+      "likes": 4,
+      "downloads": 165,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/football-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-csgo",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 156,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/csgo-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-csgo",
+      "pipeline": "object-detection",
+      "likes": 4,
+      "downloads": 141,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/csgo-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-csgo",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 152,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/csgo-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-clash-of-clans",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 129,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/clash-of-clans-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-clash-of-clans",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 177,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/clash-of-clans-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-clash-of-clans",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 157,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/clash-of-clans-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-nfl",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 131,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/nfl-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-nfl",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 158,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/nfl-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-nfl",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 153,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/nfl-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-blood-cell",
+      "pipeline": "object-detection",
+      "likes": 8,
+      "downloads": 131,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/blood-cell-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-blood-cell",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 142,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/blood-cell-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-blood-cell",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 152,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/blood-cell-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-license-plate",
+      "pipeline": "object-detection",
+      "likes": 25,
+      "downloads": 3787,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/license-plate-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-license-plate",
+      "pipeline": "object-detection",
+      "likes": 7,
+      "downloads": 366,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/license-plate-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-forklift",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 142,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-forklift",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 125,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-forklift",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 144,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-smoke",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 152,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/smoke-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-smoke",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 154,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/smoke-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-smoke",
+      "pipeline": "object-detection",
+      "likes": 17,
+      "downloads": 153,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/smoke-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-aerial-sheep",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 146,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/aerial-sheep-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-aerial-sheep",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 148,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/aerial-sheep-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-aerial-sheep",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 144,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/aerial-sheep-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5n-garbage",
+      "pipeline": "object-detection",
+      "likes": 5,
+      "downloads": 142,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/garbage-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5s-garbage",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 170,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/garbage-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov5m-garbage",
+      "pipeline": "object-detection",
+      "likes": 11,
+      "downloads": 160,
+      "library": "yolov5",
+      "tags": [
+        "yolov5",
+        "tensorboard",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "dataset:keremberke/garbage-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-forklift-detection",
+      "pipeline": "object-detection",
+      "likes": 3,
+      "downloads": 765,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-pothole-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 17,
+      "downloads": 1095,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/pothole-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-building-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 2,
+      "downloads": 814,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/satellite-building-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8s-forklift-detection",
+      "pipeline": "object-detection",
+      "likes": 6,
+      "downloads": 992,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8m-forklift-detection",
+      "pipeline": "object-detection",
+      "likes": 8,
+      "downloads": 1000,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/forklift-object-detection",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8s-pothole-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 2,
+      "downloads": 790,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/pothole-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8m-pothole-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 6,
+      "downloads": 1215,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/pothole-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8s-building-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 3,
+      "downloads": 912,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/satellite-building-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8m-building-segmentation",
+      "pipeline": "image-segmentation",
+      "likes": 10,
+      "downloads": 1618,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-segmentation",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/satellite-building-segmentation",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-scene-classification",
+      "pipeline": "image-classification",
+      "likes": 2,
+      "downloads": 666,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-classification",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/indoor-scene-classification",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8s-scene-classification",
+      "pipeline": "image-classification",
+      "likes": 2,
+      "downloads": 643,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-classification",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/indoor-scene-classification",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8m-scene-classification",
+      "pipeline": "image-classification",
+      "likes": 14,
+      "downloads": 964,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-classification",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/indoor-scene-classification",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-painting-classification",
+      "pipeline": "image-classification",
+      "likes": 0,
+      "downloads": 604,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-classification",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/painting-style-classification",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "keremberke/yolov8n-chest-xray-classification",
+      "pipeline": "image-classification",
+      "likes": 4,
+      "downloads": 668,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "image-classification",
+        "pytorch",
+        "awesome-yolov8-models",
+        "dataset:keremberke/chest-xray-classification",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "foduucom/stockmarket-pattern-detection-yolov8",
+      "pipeline": "object-detection",
+      "likes": 435,
+      "downloads": 13155,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tensorboard",
+        "v8",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "finance",
+        "stock market",
+        "candlesticks",
+        "pattern recognition",
+        "option trading",
+        "chart reader",
+        "en",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "ogkalu/comic-speech-bubble-detector-yolov8m",
+      "pipeline": null,
+      "likes": 36,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "license:apache-2.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "Ultralytics/YOLOv8",
+      "pipeline": "object-detection",
+      "likes": 386,
+      "downloads": 10228,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "tracking",
+        "instance-segmentation",
+        "image-classification",
+        "pose-estimation",
+        "obb",
+        "object-detection",
+        "yolo",
+        "yolov8",
+        "yolov3",
+        "yolov5",
+        "yolov9",
+        "yolov10",
+        "license:agpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "Musawer14/fight_detection_yolov8",
+      "pipeline": null,
+      "likes": 3,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "en",
+        "license:mit",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "DhanushSGowda/yolov8n-gender-classification",
+      "pipeline": "image-classification",
+      "likes": 3,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "image-classification",
+        "en",
+        "base_model:Ultralytics/YOLOv8",
+        "base_model:finetune:Ultralytics/YOLOv8",
+        "license:mit",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "Anzhc/Race-Classification-FairFace-YOLOv8",
+      "pipeline": "image-classification",
+      "likes": 8,
+      "downloads": 486,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "pytorch",
+        "YOLOv8",
+        "Ultralytics",
+        "YOLO11",
+        "image-classification",
+        "base_model:Ultralytics/YOLO11",
+        "base_model:finetune:Ultralytics/YOLO11",
+        "license:agpl-3.0",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "Koushim/yolov8-license-plate-detection",
+      "pipeline": null,
+      "likes": 12,
+      "downloads": 8128,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "YOLOv8",
+        "Object Detection",
+        "Computer Vision",
+        "License Plate Detection",
+        "Ultralytics",
+        "Real-time Detection",
+        "license:mit",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "bluelabel/satellite-equipment-detection-yolov8n-vhr10",
+      "pipeline": "object-detection",
+      "likes": 2,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "computer-vision",
+        "object-detection",
+        "yolov8",
+        "satellite-imagery",
+        "remote-sensing",
+        "vhr-10",
+        "geospatial",
+        "equipment-detection",
+        "en",
+        "dataset:VHR-10",
+        "license:mit",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "Omarrs11/cypriot-ocr-yolov8",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "onnx",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "kadirnar/yolov8n-v8.0",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "object-detection",
+        "computer-vision",
+        "yolov8",
+        "yolov5",
+        "dataset:detection-datasets/coco",
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "kadirnar/yolov8m-v8.0",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "object-detection",
+        "computer-vision",
+        "yolov8",
+        "yolov5",
+        "dataset:detection-datasets/coco",
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "kadirnar/yolov8l-v8.0",
+      "pipeline": "object-detection",
+      "likes": 1,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "object-detection",
+        "computer-vision",
+        "yolov8",
+        "yolov5",
+        "dataset:detection-datasets/coco",
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "kadirnar/yolov8x-v8.0",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "object-detection",
+        "computer-vision",
+        "yolov8",
+        "yolov5",
+        "dataset:detection-datasets/coco",
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "kadirnar/yolov8x6-v8.0",
+      "pipeline": "object-detection",
+      "likes": 0,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "object-detection",
+        "computer-vision",
+        "yolov8",
+        "yolov5",
+        "dataset:detection-datasets/coco",
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "ultralyticsplus/yolov8s",
+      "pipeline": "object-detection",
+      "likes": 46,
+      "downloads": 491,
+      "library": "ultralytics",
+      "tags": [
+        "ultralytics",
+        "ultralyticsplus",
+        "yolov8",
+        "yolo",
+        "vision",
+        "object-detection",
+        "pytorch",
+        "license:agpl-3.0",
+        "model-index",
+        "region:us"
+      ],
+      "query": "extra"
+    },
+    {
+      "id": "thoucentric/Yolov8-Shelf-Objects-Detection",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 0,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "extra"
+    }
+  ],
+  "datasets": [
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_mnli_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 19,
+      "library": null,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "keremberke/construction-safety-object-detection",
+      "pipeline": null,
+      "likes": 15,
+      "downloads": 785,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "size_categories:n<1K",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us",
+        "roboflow",
+        "roboflow2huggingface",
+        "Construction",
+        "Logistics",
+        "Utilities",
+        "Damage Risk",
+        "Ppe",
+        "Manufacturing",
+        "Assembly Line",
+        "Warehouse",
+        "Factory"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "yiming19/construction_place",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 12,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:image",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "yiming19/construction_test",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 9,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:image",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Francesco/construction-safety-gsnvb",
+      "pipeline": null,
+      "likes": 7,
+      "downloads": 126,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "annotations_creators:crowdsourced",
+        "language_creators:found",
+        "multilinguality:monolingual",
+        "source_datasets:original",
+        "language:en",
+        "license:cc",
+        "size_categories:1K<n<10K",
+        "format:parquet",
+        "modality:image",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us",
+        "rf100"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_cola_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 21,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_mrpc_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 9,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_sst2_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 12,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_qqp_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 11,
+      "library": null,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_rte_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 9,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "liuyanchen1015/MULTI_VALUE_stsb_correlative_constructions",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 12,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Aditya8005/Road_construction_recommendation",
+      "pipeline": null,
+      "likes": 2,
+      "downloads": 48,
+      "library": null,
+      "tags": [
+        "license:apache-2.0",
+        "size_categories:n<1K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "XXCCF/bridge_construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 8,
+      "library": null,
+      "tags": [
+        "language:zh",
+        "license:gpl-3.0",
+        "size_categories:100K<n<1M",
+        "region:us",
+        "civil engineering"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "akar49/construction_site-I",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 2,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "TahmidH/Bengali_Sentence_Construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 9,
+      "library": null,
+      "tags": [
+        "language:bn",
+        "license:cc0-1.0",
+        "size_categories:1K<n<10K",
+        "format:csv",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "lokesh2002/construction_sample_dataset1",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 7,
+      "library": null,
+      "tags": [
+        "license:apache-2.0",
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "lokesh2002/construction_sample_dataset2",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 7,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ahhany/constructionQAs",
+      "pipeline": null,
+      "likes": 2,
+      "downloads": 37,
+      "library": null,
+      "tags": [
+        "task_categories:question-answering",
+        "language:en",
+        "license:afl-3.0",
+        "size_categories:1K<n<10K",
+        "format:json",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "bezbozhnik/construction_industry",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 4,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "louisbrulenaudet/code-construction-habitation",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 28,
+      "library": null,
+      "tags": [
+        "task_categories:text-generation",
+        "task_categories:table-question-answering",
+        "task_categories:summarization",
+        "task_categories:text-retrieval",
+        "task_categories:question-answering",
+        "task_categories:text-classification",
+        "multilinguality:monolingual",
+        "source_datasets:original",
+        "language:fr",
+        "license:apache-2.0",
+        "size_categories:1K<n<10K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "doi:10.57967/hf/1463",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "louam123/construction-sites-safety",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 15,
+      "library": null,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:csv",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "aryananand19/construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 15,
+      "library": null,
+      "tags": [
+        "license:mit",
+        "size_categories:n<1K",
+        "format:imagefolder",
+        "modality:image",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "daneggertmoeller/circular_construction",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 4,
+      "library": null,
+      "tags": [
+        "license:afl-3.0",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "open-llm-leaderboard-old/details_DBCMLAB__Llama-3-instruction-constructionsafety-layertuning",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 70,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "LouisChen15/ConstructionSite",
+      "pipeline": null,
+      "likes": 62,
+      "downloads": 799,
+      "library": null,
+      "tags": [
+        "task_categories:image-to-text",
+        "task_categories:image-feature-extraction",
+        "language:en",
+        "license:cc-by-nc-4.0",
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us",
+        "civil engineering",
+        "construction safety",
+        "computer vision",
+        "natural language processing",
+        "image captioning",
+        "visual question answering (VQA)",
+        "visual grounding"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "OfficialKeerat00/ConstructionIncident",
+      "pipeline": null,
+      "likes": 2,
+      "downloads": 7,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:csv",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "alihmaou/bdnb_2023-11.a_batiment_construction_METROPOLE",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 21,
+      "library": null,
+      "tags": [
+        "license:etalab-2.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "DBCMLAB/Constructionsafety_QApairs",
+      "pipeline": null,
+      "likes": 1,
+      "downloads": 22,
+      "library": null,
+      "tags": [
+        "task_categories:text-generation",
+        "language:ko",
+        "license:cc-by-4.0",
+        "size_categories:1K<n<10K",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us",
+        "construction",
+        "constructionsafety"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "alihmaou/bdnb_2023-11.a_batiment_construction_FFO_METROPOLE_4326",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 121,
+      "library": null,
+      "tags": [
+        "license:etalab-2.0",
+        "size_categories:10M<n<100M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:dask",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "alihmaou/bdnb_2023-11.a_batiment_construction_FFO_78_4326_outer_join",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 14,
+      "library": null,
+      "tags": [
+        "size_categories:100K<n<1M",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ekkirinaldi/excavator-dumptruck-dataset",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 24,
+      "library": null,
+      "tags": [
+        "license:gpl-3.0",
+        "region:us"
+      ],
+      "query": "dump-truck"
+    },
+    {
+      "id": "Dataclusterlabspvtltd/Construction_Vehicle_Images_Trucks_Tractor",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 157,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "task_categories:image-classification",
+        "license:other",
+        "size_categories:n<1K",
+        "region:us",
+        "object-detection",
+        "image-classification",
+        "construction",
+        "vehicles",
+        "generative-ai",
+        "visual-question-answering",
+        "computer-vision",
+        "sample-dataset"
+      ],
+      "query": "construction-vehicle"
+    },
+    {
+      "id": "famerL/construction_defect_yolo",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 9,
+      "library": null,
+      "tags": [
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "ybli/yolo-construction-site-template-gap-detection",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 8,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "language:zh",
+        "region:us",
+        "yolo",
+        "object-detection",
+        "computer-vision",
+        "dataset"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "ybli/yolo-construction-site-safety-helmet-and-reflective-vest",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 39,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "language:zh",
+        "region:us",
+        "yolo",
+        "object-detection",
+        "computer-vision",
+        "dataset"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "ybli/yolo-construction-site-detection",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 12,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "language:zh",
+        "region:us",
+        "yolo",
+        "object-detection",
+        "computer-vision",
+        "dataset"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "vikasaarna/roboflow-construction-ppe-fruwx",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 157,
+      "library": null,
+      "tags": [
+        "license:mit",
+        "size_categories:n<1K",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "IswaryaS/Aerial-PPE-Construction-Safety",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 20,
+      "library": null,
+      "tags": [
+        "task_categories:object-detection",
+        "license:cc-by-nc-nd-4.0",
+        "size_categories:10K<n<100K",
+        "format:imagefolder",
+        "modality:image",
+        "modality:text",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us",
+        "computer-vision",
+        "ppe-detection",
+        "uav",
+        "drone",
+        "edge-ai"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "jccj/wheel-loader-commands",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 39,
+      "library": null,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:parquet",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:mlcroissant",
+        "library:polars",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    },
+    {
+      "id": "jccj/wheel-loader-trackio-dataset",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 14,
+      "library": null,
+      "tags": [
+        "size_categories:n<1K",
+        "format:parquet",
+        "modality:tabular",
+        "modality:text",
+        "library:datasets",
+        "library:pandas",
+        "library:polars",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    },
+    {
+      "id": "keddyv/wheel-loader-v2",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 11,
+      "library": null,
+      "tags": [
+        "size_categories:10K<n<100K",
+        "format:imagefolder",
+        "modality:image",
+        "library:datasets",
+        "library:mlcroissant",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    },
+    {
+      "id": "introvoyz041/Wheel-Loader-Simscape",
+      "pipeline": null,
+      "likes": 0,
+      "downloads": 112,
+      "library": null,
+      "tags": [
+        "license:mit",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    }
+  ],
+  "spaces": [
+    {
+      "id": "matdmiller/construction_item_classifier1",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "keremberke/construction-safety-object-detection",
+      "pipeline": "gradio",
+      "likes": 2,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "LeeroyVonJenkins/construction-safety-object-detection",
+      "pipeline": "gradio",
+      "likes": 1,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "sadickam/Domestic-Building-Construction-Cost-Planning",
+      "pipeline": "streamlit",
+      "likes": 6,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "cc38300/constructionGPT",
+      "pipeline": "gradio",
+      "likes": 5,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "cc38300/ConstructionGPT-SL",
+      "pipeline": "streamlit",
+      "likes": 1,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "HossamEldin/yolo_v8_construction_workers",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ladapetrushenko/construction_calculator",
+      "pipeline": "streamlit",
+      "likes": 1,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Joist/construction_image_classification",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "gihan-liya/construction-llm",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "mandalvishal17/construction-safety",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "marsgrins/Construction_Vehicles",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "Akshay-Dongare/Construction-Site-Safety",
+      "pipeline": "streamlit",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "ahmadSalih/construction_model",
+      "pipeline": "streamlit",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "arturolinares26/construction-app",
+      "pipeline": "streamlit",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "sparsh007/ConstructionImageAnnotation",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "sparsh007/ConstructioniImages",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "cooperchris17/ConstructionComplexityCalculator",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "AffordableAI/Construction_Site_Safety_Analyzer_Llama_3.2_Vision",
+      "pipeline": "gradio",
+      "likes": 1,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "AffordableAI/Construction_Snag_Tool_Llama_3.2_Vision",
+      "pipeline": "gradio",
+      "likes": 1,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "construction"
+    },
+    {
+      "id": "andrewmelis/excavator-or-bulldozer",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "prevntfyr/bulldozer-wall-street-s-punching-bag",
+      "pipeline": "static",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "static",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "liviuthecopywriter/BulldozerAI",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "bulldozer"
+    },
+    {
+      "id": "hashim7171/heavy-equipment-revenue-dashboard",
+      "pipeline": "static",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "static",
+        "deepsite-v3",
+        "region:us"
+      ],
+      "query": "heavy-equipment"
+    },
+    {
+      "id": "jbanmol9/heavy-equipment-valuation",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "heavy-equipment"
+    },
+    {
+      "id": "bankaly/guineamobil-construction-equipment-marketplace",
+      "pipeline": "static",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "static",
+        "deepsite-v3",
+        "region:us"
+      ],
+      "query": "construction-equipment"
+    },
+    {
+      "id": "chfida/construction-safety-yolov8",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "n1wan7ha/ConstructionSafetyMonitor-YOLOv8",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "region:us"
+      ],
+      "query": "yolov8-construction"
+    },
+    {
+      "id": "hazem14/construction-safety-yolo",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "streamlit",
+        "region:us"
+      ],
+      "query": "yolo construction"
+    },
+    {
+      "id": "Leonlu33/construction_site_safety",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "streamlit",
+        "region:us"
+      ],
+      "query": "site safety construction"
+    },
+    {
+      "id": "jaya1014/construction_site_safety",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "streamlit",
+        "region:us"
+      ],
+      "query": "site safety construction"
+    },
+    {
+      "id": "GovindVasan/construction-site-safety-inspector",
+      "pipeline": "docker",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "docker",
+        "openenv",
+        "construction",
+        "safety",
+        "region:us"
+      ],
+      "query": "site safety construction"
+    },
+    {
+      "id": "Pin0062/Construction_site_safety",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "site safety construction"
+    },
+    {
+      "id": "Rahul9898/Construction-PPE-Detection",
+      "pipeline": "streamlit",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "streamlit",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "AakankshaYarramReddy/Construction-Monitoring-ppe",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "priyanshchaurasia/construction-ppe-monitor",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "region:us"
+      ],
+      "query": "ppe construction"
+    },
+    {
+      "id": "jccj/wheel-loader-trackio",
+      "pipeline": "gradio",
+      "likes": 0,
+      "downloads": null,
+      "library": null,
+      "tags": [
+        "gradio",
+        "trackio",
+        "region:us"
+      ],
+      "query": "wheel loader"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Python environments and caches
+.venv/
+.venv-cpu/
+__pycache__/
+*.py[cod]
+
+# Model weights cache (large binaries, download separately)
+context/weights/
+
+# OS noise
+desktop.ini
+Thumbs.db
