@@ -58,6 +58,13 @@ def object_card(object_id: int) -> dict:
     rows = db.query("SELECT * FROM objects WHERE id=?", (object_id,))
     if not rows:
         raise HTTPException(404, "object not found")
+    # Auto-recover snapshots stuck in 'processing' whose result file already
+    # exists (covers a silently dead detector worker).
+    for r in db.query(
+        "SELECT id FROM snapshots WHERE object_id=? AND status='processing'",
+        (object_id,),
+    ):
+        finalize_detection(r["id"])
     obj = dict(rows[0])
     stages = [dict(r) for r in db.query(
         "SELECT * FROM stages WHERE object_id=? ORDER BY position", (object_id,))]
