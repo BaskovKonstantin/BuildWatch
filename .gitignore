@@ -1,12 +1,8 @@
-# Python environments and caches
 .venv/
 .venv-cpu/
+frontend/node_modules/
+frontend/.next/
+backend/buildwatch.db
+backend/media/
 __pycache__/
-*.py[cod]
-
-# Model weights cache (large binaries, download separately)
-context/weights/
-
-# OS noise
-desktop.ini
-Thumbs.db
+*.db-journal
