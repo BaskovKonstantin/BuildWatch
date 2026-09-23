@@ -110,51 +110,49 @@ def object_card(object_id: int) -> dict:
     }
 
 
+def finalize_detection(snap_id: int) -> bool:
+    """Read the detector result file (if present) and update the snapshot."""
+    out = DETECTOR_OUT / f"snap_{snap_id}.json"
+    if not out.exists():
+        return False
+    try:
+        data = json.loads(out.read_text())
+    except (OSError, ValueError):
+        return False
+    con = db.connect()
+    try:
+        con.execute("DELETE FROM detections WHERE snapshot_id=?", (snap_id,))
+        rows = [
+            (snap_id, "yolo_world", rules.normalize_label(det["label"]),
+             det["score"], *det["box"])
+            for det in data.get("detections", [])
+        ]
+        if rows:
+            con.executemany(
+                "INSERT INTO detections(snapshot_id, model, label, score,"
+                " x1, y1, x2, y2) VALUES (?,?,?,?,?,?,?,?)", rows)
+            con.execute("UPDATE snapshots SET status='detected' WHERE id=?", (snap_id,))
+        else:
+            con.execute("UPDATE snapshots SET status='empty' WHERE id=?", (snap_id,))
+        con.commit()
+    finally:
+        con.close()
+    obj = db.query("SELECT object_id FROM snapshots WHERE id=?", (snap_id,))
+    evaluate_object(obj[0]["object_id"])
+    out.unlink(missing_ok=True)
+    return True
+
+
 def _poll_detector() -> None:
     """Watch detector result files; finalize snapshot status and warnings."""
-    import os
-
-    deadline = time.time() + 900  # 15 min covers the cold model load
+    deadline = time.time() + 1200  # covers the cold model load (~5 min CPU)
     pending = {snap["id"] for snap in db.query(
         "SELECT id FROM snapshots WHERE status='processing'")}
     while pending and time.time() < deadline:
         for snap_id in list(pending):
-            out = DETECTOR_OUT / f"snap_{snap_id}.json"
-            if not out.exists():
-                continue
-            try:
-                data = json.loads(out.read_text())
-            except (OSError, ValueError):
-                continue
-            con = db.connect()
-            try:
-                con.execute("DELETE FROM detections WHERE snapshot_id=?", (snap_id,))
-                rows = [
-                    (snap_id, "yolo_world", rules.normalize_label(det["label"]),
-                     det["score"], *det["box"])
-                    for det in data.get("detections", [])
-                ]
-                if rows:
-                    con.executemany(
-                        "INSERT INTO detections(snapshot_id, model, label, score,"
-                        " x1, y1, x2, y2) VALUES (?,?,?,?,?,?,?,?)", rows)
-                    con.execute(
-                        "UPDATE snapshots SET status='detected' WHERE id=?", (snap_id,))
-                else:
-                    con.execute(
-                        "UPDATE snapshots SET status='empty' WHERE id=?", (snap_id,))
-                con.commit()
-            finally:
-                con.close()
-            evaluate_object(db.query(
-                "SELECT object_id FROM snapshots WHERE id=?", (snap_id,))[0]["object_id"])
-            pending.discard(snap_id)
-            osunlink_safe(out)
+            if finalize_detection(snap_id):
+                pending.discard(snap_id)
         time.sleep(2)
-
-
-def osunlink_safe(path: Path) -> None:
-    path.unlink(missing_ok=True)
 
 
 @app.get("/api/objects")
@@ -277,6 +275,9 @@ def start_detection(snapshot_id: int) -> dict:
         raise HTTPException(404)
     snap = dict(rows[0])
     if snap["status"] == "processing":
+        # Maybe a previous run already finished — pick up its result.
+        if finalize_detection(snapshot_id):
+            return {"ok": True, "status": "detected"}
         return {"ok": True, "status": "processing"}
     src = snapshot_path(snap)
     if not src.exists():
@@ -291,8 +292,11 @@ def start_detection(snapshot_id: int) -> dict:
         "out": linux_to_windows_path(out),
     }))
     subprocess.Popen(
-        [str(WIN_PY), str(DETECT_SCRIPT), str(input_json)],
-        cwd=str(ROOT), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        [str(WIN_PY), linux_to_windows_path(DETECT_SCRIPT),
+         linux_to_windows_path(input_json)],
+        cwd=str(ROOT),
+        stdout=open(DETECTOR_OUT / "detect.log", "ab"),
+        stderr=subprocess.STDOUT,
     )
     threading.Thread(target=_poll_detector, daemon=True).start()
     return {"ok": True, "status": "processing"}
