@@ -1,0 +1,123 @@
+{
+  "sample_size": 300,
+  "conf": 0.25,
+  "iou": 0.5,
+  "results": {
+    "equipment_v1": {
+      "weights": "/mnt/d/Projects/BuildWatch/context/external/equipment_external_v2/training_run/runs/equipment_v1/weights/best.pt",
+      "covered_classes": [
+        "bulldozer",
+        "concrete_mixer",
+        "crane_manipulator",
+        "dump_truck",
+        "excavator",
+        "mobile_crane",
+        "road_roller",
+        "truck"
+      ],
+      "per_image_s": 0.0367,
+      "micro_precision": 0.665,
+      "micro_recall": 0.614,
+      "per_class": {
+        "concrete_mixer": {
+          "precision": 0.938,
+          "recall": 0.6,
+          "tp": 15,
+          "fp": 1,
+          "fn": 10
+        },
+        "dump_truck": {
+          "precision": 0.594,
+          "recall": 0.67,
+          "tp": 63,
+          "fp": 43,
+          "fn": 31
+        },
+        "excavator": {
+          "precision": 0.8,
+          "recall": 0.629,
+          "tp": 88,
+          "fp": 22,
+          "fn": 52
+        },
+        "mobile_crane": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "tp": 3,
+          "fp": 2,
+          "fn": 0
+        },
+        "truck": {
+          "precision": 0.55,
+          "recall": 0.534,
+          "tp": 55,
+          "fp": 45,
+          "fn": 48
+        }
+      }
+    },
+    "thalos": {
+      "weights": "/mnt/d/Projects/BuildWatch/context/weights/thalos/heavy_equipment_weights.pt",
+      "covered_classes": [
+        "dump_truck",
+        "excavator",
+        "mobile_crane",
+        "road_roller"
+      ],
+      "per_image_s": 0.0345,
+      "micro_precision": 0.957,
+      "micro_recall": 0.186,
+      "per_class": {
+        "dump_truck": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 94
+        },
+        "excavator": {
+          "precision": 0.957,
+          "recall": 0.314,
+          "tp": 44,
+          "fp": 2,
+          "fn": 96
+        },
+        "mobile_crane": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 3
+        }
+      }
+    },
+    "uisikdag": {
+      "weights": "/mnt/d/Projects/BuildWatch/context/weights/uisikdag/best.pt",
+      "covered_classes": [
+        "bulldozer",
+        "excavator",
+        "mobile_crane",
+        "road_roller"
+      ],
+      "per_image_s": 0.0295,
+      "micro_precision": 0.0,
+      "micro_recall": 0.0,
+      "per_class": {
+        "excavator": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 140
+        },
+        "mobile_crane": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 3
+        }
+      }
+    }
+  }
+}
