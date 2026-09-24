@@ -184,4 +184,25 @@ YOLO labels, фиксирует SHA-256 архива и исправляет т�
 или test. Подробности, лицензия и команда для добавления других наборов:
 [`docs/external-training-data.md`](docs/external-training-data.md).
 
+## Open Images V6 + exploratory training
+
+Из официального Open Images V6 подготовлена attributable-подвыборка `truck`:
+424 кадра, 610 bbox (341 train / 83 holdout). Скрипт
+[`scripts/fetch_openimages_subset.py`](scripts/fetch_openimages_subset.py)
+читает официальные bbox и metadata CSV, допускает только явно mapped классы и
+нулевой rotation, сохраняет attribution по каждому фото и фиксирует недоступные
+Flickr URLs. В этом train CSV отсутствовали bbox для safe-mapping классов
+`road roller`, `bulldozer` и `concrete mixer`; generic crane намеренно исключён.
+
+[`scripts/merge_yolo_datasets.py`](scripts/merge_yolo_datasets.py) собрал
+внешний ground-truth dataset: 647 изображений / 833 bbox (525 train / 122
+holdout) из Open Images trucks и GitHub excavators. На RTX 5070 выполнен
+30-epoch exploratory YOLOv8s run: воспроизводимая проверка `best.pt` на
+source-local holdout дала `mAP@50 = 0.874`, но
+это не production-метрика и не оценка оставшихся шести классов. Веса не
+подключены к live detector и остаются вне Git.
+
+Полная атрибуция, ограничения лицензий, фактические class metrics и команды:
+[`docs/openimages-training-data.md`](docs/openimages-training-data.md).
+
 
