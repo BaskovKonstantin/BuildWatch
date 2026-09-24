@@ -170,4 +170,18 @@ truck:           recall 0.000, support 1094
 `ground_truth: true`. Поэтому полученная модель является только exploratory и
 не подключается в production автоматически.
 
+## External YOLO training data
+
+В рабочую копию импортирован доступный GitHub-набор из 223 размеченных
+экскаваторов: 184 кадров train и 39 deterministic holdout. Он используется
+только для research/exploratory экспериментов: upstream не публикует SPDX
+license и предупреждает о возможном copyright исходных изображений.
+
+Импортёр [`scripts/import_yolo_dataset.py`](scripts/import_yolo_dataset.py)
+требует явный mapping исходных numeric IDs в онтологию BuildWatch, валидирует
+YOLO labels, фиксирует SHA-256 архива и исправляет только bbox, слегка
+выходящие за край изображения. Он не смешивает внешний train с MOCS validation
+или test. Подробности, лицензия и команда для добавления других наборов:
+[`docs/external-training-data.md`](docs/external-training-data.md).
+
 
