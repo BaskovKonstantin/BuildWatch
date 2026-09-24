@@ -1,5 +1,38 @@
 # External training data
 
+## Imported source: Kaggle construction-equipment
+
+The main external source is the Kaggle dataset [`xyzyxzzxy/construction-equipment`](https://www.kaggle.com/datasets/xyzyxzzxy/construction-equipment) (17,475,990,938 bytes, SHA-256 `215e3364701c60dcb9ebf12081083a14822b36da3ebd29484f641c8e98e88169`). The archive ships 16,754 train and 3,228 validation image/label pairs but **no class-name file**. Class identities were therefore verified visually: six random crops per numeric ID were rendered into contact sheets and inspected.
+
+The dataset marks the publisher as not stating a license, so it is treated as **research-only**.
+
+Verified mapping ([`context/ontology/kaggle_construction_equipment_v1.json`](../context/ontology/kaggle_construction_equipment_v1.json)):
+
+| Source ID | Verified content | BuildWatch class |
+|---|---|---|
+| 0 | tipper trucks with raised beds | `dump truck` |
+| 1 | SANY/LiuGong excavators | `excavator` |
+| 7 | JCB 3CX backhoe loaders | `excavator` |
+| 8 | concrete mixer trucks | `concrete mixer` |
+| 16 | Ivanovets/Galichanin truck cranes | `mobile crane` |
+| 4, 5, 12, 13 | flatbeds, box vans, semi-trailers | `truck` |
+| 2, 3, 6, 9, 10, 11, 14, 15 | wheel/skid-steer loaders, forklifts, telehandlers, tankers, sweeper, unidentifiable IDs | excluded (`null`) |
+
+Import via [`scripts/import_yolo_split_dataset.py`](../scripts/import_yolo_split_dataset.py), which preserves the official train/valid boundary as train/holdout and rejects undeclared source IDs:
+
+```bash
+.venv/bin/python scripts/import_yolo_split_dataset.py \
+  --source-root context/external/incoming/kaggle-construction-equipment/extracted \
+  --output context/external/kaggle_construction_equipment_v1 \
+  --mapping context/ontology/kaggle_construction_equipment_v1.json \
+  --source-name kaggle-construction-equipment \
+  --license "research-only; Kaggle dataset, licence not stated by publisher" \
+  --source-url https://www.kaggle.com/datasets/xyzyxzzxy/construction-equipment \
+  --archive-sha256 215e3364701c60dcb9ebf12081083a14822b36da3ebd29484f641c8e98e88169
+```
+
+Result: 19,982 images / 29,665 objects mapped (truck 8,865; excavator 10,737; dump truck 7,048; concrete mixer 1,224; mobile crane 1,791) and 6,061 excluded objects. `road roller`, `bulldozer`, and `crane manipulator` have no safe source in this archive.
+
 ## Imported source: Construction Machines Images Dataset
 
 The first external source that is currently downloadable in this workspace is [`miniexcav/Construction-Machines-Images-Dataset`](https://github.com/miniexcav/Construction-Machines-Images-Dataset). The repository contains 223 image/YOLO-label pairs for one class, `excavator`.

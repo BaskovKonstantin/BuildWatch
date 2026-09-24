@@ -17,7 +17,7 @@ def _slug(value: str) -> str:
 def _copy(source: Path, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     if destination.exists():
-        raise ValueError(f"duplicate merged destination: {destination.name}")
+        return
     try:
         destination.hardlink_to(source)
     except OSError:

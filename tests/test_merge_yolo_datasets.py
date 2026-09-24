@@ -22,6 +22,18 @@ class MergeYoloDatasetsTest(unittest.TestCase):
             provenance = json.loads((root / "merged" / "sources.json").read_text())
             self.assertEqual([item["source"] for item in provenance["sources"]], ["excavator-source", "truck source"])
 
+    def test_resumes_after_partial_merge_without_duplicates(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            first = self._dataset(root / "first", "excavator-source", "one.jpg", "0 0.5 0.5 0.4 0.4\n")
+            second = self._dataset(root / "second", "truck source", "one.jpg", "6 0.3 0.4 0.2 0.3\n")
+
+            merge_yolo_datasets([first], root / "merged")
+            result = merge_yolo_datasets([first, second], root / "merged")
+
+            self.assertEqual(result["images"], 4)
+            self.assertEqual(result["splits"], {"train": 2, "holdout": 2})
+
     def test_rejects_source_without_ground_truth_or_holdout(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
