@@ -24,7 +24,7 @@ def _copy(source: Path, destination: Path) -> None:
         shutil.copy2(source, destination)
 
 
-def merge_yolo_datasets(datasets: list[Path], output: Path) -> dict:
+def merge_yolo_datasets(datasets: list[Path], output: Path, allow_missing_holdout: bool = False) -> dict:
     """Merge source train/holdout directories while preserving canonical class IDs."""
     if not datasets:
         raise ValueError("at least one source dataset is required")
@@ -57,6 +57,8 @@ def merge_yolo_datasets(datasets: list[Path], output: Path) -> dict:
             image_dir = dataset / split / "images"
             label_dir = dataset / split / "labels"
             if not image_dir.is_dir() or not label_dir.is_dir():
+                if split == "holdout" and allow_missing_holdout:
+                    continue
                 raise ValueError(f"source dataset is missing {split} images/labels: {dataset}")
             for image_path in sorted(path for path in image_dir.iterdir() if path.is_file()):
                 label_path = label_dir / f"{image_path.stem}.txt"
@@ -96,9 +98,10 @@ def merge_yolo_datasets(datasets: list[Path], output: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, action="append", required=True, help="Repeat for each source dataset")
+    parser.add_argument("--allow-missing-holdout", action="store_true", help="skip holdout check for sources that only provide train")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    print(json.dumps(merge_yolo_datasets(args.dataset, args.output), ensure_ascii=False, indent=2))
+    print(json.dumps(merge_yolo_datasets(args.dataset, args.output, args.allow_missing_holdout), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

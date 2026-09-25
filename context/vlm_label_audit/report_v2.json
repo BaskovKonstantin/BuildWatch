@@ -1,0 +1,3519 @@
+{
+  "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+  "dataset": "/mnt/d/Projects/BuildWatch/context/external/equipment_external_v2",
+  "split": "train",
+  "audited_labels": [
+    "truck",
+    "dump truck"
+  ],
+  "images_sampled": 300,
+  "crops_audited": 250,
+  "elapsed_s": 190.9,
+  "counts": {
+    "disagree": 69,
+    "agree": 181
+  },
+  "agreement": 0.724,
+  "rows": [
+    {
+      "image": "kaggle-construction-equipment__camera_6.1101_2023-12-30T13_26_22_327+03_00.jpg",
+      "box": [
+        0.25677,
+        0.2037,
+        0.42917,
+        0.78704
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2024-01-05T15_11_53_296+03_00.jpg",
+      "box": [
+        0.07337,
+        0.49984,
+        0.04527,
+        0.04376
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2024-01-05T15_11_53_296+03_00.jpg",
+      "box": [
+        0.80204,
+        0.39579,
+        0.0576,
+        0.05923
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.301_2024-01-08T09_44_54_655+03_00.jpg",
+      "box": [
+        0.64323,
+        0.2463,
+        0.35625,
+        0.75278
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_03_48_351+03_00.jpg",
+      "box": [
+        0.57376,
+        0.00554,
+        0.12607,
+        0.10964
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_03_48_351+03_00.jpg",
+      "box": [
+        0.0,
+        0.04444,
+        0.09375,
+        0.14537
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_03_48_351+03_00.jpg",
+      "box": [
+        0.43019,
+        -0.0,
+        0.13265,
+        0.10232
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.301_2024-01-03T09_51_25_902+03_00.jpg",
+      "box": [
+        0.58542,
+        0.24074,
+        0.41406,
+        0.75833
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T14_36_47_115+03_00.jpg",
+      "box": [
+        0.75,
+        0.28148,
+        0.13906,
+        0.28333
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T14_36_47_115+03_00.jpg",
+      "box": [
+        0.61302,
+        0.11296,
+        0.16198,
+        0.25278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T14_36_47_115+03_00.jpg",
+      "box": [
+        0.48854,
+        0.0,
+        0.19062,
+        0.21019
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2024-01-05T15_51_51_129+03_00.jpg",
+      "box": [
+        0.0,
+        0.16204,
+        0.20833,
+        0.4287
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_33_56_143634-2023-10-16.jpg",
+      "box": [
+        0.19978,
+        0.61118,
+        0.04278,
+        0.10855
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__5da48c04aaba7475.jpg",
+      "box": [
+        0.03375,
+        0.32083,
+        0.79688,
+        0.52083
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1231_16_07_43_854269-2023-11-09.jpg",
+      "box": [
+        0.87644,
+        0.47028,
+        0.04511,
+        0.06222
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_19_28_837144-2023-09-22.jpg",
+      "box": [
+        0.51042,
+        0.30926,
+        0.26458,
+        0.3463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1101_2023-12-30T16_02_34_492+03_00.jpg",
+      "box": [
+        0.17448,
+        0.00648,
+        0.58958,
+        0.58889
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2023-12-31T13_47_01_400+03_00.jpg",
+      "box": [
+        0.4849,
+        0.21111,
+        0.13594,
+        0.1287
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2023-12-30T11_36_44_489+03_00.jpg",
+      "box": [
+        0.72415,
+        0.18437,
+        0.02918,
+        0.03681
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_18_12_678469-2023-09-22.jpg",
+      "box": [
+        0.02396,
+        0.34907,
+        0.03281,
+        0.09352
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_40_21_401726-2023-09-22.jpg",
+      "box": [
+        0.05625,
+        0.3537,
+        0.1276,
+        0.27685
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_46_07_484960-2023-09-22.jpg",
+      "box": [
+        0.05729,
+        0.34815,
+        0.15052,
+        0.26944
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T16_35_50_707+03_00.jpg",
+      "box": [
+        0.60885,
+        0.16296,
+        0.3401,
+        0.74722
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T16_35_50_707+03_00.jpg",
+      "box": [
+        0.5,
+        -0.0,
+        0.17813,
+        0.19352
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.402_2024-01-03T20_56_11_497+03_00.jpg",
+      "box": [
+        0.04115,
+        0.44074,
+        0.35,
+        0.36111
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T22_47_49_559+03_00.jpg",
+      "box": [
+        0.07208,
+        0.49944,
+        0.0462,
+        0.04851
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_04_27_871982-2023-09-22.jpg",
+      "box": [
+        0.14688,
+        0.33519,
+        0.39583,
+        0.40648
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_10_01_43_555853-2023-11-10.jpg",
+      "box": [
+        0.94156,
+        0.40979,
+        0.05843,
+        0.17716
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1233_09_05_33_748182-2023-11-10.jpg",
+      "box": [
+        0.79714,
+        0.14691,
+        0.04115,
+        0.08927
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.402_2023-12-30T15_27_55_589+03_00.jpg",
+      "box": [
+        0.22813,
+        0.18519,
+        0.05312,
+        0.09074
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_37_40_952912-2023-09-22.jpg",
+      "box": [
+        0.08698,
+        0.35185,
+        0.38073,
+        0.36018
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.501_2023-12-30T12_30_27_972+03_00.jpg",
+      "box": [
+        0.6039,
+        0.52018,
+        0.03463,
+        0.05944
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.501_2023-12-30T12_30_27_972+03_00.jpg",
+      "box": [
+        0.56771,
+        0.48148,
+        0.13021,
+        0.09815
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2024-01-07T18_35_21_316+03_00.jpg",
+      "box": [
+        0.80204,
+        0.39315,
+        0.05723,
+        0.06187
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.301_2023-12-30T14_19_58_531+03_00.jpg",
+      "box": [
+        0.29219,
+        0.17315,
+        0.04948,
+        0.11204
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.301_2023-12-30T14_19_58_531+03_00.jpg",
+      "box": [
+        0.33177,
+        0.1537,
+        0.02552,
+        0.06667
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_16_58_412486-2023-10-16.jpg",
+      "box": [
+        0.19531,
+        0.61053,
+        0.04948,
+        0.11184
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1001_2024-01-02T15_12_29_712+03_00.jpg",
+      "box": [
+        0.48277,
+        0.20891,
+        0.1386,
+        0.13407
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2024-01-08T17_31_53_036+03_00.jpg",
+      "box": [
+        0.72379,
+        0.18675,
+        0.02914,
+        0.03533
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2024-01-08T17_31_53_036+03_00.jpg",
+      "box": [
+        0.38698,
+        0.17407,
+        0.26562,
+        0.20185
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_17_01_40_052417-2023-10-18.jpg",
+      "box": [
+        0.8224,
+        0.26852,
+        0.05365,
+        0.07593
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T16_54_18_523+03_00.jpg",
+      "box": [
+        0.57376,
+        0.00554,
+        0.12607,
+        0.10964
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T16_54_18_523+03_00.jpg",
+      "box": [
+        0.43019,
+        -0.0,
+        0.13265,
+        0.10232
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T16_54_18_523+03_00.jpg",
+      "box": [
+        0.74159,
+        0.05203,
+        0.07572,
+        0.08743
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2023-12-31T12_14_54_218+03_00.jpg",
+      "box": [
+        0.65982,
+        0.02596,
+        0.0966,
+        0.09425
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2023-12-31T12_14_54_218+03_00.jpg",
+      "box": [
+        0.00104,
+        0.04444,
+        0.15104,
+        0.15185
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T17_49_49_767+03_00.jpg",
+      "box": [
+        0.09386,
+        0.01822,
+        0.10984,
+        0.10889
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T17_49_49_767+03_00.jpg",
+      "box": [
+        0.40208,
+        0.0,
+        0.36667,
+        0.39537
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_47_33_199658-2023-09-22.jpg",
+      "box": [
+        0.29063,
+        0.34815,
+        0.01823,
+        0.01759
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_47_33_199658-2023-09-22.jpg",
+      "box": [
+        0.58646,
+        0.43148,
+        0.03542,
+        0.03426
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T15_49_23_640+03_00.jpg",
+      "box": [
+        0.22187,
+        -0.0,
+        0.30417,
+        0.18982
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T15_49_23_640+03_00.jpg",
+      "box": [
+        0.8401,
+        0.40556,
+        0.15625,
+        0.39259
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T15_49_23_640+03_00.jpg",
+      "box": [
+        0.74479,
+        0.2713,
+        0.14375,
+        0.28796
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_18_21_949851-2023-09-22.jpg",
+      "box": [
+        0.02604,
+        0.34815,
+        0.03281,
+        0.09352
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_10_32_31_474542-2023-09-22.jpg",
+      "box": [
+        0.1168,
+        0.59324,
+        0.04139,
+        0.01898
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.301_2024-01-08T06_52_23_259+03_00.jpg",
+      "box": [
+        0.45052,
+        0.19167,
+        0.20833,
+        0.45278
+      ],
+      "gt_label": "truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.102_2024-01-05T13_25_17_176+03_00.jpg",
+      "box": [
+        0.19479,
+        0.1,
+        0.04896,
+        0.05463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-03T15_36_08_252+03_00.jpg",
+      "box": [
+        0.65982,
+        0.02596,
+        0.0966,
+        0.09425
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_55_24_313110-2023-09-22.jpg",
+      "box": [
+        0.10104,
+        0.30648,
+        0.50833,
+        0.40926
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_55_24_313110-2023-09-22.jpg",
+      "box": [
+        0.02552,
+        0.34815,
+        0.03021,
+        0.09167
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_04_31_423728-2023-09-22.jpg",
+      "box": [
+        0.09948,
+        0.33889,
+        0.27552,
+        0.35278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__25fa18f27288d3be.jpg",
+      "box": [
+        0.21188,
+        0.23623,
+        0.50562,
+        0.49673
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__f96d99a4cb6e7068.jpg",
+      "box": [
+        0.01312,
+        0.01406,
+        0.96875,
+        0.47477
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2023-12-30T12_56_24_808+03_00.jpg",
+      "box": [
+        0.72415,
+        0.18437,
+        0.02918,
+        0.03681
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1001_2024-01-03T09_00_59_061+03_00.jpg",
+      "box": [
+        0.48385,
+        0.2104,
+        0.13861,
+        0.13407
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_23_40_205999-2023-09-22.jpg",
+      "box": [
+        0.46563,
+        0.28518,
+        0.30885,
+        0.42593
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_09_03_313216-2023-10-18.jpg",
+      "box": [
+        0.82399,
+        0.27189,
+        0.03933,
+        0.06723
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_09_03_313216-2023-10-18.jpg",
+      "box": [
+        0.85833,
+        0.29259,
+        0.0625,
+        0.09074
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__8a1aa5f335865c1e.jpg",
+      "box": [
+        0.0,
+        0.0,
+        0.85938,
+        0.99917
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1102_2024-01-05T14_34_40_677+03_00.jpg",
+      "box": [
+        0.5849,
+        0.21759,
+        0.11198,
+        0.12037
+      ],
+      "gt_label": "truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_49_03_371819-2023-09-22.jpg",
+      "box": [
+        0.05625,
+        0.34907,
+        0.1474,
+        0.26944
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_12_02_968026-2023-09-22.jpg",
+      "box": [
+        0.0276,
+        0.35,
+        0.0625,
+        0.13518
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-02T15_08_06_920+03_00.jpg",
+      "box": [
+        0.76967,
+        0.05969,
+        0.07129,
+        0.08143
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-02T15_08_06_920+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_33_26_311548-2023-09-22.jpg",
+      "box": [
+        0.11146,
+        0.3213,
+        0.32969,
+        0.36111
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_53_20_085315-2023-09-22.jpg",
+      "box": [
+        0.04115,
+        0.34444,
+        0.02656,
+        0.07407
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2024-01-05T15_38_51_032+03_00.jpg",
+      "box": [
+        0.03438,
+        0.1213,
+        0.28073,
+        0.29352
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_10_24_18_277466-2023-09-22.jpg",
+      "box": [
+        0.1168,
+        0.59324,
+        0.04139,
+        0.01898
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__4a43356bc5947801.jpg",
+      "box": [
+        0.11438,
+        0.10296,
+        0.8325,
+        0.82605
+      ],
+      "gt_label": "truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_15_22_674324-2023-10-18.jpg",
+      "box": [
+        0.8219,
+        0.27058,
+        0.04531,
+        0.0713
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_15_22_674324-2023-10-18.jpg",
+      "box": [
+        0.86302,
+        0.29259,
+        0.06458,
+        0.0963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_15_22_674324-2023-10-18.jpg",
+      "box": [
+        0.82135,
+        0.2713,
+        0.04531,
+        0.0713
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T16_02_06_277+03_00.jpg",
+      "box": [
+        0.0,
+        -0.0,
+        0.44583,
+        0.78982
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_12_26_11_602863-2023-09-22.jpg",
+      "box": [
+        0.11606,
+        0.59405,
+        0.0414,
+        0.01897
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_52_49_657516-2023-10-16.jpg",
+      "box": [
+        0.19717,
+        0.60724,
+        0.04725,
+        0.11711
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_15_53_33_794091-2023-11-09.jpg",
+      "box": [
+        0.8663,
+        0.46407,
+        0.10335,
+        0.08921
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2024-01-02T23_32_33_041+03_00.jpg",
+      "box": [
+        0.23698,
+        0.22315,
+        0.13698,
+        0.15
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2024-01-02T23_32_33_041+03_00.jpg",
+      "box": [
+        0.48281,
+        0.21111,
+        0.1375,
+        0.13148
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.103_2024-01-05T19_49_03_428+03_00.jpg",
+      "box": [
+        0.64375,
+        0.26852,
+        0.34167,
+        0.59259
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.301_2023-12-30T12_06_20_506+03_00.jpg",
+      "box": [
+        0.29219,
+        0.17593,
+        0.04948,
+        0.11204
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_12_54_33_580268-2023-10-18.jpg",
+      "box": [
+        0.00885,
+        0.33611,
+        0.03698,
+        0.05463
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1233_11_36_15_443581-2023-11-10.jpg",
+      "box": [
+        0.82891,
+        0.13666,
+        0.04087,
+        0.08608
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1233_11_36_15_443581-2023-11-10.jpg",
+      "box": [
+        0.88739,
+        0.26847,
+        0.11261,
+        0.27659
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_16_26_30_475152-2023-10-16.jpg",
+      "box": [
+        0.19866,
+        0.61776,
+        0.04278,
+        0.10921
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-08T07_40_33_429+03_00.jpg",
+      "box": [
+        0.05745,
+        0.26582,
+        0.03496,
+        0.05686
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_44_01_463013-2023-09-22.jpg",
+      "box": [
+        0.32708,
+        0.3287,
+        0.4,
+        0.44352
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_08_15_46_190803-2023-11-10.jpg",
+      "box": [
+        0.71281,
+        0.32643,
+        0.03537,
+        0.06865
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_08_15_46_190803-2023-11-10.jpg",
+      "box": [
+        0.85171,
+        0.37974,
+        0.08556,
+        0.10227
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_08_15_46_190803-2023-11-10.jpg",
+      "box": [
+        0.75009,
+        0.35254,
+        0.10105,
+        0.11292
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1101_2023-12-30T16_02_31_915+03_00.jpg",
+      "box": [
+        0.17448,
+        0.00648,
+        0.58958,
+        0.58889
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_27_03_386454-2023-10-16.jpg",
+      "box": [
+        0.19717,
+        0.60724,
+        0.04725,
+        0.11711
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2024-01-05T16_38_58_526+03_00.jpg",
+      "box": [
+        0.59896,
+        0.14352,
+        0.40052,
+        0.62037
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_15_03_21_432415-2023-10-17.jpg",
+      "box": [
+        0.48802,
+        0.31574,
+        0.45052,
+        0.46944
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T11_31_53_701+03_00.jpg",
+      "box": [
+        0.07258,
+        0.49857,
+        0.0457,
+        0.04938
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T11_31_53_701+03_00.jpg",
+      "box": [
+        0.80625,
+        0.3937,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1203_2024-01-03T15_58_26_577+03_00.jpg",
+      "box": [
+        0.55677,
+        0.16389,
+        0.07083,
+        0.09352
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1203_2024-01-05T14_31_48_990+03_00.jpg",
+      "box": [
+        0.27083,
+        0.10833,
+        0.24375,
+        0.25278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T16_27_43_663+03_00.jpg",
+      "box": [
+        0.07208,
+        0.49944,
+        0.0462,
+        0.04851
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T16_27_43_663+03_00.jpg",
+      "box": [
+        0.80477,
+        0.39386,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.102_2024-01-08T10_30_59_841+03_00.jpg",
+      "box": [
+        0.01297,
+        0.47974,
+        0.05423,
+        0.03531
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_13_18_55_308252-2023-09-22.jpg",
+      "box": [
+        0.00729,
+        0.34537,
+        0.05521,
+        0.05463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_13_18_55_308252-2023-09-22.jpg",
+      "box": [
+        0.58524,
+        0.42822,
+        0.01449,
+        0.03012
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_13_18_55_308252-2023-09-22.jpg",
+      "box": [
+        0.05104,
+        0.35111,
+        0.08755,
+        0.0788
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1001_2023-12-30T11_04_34_255+03_00.jpg",
+      "box": [
+        0.48224,
+        0.20778,
+        0.13958,
+        0.13556
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_18_23_54_478130-2023-10-16.jpg",
+      "box": [
+        0.05208,
+        0.33148,
+        0.06042,
+        0.06944
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_18_23_54_478130-2023-10-16.jpg",
+      "box": [
+        0.05005,
+        0.36194,
+        0.08839,
+        0.22602
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.85,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.85}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T12_54_11_156+03_00.jpg",
+      "box": [
+        0.80625,
+        0.3937,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T12_54_11_156+03_00.jpg",
+      "box": [
+        0.07258,
+        0.49857,
+        0.0457,
+        0.04938
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-08T07_21_46_692+03_00.jpg",
+      "box": [
+        0.05745,
+        0.26582,
+        0.03496,
+        0.05686
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_52_05_319934-2023-09-22.jpg",
+      "box": [
+        0.5551,
+        0.41007,
+        0.02396,
+        0.02593
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.102_2023-12-30T10_54_04_417+03_00.jpg",
+      "box": [
+        0.19479,
+        0.1,
+        0.04896,
+        0.05463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.202_2023-12-30T22_07_08_707+03_00.jpg",
+      "box": [
+        0.36302,
+        0.175,
+        0.28594,
+        0.47593
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_25_05_949037-2023-09-22.jpg",
+      "box": [
+        0.88913,
+        0.37735,
+        0.11087,
+        0.3813
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_25_05_949037-2023-09-22.jpg",
+      "box": [
+        0.47396,
+        0.30926,
+        0.29323,
+        0.38796
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_25_05_949037-2023-09-22.jpg",
+      "box": [
+        0.88913,
+        0.37735,
+        0.11087,
+        0.3813
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1001_2024-01-02T22_24_35_542+03_00.jpg",
+      "box": [
+        0.48446,
+        0.21004,
+        0.13861,
+        0.13407
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.102_2024-01-05T14_41_31_605+03_00.jpg",
+      "box": [
+        0.78063,
+        0.53333,
+        0.21573,
+        0.42861
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.103_2024-01-08T08_28_57_258+03_00.jpg",
+      "box": [
+        0.60208,
+        0.23889,
+        0.03698,
+        0.06019
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_26_43_818746-2023-09-22.jpg",
+      "box": [
+        0.88852,
+        0.3673,
+        0.11148,
+        0.38989
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_26_43_818746-2023-09-22.jpg",
+      "box": [
+        0.47135,
+        0.30926,
+        0.29323,
+        0.38796
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_38_19_164458-2023-09-22.jpg",
+      "box": [
+        0.14688,
+        0.3287,
+        0.37344,
+        0.33426
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_48_56_393509-2023-09-22.jpg",
+      "box": [
+        0.58698,
+        0.43519,
+        0.0401,
+        0.03148
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-02T13_54_45_254+03_00.jpg",
+      "box": [
+        0.61302,
+        0.11296,
+        0.16198,
+        0.25278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-02T13_54_45_254+03_00.jpg",
+      "box": [
+        0.74844,
+        0.28148,
+        0.14062,
+        0.27778
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__1c6e984e3c2dca3c.jpg",
+      "box": [
+        0.12375,
+        0.88357,
+        0.21563,
+        0.11643
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__1c6e984e3c2dca3c.jpg",
+      "box": [
+        0.18188,
+        0.14742,
+        0.25875,
+        0.81972
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "open-images-v6__1c6e984e3c2dca3c.jpg",
+      "box": [
+        0.37875,
+        0.8338,
+        0.2525,
+        0.16432
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-04T14_03_44_346+03_00.jpg",
+      "box": [
+        0.41064,
+        -0.0,
+        0.15547,
+        0.09396
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-03T15_20_59_499+03_00.jpg",
+      "box": [
+        0.00208,
+        0.02407,
+        0.15677,
+        0.17222
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-03T15_20_59_499+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.702_2023-12-30T13_40_22_476+03_00.jpg",
+      "box": [
+        0.86302,
+        0.0,
+        0.13646,
+        0.19444
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.702_2023-12-30T11_41_08_678+03_00.jpg",
+      "box": [
+        0.73542,
+        -0.0,
+        0.11094,
+        0.29167
+      ],
+      "gt_label": "truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_32_45_038841-2023-09-22.jpg",
+      "box": [
+        0.52917,
+        0.31296,
+        0.25573,
+        0.33426
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1102_2024-01-05T20_47_45_461+03_00.jpg",
+      "box": [
+        0.68229,
+        0.24815,
+        0.2026,
+        0.35093
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_35_57_802507-2023-09-22.jpg",
+      "box": [
+        0.51302,
+        0.31389,
+        0.26667,
+        0.33981
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T16_11_40_701+03_00.jpg",
+      "box": [
+        0.07208,
+        0.49944,
+        0.0462,
+        0.04851
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T16_11_40_701+03_00.jpg",
+      "box": [
+        0.80625,
+        0.3937,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2023-12-31T05_56_53_731+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.202_2023-12-30T13_51_30_706+03_00.jpg",
+      "box": [
+        0.3849,
+        0.06389,
+        0.37917,
+        0.46852
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_11_37_026+03_00.jpg",
+      "box": [
+        0.43019,
+        -0.0,
+        0.13265,
+        0.10232
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_11_37_026+03_00.jpg",
+      "box": [
+        -0.00156,
+        0.04444,
+        0.09375,
+        0.13889
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T18_11_37_026+03_00.jpg",
+      "box": [
+        0.74159,
+        0.05203,
+        0.07572,
+        0.08743
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.102_2024-01-05T13_56_45_401+03_00.jpg",
+      "box": [
+        0.90885,
+        0.55556,
+        0.09062,
+        0.2287
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_59_10_139905-2023-09-22.jpg",
+      "box": [
+        0.55745,
+        0.41219,
+        0.02224,
+        0.02269
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_59_10_139905-2023-09-22.jpg",
+      "box": [
+        0.01812,
+        0.34537,
+        0.0449,
+        0.06019
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_06_43_279361-2023-09-22.jpg",
+      "box": [
+        0.5625,
+        0.31389,
+        0.22135,
+        0.3537
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T20_08_18_386+03_00.jpg",
+      "box": [
+        0.43019,
+        -0.0,
+        0.13265,
+        0.10232
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-08T20_08_18_386+03_00.jpg",
+      "box": [
+        -0.00052,
+        0.03981,
+        0.09375,
+        0.14074
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_33_11_488117-2023-09-22.jpg",
+      "box": [
+        0.52917,
+        0.31296,
+        0.25573,
+        0.33426
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_15_14_31_102343-2023-11-09.jpg",
+      "box": [
+        0.85944,
+        0.41263,
+        0.05383,
+        0.02673
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_56_11_089085-2023-09-22.jpg",
+      "box": [
+        0.55521,
+        0.41018,
+        0.02396,
+        0.025
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_14_56_11_089085-2023-09-22.jpg",
+      "box": [
+        0.10156,
+        0.33426,
+        0.03229,
+        0.03056
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-01T22_59_27_592+03_00.jpg",
+      "box": [
+        0.76976,
+        0.05893,
+        0.07254,
+        0.08268
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.201_2024-01-01T22_59_27_592+03_00.jpg",
+      "box": [
+        0.65982,
+        0.02596,
+        0.0966,
+        0.09425
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.402_2024-01-04T17_09_33_146+03_00.jpg",
+      "box": [
+        0.57188,
+        0.41111,
+        0.2349,
+        0.3287
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T17_48_08_834+03_00.jpg",
+      "box": [
+        0.0401,
+        0.0,
+        0.62917,
+        0.60093
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_11_04_46_346692-2023-10-18.jpg",
+      "box": [
+        0.03854,
+        0.325,
+        0.05781,
+        0.03519
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1325_10_54_33_020486-2023-10-18.jpg",
+      "box": [
+        0.0375,
+        0.325,
+        0.05885,
+        0.03519
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2023-12-30T17_46_37_616+03_00.jpg",
+      "box": [
+        0.61302,
+        0.11296,
+        0.16198,
+        0.25278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2023-12-30T17_46_37_616+03_00.jpg",
+      "box": [
+        0.73542,
+        0.28148,
+        0.15365,
+        0.31204
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.301_2024-01-07T09_37_08_011+03_00.jpg",
+      "box": [
+        0.58073,
+        0.23889,
+        0.41875,
+        0.76018
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T16_35_48_156+03_00.jpg",
+      "box": [
+        0.49792,
+        0.0,
+        0.17604,
+        0.2
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T16_35_48_156+03_00.jpg",
+      "box": [
+        0.59948,
+        0.13056,
+        0.31146,
+        0.6963
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1202_2024-01-05T16_35_48_156+03_00.jpg",
+      "box": [
+        0.79583,
+        0.27315,
+        0.09167,
+        0.2213
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1101_2023-12-30T10_42_01_266+03_00.jpg",
+      "box": [
+        0.40521,
+        0.03889,
+        0.36979,
+        0.34537
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_40_26_900720-2023-09-22.jpg",
+      "box": [
+        0.53802,
+        0.30648,
+        0.25938,
+        0.35556
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.302_2023-12-30T11_34_33_814+03_00.jpg",
+      "box": [
+        0.58698,
+        0.48333,
+        0.11042,
+        0.09352
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.401_2024-01-08T10_38_43_821+03_00.jpg",
+      "box": [
+        0.72379,
+        0.18675,
+        0.02914,
+        0.03533
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T16_31_44_131+03_00.jpg",
+      "box": [
+        0.09386,
+        0.01822,
+        0.10984,
+        0.10889
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T16_31_44_131+03_00.jpg",
+      "box": [
+        0.36562,
+        0.0,
+        0.39844,
+        0.42222
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_37_16_911677-2023-09-22.jpg",
+      "box": [
+        0.51458,
+        0.31204,
+        0.26667,
+        0.33981
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T18_30_29_621+03_00.jpg",
+      "box": [
+        0.83802,
+        0.45648,
+        0.00885,
+        0.00556
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T18_30_29_621+03_00.jpg",
+      "box": [
+        0.75938,
+        0.27685,
+        0.12708,
+        0.28519
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T18_30_29_621+03_00.jpg",
+      "box": [
+        0.64375,
+        0.11018,
+        0.13646,
+        0.24907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_31_25_630739-2023-10-18.jpg",
+      "box": [
+        0.04323,
+        0.37037,
+        0.075,
+        0.12315
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_31_25_630739-2023-10-18.jpg",
+      "box": [
+        0.85885,
+        0.28889,
+        0.06198,
+        0.09444
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_31_25_630739-2023-10-18.jpg",
+      "box": [
+        0.82658,
+        0.27195,
+        0.03978,
+        0.06907
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_07_36_19_988558-2023-11-10.jpg",
+      "box": [
+        0.76461,
+        0.35343,
+        0.07965,
+        0.09103
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__648_07_36_19_988558-2023-11-10.jpg",
+      "box": [
+        0.95241,
+        0.41998,
+        0.04758,
+        0.15235
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.103_2024-01-05T15_44_52_969+03_00.jpg",
+      "box": [
+        0.62552,
+        0.25926,
+        0.08177,
+        0.16296
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T11_29_48_540+03_00.jpg",
+      "box": [
+        0.07258,
+        0.49857,
+        0.0457,
+        0.04938
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T11_29_48_540+03_00.jpg",
+      "box": [
+        0.80625,
+        0.3937,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_15_11_31_821273-2023-09-22.jpg",
+      "box": [
+        0.04375,
+        0.33611,
+        0.11823,
+        0.26574
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_15_11_31_821273-2023-09-22.jpg",
+      "box": [
+        0.27656,
+        0.32685,
+        0.42292,
+        0.40278
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_41_46_044086-2023-09-22.jpg",
+      "box": [
+        0.45156,
+        0.30648,
+        0.30573,
+        0.35833
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.103_2023-12-30T11_43_51_923+03_00.jpg",
+      "box": [
+        0.64844,
+        0.13611,
+        0.04167,
+        0.08518
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.101_2023-12-30T11_44_04_878+03_00.jpg",
+      "box": [
+        0.79167,
+        0.2713,
+        0.1776,
+        0.29074
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_43_08_058643-2023-10-18.jpg",
+      "box": [
+        0.06823,
+        0.32315,
+        0.38542,
+        0.46667
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_43_08_058643-2023-10-18.jpg",
+      "box": [
+        0.82344,
+        0.26759,
+        0.04896,
+        0.07315
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_43_08_058643-2023-10-18.jpg",
+      "box": [
+        0.85729,
+        0.29167,
+        0.06563,
+        0.09537
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_47_07_523162-2023-09-22.jpg",
+      "box": [
+        0.05833,
+        0.34907,
+        0.14688,
+        0.26944
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_53_25_337104-2023-09-22.jpg",
+      "box": [
+        0.00417,
+        0.35185,
+        0.04688,
+        0.05556
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.102_2024-01-05T16_41_15_086+03_00.jpg",
+      "box": [
+        0.82708,
+        0.55,
+        0.16823,
+        0.31111
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_33_52_130365-2023-09-22.jpg",
+      "box": [
+        0.51146,
+        0.2963,
+        0.27552,
+        0.36389
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1203_2024-01-05T16_43_08_166+03_00.jpg",
+      "box": [
+        0.02812,
+        0.11111,
+        0.24635,
+        0.23889
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_38_27_207581-2023-09-22.jpg",
+      "box": [
+        0.28906,
+        0.31759,
+        0.39375,
+        0.3463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_16_23_941924-2023-09-22.jpg",
+      "box": [
+        0.04688,
+        0.33704,
+        0.11198,
+        0.24907
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_12_14_29_559819-2023-11-10.jpg",
+      "box": [
+        0.80855,
+        0.41926,
+        0.0545,
+        0.02343
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2023-12-31T08_20_31_042+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_47_35_544189-2023-09-22.jpg",
+      "box": [
+        0.49844,
+        0.31759,
+        0.28385,
+        0.34444
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_07_42_116344-2023-09-22.jpg",
+      "box": [
+        0.08229,
+        0.33148,
+        0.07604,
+        0.15741
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_07_42_116344-2023-09-22.jpg",
+      "box": [
+        0.03385,
+        0.36204,
+        0.04896,
+        0.11944
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-01T22_34_52_514+03_00.jpg",
+      "box": [
+        0.76967,
+        0.05969,
+        0.07129,
+        0.08143
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-01T22_34_52_514+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T10_49_59_442+03_00.jpg",
+      "box": [
+        0.07227,
+        0.49885,
+        0.0457,
+        0.04938
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.302_2023-12-30T10_49_59_442+03_00.jpg",
+      "box": [
+        0.80625,
+        0.3937,
+        0.07187,
+        0.05907
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_25_52_737374-2023-09-22.jpg",
+      "box": [
+        0.51302,
+        0.31389,
+        0.26406,
+        0.34537
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_22_42_894968-2023-10-16.jpg",
+      "box": [
+        0.19382,
+        0.60658,
+        0.05246,
+        0.12368
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_10_44_06_880431-2023-09-22.jpg",
+      "box": [
+        0.52083,
+        0.31759,
+        0.26771,
+        0.36852
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_42_52_039378-2023-09-22.jpg",
+      "box": [
+        0.15469,
+        0.32778,
+        0.42812,
+        0.38704
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.301_2024-01-08T09_44_30_461+03_00.jpg",
+      "box": [
+        0.47083,
+        0.21111,
+        0.21615,
+        0.36944
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_24_09_374311-2023-09-22.jpg",
+      "box": [
+        0.02552,
+        0.34815,
+        0.03073,
+        0.09259
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-08T08_11_35_172+03_00.jpg",
+      "box": [
+        0.05745,
+        0.26582,
+        0.03496,
+        0.05686
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1102_2024-01-05T20_56_52_690+03_00.jpg",
+      "box": [
+        0.68229,
+        0.24815,
+        0.2026,
+        0.35093
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T14_17_26_031+03_00.jpg",
+      "box": [
+        0.75417,
+        0.27315,
+        0.12708,
+        0.28796
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T14_17_26_031+03_00.jpg",
+      "box": [
+        0.6125,
+        0.11111,
+        0.15885,
+        0.23796
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.102_2024-01-05T14_17_26_031+03_00.jpg",
+      "box": [
+        0.0,
+        0.03333,
+        0.69115,
+        0.82407
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_20_48_531073-2023-10-17.jpg",
+      "box": [
+        0.05625,
+        0.37685,
+        0.04896,
+        0.11852
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-01T13_24_03_721+03_00.jpg",
+      "box": [
+        0.76967,
+        0.05969,
+        0.07129,
+        0.08143
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.304_2024-01-01T13_24_03_721+03_00.jpg",
+      "box": [
+        0.66077,
+        0.0292,
+        0.09433,
+        0.08963
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.702_2024-01-04T08_46_58_138+03_00.jpg",
+      "box": [
+        0.9375,
+        0.39722,
+        0.06198,
+        0.13611
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_36_21_336274-2023-09-22.jpg",
+      "box": [
+        0.51667,
+        0.31389,
+        0.26354,
+        0.33981
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_22_24_491035-2023-09-22.jpg",
+      "box": [
+        0.1026,
+        0.31389,
+        0.30885,
+        0.37222
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1001_2023-12-30T11_06_44_930+03_00.jpg",
+      "box": [
+        0.48224,
+        0.20778,
+        0.11693,
+        0.11398
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_19.102_2024-01-02T17_09_06_091+03_00.jpg",
+      "box": [
+        0.19479,
+        0.1,
+        0.04896,
+        0.05463
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_14_19_40_090364-2023-09-22.jpg",
+      "box": [
+        0.02552,
+        0.34815,
+        0.03073,
+        0.09259
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_03_02_772580-2023-10-18.jpg",
+      "box": [
+        0.8164,
+        0.25691,
+        0.03027,
+        0.06706
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_13_03_02_772580-2023-10-18.jpg",
+      "box": [
+        0.79896,
+        0.33333,
+        0.20104,
+        0.38611
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_29.403_2024-01-05T14_20_04_544+03_00.jpg",
+      "box": [
+        0.0,
+        0.0,
+        0.61406,
+        0.7537
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1422_14_59_12_819372-2023-10-16.jpg",
+      "box": [
+        0.19717,
+        0.60724,
+        0.04725,
+        0.11711
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_12_00_48_896576-2023-09-22.jpg",
+      "box": [
+        0.07708,
+        0.33889,
+        0.11667,
+        0.23056
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1102_2024-01-08T12_35_36_889+03_00.jpg",
+      "box": [
+        0.19635,
+        0.11481,
+        0.28333,
+        0.16204
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.1102_2024-01-08T12_35_36_889+03_00.jpg",
+      "box": [
+        0.68906,
+        0.23148,
+        0.06667,
+        0.09537
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_27_42_392938-2023-09-22.jpg",
+      "box": [
+        0.08698,
+        0.34444,
+        0.34792,
+        0.39259
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_27_42_392938-2023-09-22.jpg",
+      "box": [
+        0.64617,
+        0.36657,
+        0.35383,
+        0.45322
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__camera_6.402_2023-12-30T14_45_16_945+03_00.jpg",
+      "box": [
+        0.49635,
+        0.34537,
+        0.30156,
+        0.26759
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_08_45_07_982778-2023-11-10.jpg",
+      "box": [
+        0.85352,
+        0.46676,
+        0.07646,
+        0.0847
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_08_45_07_982778-2023-11-10.jpg",
+      "box": [
+        0.80499,
+        0.42455,
+        0.02182,
+        0.05191
+      ],
+      "gt_label": "truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__1235_08_45_07_982778-2023-11-10.jpg",
+      "box": [
+        0.91234,
+        0.45792,
+        0.05914,
+        0.08812
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "truck",
+      "vlm_confidence": 0.95,
+      "agrees": false,
+      "raw_answer": "{\"label\": \"truck\", \"confidence\": 0.95}"
+    },
+    {
+      "image": "kaggle-construction-equipment__238_11_04_05_366038-2023-09-22.jpg",
+      "box": [
+        0.06719,
+        0.3213,
+        0.14167,
+        0.27778
+      ],
+      "gt_label": "dump truck",
+      "vlm_label": "dump truck",
+      "vlm_confidence": 0.95,
+      "agrees": true,
+      "raw_answer": "{\"label\": \"dump truck\", \"confidence\": 0.95}"
+    }
+  ]
+}
