@@ -27,6 +27,36 @@ CANONICAL = {
 }
 
 MODEL_CLASS_MAP = {
+    "equipment_v1_s640": {
+        "excavator": "excavator",
+        "dump truck": "dump_truck",
+        "road roller": "road_roller",
+        "crane manipulator": "crane_manipulator",
+        "concrete mixer": "concrete_mixer",
+        "bulldozer": "bulldozer",
+        "truck": "truck",
+        "mobile crane": "mobile_crane",
+    },
+    "equipment_v1_s1280": {
+        "excavator": "excavator",
+        "dump truck": "dump_truck",
+        "road roller": "road_roller",
+        "crane manipulator": "crane_manipulator",
+        "concrete mixer": "concrete_mixer",
+        "bulldozer": "bulldozer",
+        "truck": "truck",
+        "mobile crane": "mobile_crane",
+    },
+    "equipment_v1_m1280": {
+        "excavator": "excavator",
+        "dump truck": "dump_truck",
+        "road roller": "road_roller",
+        "crane manipulator": "crane_manipulator",
+        "concrete mixer": "concrete_mixer",
+        "bulldozer": "bulldozer",
+        "truck": "truck",
+        "mobile crane": "mobile_crane",
+    },
     "equipment_v1": {
         "excavator": "excavator",
         "dump truck": "dump_truck",
@@ -111,6 +141,7 @@ def main() -> None:
     parser.add_argument("--iou-thr", type=float, default=0.5)
     parser.add_argument("--device", default="0")
     parser.add_argument("--output", type=Path, default=ROOT / "context" / "holdout_model_compare.json")
+    parser.add_argument("--models", default="", help="comma-separated model keys to run (default: all)")
     args = parser.parse_args()
 
     from ultralytics import YOLO
@@ -123,13 +154,18 @@ def main() -> None:
     print(f"sample: {len(sample)} images, gt objects: {sum(len(v) for v in gt.values())}")
 
     weights = {
-        "equipment_v1": ROOT / "context" / "external" / "equipment_external_v2" / "training_run" / "runs" / "equipment_v1" / "weights" / "best.pt",
+        "equipment_v1_s640": ROOT / "context" / "external" / "equipment_external_v2" / "training_run" / "runs" / "equipment_v1" / "weights" / "best.pt",
+        "equipment_v1_s1280": ROOT / "context" / "external" / "equipment_external_v2" / "training_run_s1280" / "runs" / "equipment_v1" / "weights" / "best.pt",
+        "equipment_v1_m1280": ROOT / "context" / "external" / "equipment_external_v2" / "training_run_m1280" / "runs" / "equipment_v1" / "weights" / "best.pt",
         "thalos": ROOT / "context" / "weights" / "thalos" / "heavy_equipment_weights.pt",
         "uisikdag": ROOT / "context" / "weights" / "uisikdag" / "best.pt",
     }
 
     results = {}
+    only = {m.strip() for m in args.models.split(",") if m.strip()}
     for key, wpath in weights.items():
+        if only and key not in only:
+            continue
         model = YOLO(str(wpath))
         cmap = MODEL_CLASS_MAP[key]
         tp = Counter()
