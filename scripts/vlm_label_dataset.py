@@ -122,7 +122,10 @@ def main() -> None:
         images = [p for p in sorted(folder.iterdir()) if p.suffix.lower() in {".jpg", ".jpeg", ".png"}][: args.max_per_folder]
         if not images:
             continue
-        folder_label = meta_of.get(images[0].stem, {}).get("label")
+        folder_label = next(
+            (meta.get("label") for meta in meta_of.values() if meta.get("label")),
+            None,
+        )
         if not folder_label:
             print(f"{folder.name}: no label metadata, skip", flush=True)
             continue
