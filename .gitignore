@@ -1,4 +1,4 @@
-.venv/
+﻿.venv/
 .venv-cpu/
 frontend/node_modules/
 frontend/.next/
@@ -7,3 +7,21 @@ backend/media/
 __pycache__/
 *.db-journal
 context/weights/
+
+runs/
+weights/
+context/thalos_compare.json
+context/external/incoming/
+context/external/
+context/validation/sonnet_raw/
+context/validation/sonnet_pseudo.json
+context/validation/sonnet_agreement.json
+context/validation/sonnet_reviews/
+context/validation/sonnet_reviewed.json
+context/validation/reviewed_dataset_v1/
+context/validation/exploratory_training/
+context/validation/exploratory_training_v2/
+
+.env
+*.log
+dataset_preview/
