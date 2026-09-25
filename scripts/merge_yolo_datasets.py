@@ -24,13 +24,19 @@ def _copy(source: Path, destination: Path) -> None:
         shutil.copy2(source, destination)
 
 
-def merge_yolo_datasets(datasets: list[Path], output: Path, allow_missing_holdout: bool = False) -> dict:
+def merge_yolo_datasets(
+    datasets: list[Path],
+    output: Path,
+    allow_missing_holdout: bool = False,
+    allow_pseudo: bool = False,
+) -> dict:
     """Merge source train/holdout directories while preserving canonical class IDs."""
     if not datasets:
         raise ValueError("at least one source dataset is required")
     output.mkdir(parents=True, exist_ok=True)
     expected_classes: list[str] | None = None
     sources = []
+    any_pseudo = False
     splits = Counter()
     image_count = 0
     object_count = 0
@@ -40,8 +46,16 @@ def merge_yolo_datasets(datasets: list[Path], output: Path, allow_missing_holdou
         if not metadata_path.exists():
             raise ValueError(f"missing source metadata: {metadata_path}")
         metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-        if metadata.get("ground_truth") is not True:
-            raise ValueError(f"source dataset is not ground truth: {dataset}")
+        is_ground_truth = metadata.get("ground_truth") is True
+        if not is_ground_truth:
+            if not allow_pseudo:
+                raise ValueError(f"source dataset is not ground truth: {dataset}")
+            print(
+                f"warning: source dataset is not ground truth (pseudo-labels), continuing: {dataset}",
+                flush=True,
+            )
+            any_pseudo = True
+        metadata["ground_truth"] = bool(is_ground_truth)
         classes = metadata.get("classes")
         if not isinstance(classes, list) or not classes:
             raise ValueError(f"source dataset has no class list: {dataset}")
@@ -83,7 +97,7 @@ def merge_yolo_datasets(datasets: list[Path], output: Path, allow_missing_holdou
 
     result = {
         "format": "buildwatch-merged-yolo-v1",
-        "ground_truth": True,
+        "ground_truth": not any_pseudo,
         "classes": expected_classes,
         "images": image_count,
         "objects": object_count,
@@ -99,9 +113,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", type=Path, action="append", required=True, help="Repeat for each source dataset")
     parser.add_argument("--allow-missing-holdout", action="store_true", help="skip holdout check for sources that only provide train")
+    parser.add_argument("--allow-pseudo", action="store_true", help="allow sources without ground truth (pseudo-labels recorded as ground_truth=false in manifest)")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    print(json.dumps(merge_yolo_datasets(args.dataset, args.output, args.allow_missing_holdout), ensure_ascii=False, indent=2))
+    print(json.dumps(merge_yolo_datasets(args.dataset, args.output, args.allow_missing_holdout, args.allow_pseudo), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
