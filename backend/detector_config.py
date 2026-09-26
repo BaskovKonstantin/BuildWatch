@@ -22,6 +22,11 @@ MODELS = {
     "equipment": DetectorConfig(
         "equipment",
         ROOT / "scripts" / "detect_equipment_single.py",
+        ROOT / "weights" / "equipment_v6_m1280_best.pt",
+    ),
+    "equipment-v2": DetectorConfig(
+        "equipment-v2",
+        ROOT / "scripts" / "detect_equipment_single.py",
         ROOT / "context" / "external" / "equipment_external_v2" / "training_run_m1280" / "runs" / "equipment_v1" / "weights" / "best.pt",
     ),
 }
