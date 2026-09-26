@@ -1,9 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Topbar } from "@/components/Topbar";
+import { NavBar } from "@/components/NavBar";
+import {
+  IconBan, IconCalendar, IconCamera, IconClose, IconPin, IconQuestion, IconUpload, IconWarning,
+} from "@/components/Icons";
+import { apiFetch } from "@/lib/api";
+import { equipmentRu, longDate, plural, shortDate, typeTint } from "@/lib/format";
 
 type Detection = {
   id: number;
@@ -42,8 +46,18 @@ type Warning = {
   severity: string;
   captured_at: string | null;
 };
+type Summary = {
+  progress: number;
+  planned_finish: string | null;
+  stage: { name: string; position: number; progress: number; date_to: string } | null;
+  stages_total: number;
+  last_snapshot: string | null;
+  violations_open: number;
+  reviews_open: number;
+};
 type Card = {
-  object: { id: number; name: string; type: string };
+  object: { id: number; name: string; type: string; district?: string; address?: string; description?: string };
+  summary?: Summary;
   stages: Stage[];
   stage_kinds: string[];
   snapshots: Snapshot[];
@@ -52,7 +66,8 @@ type Card = {
   conf_threshold: number;
 };
 
-const MODELS = ["yolo_world", "uisikdag", "Ансамбль"];
+const MODELS = ["equipment"];
+const MODEL_LABELS: Record<string, string> = { equipment: "Equipment v2" };
 const KIND_RU: Record<string, string> = {
   ground: "подготовка", excavation: "котлован", frame: "каркас",
   facade: "фасады", roof: "кровля", other: "прочее",
@@ -65,6 +80,7 @@ function fmt(d: string) {
 
 function timelineClass(snap: Snapshot): string {
   if (snap.status === "processing") return "processing";
+  if (snap.status === "failed") return "bad";
   const violations = snap.detections.filter((d) => d.match === "mismatch");
   const reviews = snap.detections.filter((d) => d.match === "review");
   if (violations.length) return "bad";
@@ -81,14 +97,16 @@ export default function Page() {
 function ObjectCard({ id }: { id: string }) {
   const [card, setCard] = useState<Card | null>(null);
   const [snapId, setSnapId] = useState<number | null>(null);
-  const [model, setModel] = useState("yolo_world");
+  const [model, setModel] = useState("equipment");
   const [conf, setConf] = useState(0.2);
   const [showBoxes, setShowBoxes] = useState(true);
   const [hlBox, setHlBox] = useState<string | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [showAllSnapshots, setShowAllSnapshots] = useState(false);
+  const [error, setError] = useState("");
 
   const load = useCallback(async () => {
-    const res = await fetch(`/api/objects/${id}`);
+    const res = await apiFetch(`/api/objects/${id}`);
     if (!res.ok) return;
     const data: Card = await res.json();
     setCard(data);
@@ -111,72 +129,63 @@ function ObjectCard({ id }: { id: string }) {
   );
   const visibleDets = useMemo(() => {
     if (!snap) return [];
-    return snap.detections
-      .filter((d) => d.score >= conf)
-      .filter((d) =>
-        model === "Ансамбль"
-          ? true
-          : d.model === model ||
-            (model === "uisikdag" && d.model === "uisikdag"),
-      );
-  }, [snap, model, conf]);
+    return snap.detections.filter((d) => d.score >= conf);
+  }, [snap, conf]);
 
   async function resolveWarning(warningId: number, action: "confirm" | "dismiss" | "reopen") {
     const body = new FormData();
     body.set("action", action);
-    await fetch(`/api/warnings/${warningId}`, { method: "POST", body });
+    await apiFetch(`/api/warnings/${warningId}`, { method: "POST", body });
     load();
   }
 
   async function uploadFile(file: File) {
     const body = new FormData();
     body.set("file", file);
-    const res = await fetch(`/api/objects/${id}/upload`, { method: "POST", body });
+    const res = await apiFetch(`/api/objects/${id}/upload`, { method: "POST", body });
     if (res.ok) load();
   }
 
   async function startDetect(snapshotId: number) {
-    await fetch(`/api/snapshots/${snapshotId}/detect`, { method: "POST" });
-    load();
-    const timer = setInterval(async () => {
+    try {
+      const body = new FormData();
+      body.set("model", model);
+      const res = await apiFetch(`/api/snapshots/${snapshotId}/detect`, { method: "POST", body });
+      if (!res.ok) throw new Error((await res.json()).detail || "Не удалось запустить распознавание");
       await load();
-      // stop polling when the snapshot leaves "processing"
-    }, 5000);
-    setTimeout(() => clearInterval(timer), 15 * 60 * 1000);
+    } catch (e) { setError(e instanceof Error ? e.message : "Не удалось запустить распознавание"); }
   }
+
+  useEffect(() => {
+    if (!card?.snapshots.some((s) => s.status === "processing")) return;
+    const timer = window.setInterval(() => { load().catch(() => setError("Refresh failed")); }, 5000);
+    return () => window.clearInterval(timer);
+  }, [card, load]);
 
   if (!card) {
     return (
-      <main>
-        <Topbar crumbs="Объекты / …" />
-        <div className="empty">Загрузка…</div>
+      <main className="page">
+        <NavBar wide title="Объект" back={{ href: "/", label: "Объекты" }} />
+        <div className="content"><div className="hero skeleton" /></div>
       </main>
     );
   }
 
+  const summary = card.summary;
+  const tint = typeTint(card.object.type);
+  const location = [card.object.district, card.object.address].filter(Boolean).join(" · ");
+  const snapDates = card.snapshots.map((s) => s.captured_at).sort();
+
   return (
-    <main>
-      <Topbar
-        crumbs={
-          <>
-            <Link href="/">Объекты</Link> / <b>{card.object.name}</b>
-          </>
-        }
-        chips={
-          <>
-            {card.counts.warnings_open > 0 ? (
-              <span className="chip bad">
-                Предупреждений: {card.counts.warnings_open}
-              </span>
-            ) : (
-              <span className="chip ok">Нарушений нет</span>
-            )}
-            <span className="chip ok">Снимков: {card.counts.snapshots}</span>
-          </>
-        }
-        action={
-          <label className="btn" style={{ cursor: "pointer" }}>
-            Загрузить снимок
+    <main className="page">
+      <NavBar
+        wide
+        title={card.object.name}
+        back={{ href: "/", label: "Объекты" }}
+        right={
+          <label className="btn small" style={{ cursor: "pointer" }}>
+            <IconUpload size={16} />
+            <span className="hide-sm">Загрузить снимок</span>
             <input
               type="file"
               accept="image/*"
@@ -184,12 +193,50 @@ function ObjectCard({ id }: { id: string }) {
               onChange={(e) => {
                 const f = e.target.files?.[0];
                 if (f) uploadFile(f);
+                e.target.value = "";
               }}
             />
           </label>
         }
       />
 
+      {error && <div className="toast error" role="alert">{error} <button onClick={() => setError("")} aria-label="Закрыть"><IconClose size={14} /></button></div>}
+      <div className="content wide">
+      <section className="hero">
+        <div className="hero-main">
+          <span className="glass-pill solid"><i className={`dot tint-${tint}`} />{card.object.type}</span>
+          <h1>{card.object.name}</h1>
+          {location && <div className="hero-addr"><IconPin size={15} />{location}</div>}
+          {card.object.description && <p className="hero-desc">{card.object.description}</p>}
+        </div>
+        <div className="hero-stats">
+          <div className="stat">
+            <span className="stat-label">Готовность по плану</span>
+            <span className="stat-value">{Math.round((summary?.progress ?? 0) * 100)}%</span>
+            <div className="bar"><i style={{ width: `${(summary?.progress ?? 0) * 100}%` }} /></div>
+          </div>
+          <div className="stat">
+            <span className="stat-label">Текущий этап</span>
+            <span className="stat-value sm">{summary?.stage ? summary.stage.name : "не задан"}</span>
+            <span className="stat-note">{summary?.stage ? `${summary.stage.position} из ${summary.stages_total} · до ${shortDate(summary.stage.date_to)}` : "откройте редактор этапов"}</span>
+          </div>
+          <div className="stat">
+            <span className="stat-label"><IconWarning size={14} /> Нарушения</span>
+            <span className={`stat-value ${summary?.violations_open ? "red" : "green"}`}>{summary?.violations_open ?? 0}</span>
+            <span className="stat-note">{summary?.reviews_open ?? 0} на проверке</span>
+          </div>
+          <div className="stat">
+            <span className="stat-label"><IconCamera size={14} /> Снимки</span>
+            <span className="stat-value">{card.counts.snapshots}</span>
+            <span className="stat-note">{summary?.last_snapshot ? `последний ${shortDate(summary.last_snapshot)}` : "загрузите первый"}</span>
+          </div>
+          <div className="stat">
+            <span className="stat-label"><IconCalendar size={14} /> Завершение</span>
+            <span className="stat-value sm">{summary?.planned_finish ? longDate(summary.planned_finish) : "—"}</span>
+            <span className="stat-note">по плану объекта</span>
+          </div>
+        </div>
+      </section>
       <div className="wrap">
         {/* LEFT: stages + warnings */}
         <div className="pane">
@@ -203,18 +250,13 @@ function ObjectCard({ id }: { id: string }) {
             Виды работ — из справочника ЛТЦ. Плановые даты задаёт инспектор в
             редакторе: справочник ЛТЦ не содержит календаря.
           </div>
+          {card.stages.length === 0 && (
+            <div className="empty">План не задан. Нажмите «Редактор», чтобы добавить этапы.</div>
+          )}
           {card.stages.map((st) => {
-            const progress =
-              st.status === "current" &&
-              snap && snap.captured_at >= st.date_from && snap.captured_at <= st.date_to
-                ? 34
-                : st.status === "current"
-                  ? Math.min(95, Math.max(5,
-                      ((new Date(snap!.captured_at).getTime() -
-                        new Date(st.date_from).getTime()) /
-                        Math.max(1, new Date(st.date_to).getTime() -
-                          new Date(st.date_from).getTime())) * 100))
-                  : 0;
+            const progress = st.status === "current"
+              ? Math.min(100, Math.max(4, (summary?.stage?.name === st.name ? summary.stage.progress : 0) * 100))
+              : 0;
             return (
               <div className="stage" key={st.id}>
                 <div className="row">
@@ -248,7 +290,7 @@ function ObjectCard({ id }: { id: string }) {
               >
                 <div className="warn-t">
                   <span className="ic" style={{ color: w.severity === "violation" ? "var(--bad)" : "var(--warn)" }}>
-                    {w.severity === "violation" ? "🚫" : "❔"}
+                    {w.severity === "violation" ? <IconBan size={17} /> : <IconQuestion size={17} />}
                   </span>
                   <span>{w.title}</span>
                 </div>
@@ -265,7 +307,7 @@ function ObjectCard({ id }: { id: string }) {
                           e.stopPropagation();
                           const body = new FormData();
                           body.set("action", "confirm");
-                          await fetch(`/api/warnings/${w.id}`, { method: "POST", body });
+                          await apiFetch(`/api/warnings/${w.id}`, { method: "POST", body });
                           load();
                         }}
                       >
@@ -278,7 +320,7 @@ function ObjectCard({ id }: { id: string }) {
                         e.stopPropagation();
                         const body = new FormData();
                         body.set("action", "dismiss");
-                        await fetch(`/api/warnings/${w.id}`, { method: "POST", body });
+                        await apiFetch(`/api/warnings/${w.id}`, { method: "POST", body });
                         load();
                       }}
                     >
@@ -296,7 +338,7 @@ function ObjectCard({ id }: { id: string }) {
                         e.stopPropagation();
                         const body = new FormData();
                         body.set("action", "reopen");
-                        await fetch(`/api/warnings/${w.id}`, { method: "POST", body });
+                        await apiFetch(`/api/warnings/${w.id}`, { method: "POST", body });
                         load();
                       }}
                     >
@@ -320,7 +362,7 @@ function ObjectCard({ id }: { id: string }) {
                   className={model === m ? "on" : ""}
                   onClick={() => setModel(m)}
                 >
-                  {m === "yolo_world" ? "YOLO-World" : m === "uisikdag" ? "UISikDag" : "Ансамбль"}
+                  {MODEL_LABELS[m] ?? m}
                 </button>
               ))}
             </div>
@@ -367,7 +409,7 @@ function ObjectCard({ id }: { id: string }) {
                           style={{ left: `${left}%`, top: `${top}%`, width: `${w}%`, height: `${h}%` }}
                         >
                           <span className="tag">
-                            {d.label} · {d.score.toFixed(2)}
+                            {equipmentRu(d.label)} · {d.score.toFixed(2)}
                           </span>
                         </div>
                       );
@@ -383,7 +425,7 @@ function ObjectCard({ id }: { id: string }) {
                   {snap.status === "processing" ? "распознавание…" : snap.status}
                 </span>
               </div>
-              <table className="det-table">
+              <div className="table-scroll"><table className="det-table">
                 <thead>
                   <tr><th>Объект</th><th>Уверенность</th><th>Соответствие этапу</th><th>Действие</th></tr>
                 </thead>
@@ -399,7 +441,14 @@ function ObjectCard({ id }: { id: string }) {
                             </button>
                           </span>
                         ) : snap.status === "processing" ? (
-                          "Идёт распознавание (первый запуск модели — до 5 минут)…"
+                          "Идёт распознавание. Результат появится автоматически."
+                        ) : snap.status === "failed" ? (
+                          <span>
+                            Распознавание завершилось ошибкой. {" "}
+                            <button className="mini pri" onClick={() => startDetect(snap.id)}>
+                              Повторить
+                            </button>
+                          </span>
                         ) : (
                           "Ниже порога уверенности объектов нет"
                         )}
@@ -408,7 +457,7 @@ function ObjectCard({ id }: { id: string }) {
                   ) : (
                     visibleDets.map((d) => (
                       <tr key={d.id}>
-                        <td><b>{d.label}</b> <span className="mono" style={{ color: "var(--ink3)" }}>#{d.id}</span></td>
+                        <td><b>{equipmentRu(d.label)}</b> <span className="mono" style={{ color: "var(--ink3)" }}>{d.label} #{d.id}</span></td>
                         <td className="mono">{d.score.toFixed(2)}</td>
                         <td>
                           <span className={`badge ${d.match}`}>
@@ -428,7 +477,7 @@ function ObjectCard({ id }: { id: string }) {
                     ))
                   )}
                 </tbody>
-              </table>
+              </table></div>
             </>
           ) : (
             <div className="empty">Выберите снимок на таймлайне</div>
@@ -438,10 +487,16 @@ function ObjectCard({ id }: { id: string }) {
         {/* RIGHT: timeline */}
         <div className="pane">
           <div className="pane-h">
-            Хронология <span className="mono" style={{ fontSize: 10 }}>июнь–июль</span>
+            Хронология
+            {snapDates.length > 0 && (
+              <span className="pane-h-note">
+                {snapDates.length} {plural(snapDates.length, ["снимок", "снимка", "снимков"])}
+                {snapDates.length > 1 ? ` · ${shortDate(snapDates[0])} – ${shortDate(snapDates[snapDates.length - 1])}` : ""}
+              </span>
+            )}
           </div>
           <div className="tl">
-            {(card?.snapshots ?? []).slice(0, 12).map((s, i) => {
+            {(card?.snapshots ?? []).slice(0, showAllSnapshots ? undefined : 12).map((s, i) => {
               const cls = timelineClass(s);
               const violation = s.detections.filter((d) => d.match === "mismatch").length;
               const review = s.detections.filter((d) => d.match === "review").length;
@@ -457,24 +512,27 @@ function ObjectCard({ id }: { id: string }) {
                     <div className="s">
                       {s.status === "processing"
                         ? "распознавание…"
-                        : s.detections.length === 0
-                          ? "не разобран"
-                          : `${s.detections.length} объектов`}
+                        : s.status === "failed"
+                          ? "ошибка распознавания"
+                          : s.detections.length === 0
+                            ? "не разобран"
+                            : `${s.detections.length} объектов`}
                     </div>
                   </div>
                   <span className="n">
-                    {violation ? String(violation) : review ? String(review) : s.status === "empty" ? "✓" : "—"}
+                    {violation ? String(violation) : review ? String(review) : s.status === "empty" ? "✓" : s.status === "failed" ? "!" : "—"}
                   </span>
                 </div>
               );
             })}
-            {(card?.snapshots.length ?? 0) > 12 && (
-              <div className="tl-more">
+            {!showAllSnapshots && (card?.snapshots.length ?? 0) > 12 && (
+              <button className="tl-more" onClick={() => setShowAllSnapshots(true)}>
                 Показать все {card!.snapshots.length} ↓
-              </div>
+              </button>
             )}
           </div>
         </div>
+      </div>
       </div>
 
       {editorOpen && (
@@ -508,7 +566,7 @@ function StagesEditor({
 
   async function save() {
     setSaving(true);
-    await fetch(`/api/objects/${card.object.id}/stages`, {
+    await apiFetch(`/api/objects/${card.object.id}/stages`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(rows),
