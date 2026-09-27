@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Архитектура обучения CV-модели BuildWatch</title>
+  <desc id="description">Внешние размеченные источники проходят импорт, единую онтологию и проверку качества. Фиксируются train и holdout, затем выполняются обучение YOLO, независимая оценка и решение о внедрении. Снимки ДГП показаны отдельно как качественная проверка без официальной разметки.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#FF0053" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrowMuted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#988BAE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .title{font:700 52px Arial,sans-serif;fill:#26123D}
+      .sub{font:24px Arial,sans-serif;fill:#5D5B69}
+      .num{font:700 25px Arial,sans-serif;fill:#FF0053}
+      .heading{font:700 28px Arial,sans-serif;fill:#26123D}
+      .body{font:20px Arial,sans-serif;fill:#50495E}
+      .small{font:18px Arial,sans-serif;fill:#5D5768}
+      .white{fill:white}
+      .node{fill:white;stroke:#E3DFEC;stroke-width:2}
+      .line{fill:none;stroke:#FF0053;stroke-width:4;marker-end:url(#arrow)}
+      .conditional{fill:none;stroke:#988BAE;stroke-width:3;stroke-dasharray:8 6;marker-end:url(#arrowMuted)}
+      .dashed{fill:none;stroke:#988BAE;stroke-width:3;stroke-dasharray:10 8}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F7FA"/>
+  <text class="title" x="70" y="90">Архитектура обучения</text>
+  <text class="sub" x="72" y="132">Разметка и проверка данных → обучение → оценка → решение о внедрении</text>
+
+  <rect class="node" x="70" y="205" width="455" height="215" rx="24"/>
+  <text class="num" x="101" y="251">01</text>
+  <text class="heading" x="101" y="301">Источники</text>
+  <text class="body" x="101" y="339">Внешние размеченные датасеты</text>
+  <text class="small" x="101" y="373">Изображения + bbox + происхождение</text>
+
+  <rect class="node" x="570" y="205" width="455" height="215" rx="24"/>
+  <text class="num" x="601" y="251">02</text>
+  <text class="heading" x="601" y="301">Единая онтология</text>
+  <text class="body" x="601" y="339">Импорт, mapping классов и bbox</text>
+  <text class="small" x="601" y="373">Проверка формата и лицензии источника</text>
+
+  <rect class="node" x="1070" y="205" width="455" height="215" rx="24"/>
+  <text class="num" x="1101" y="251">03</text>
+  <text class="heading" x="1101" y="301">Контроль качества</text>
+  <text class="body" x="1101" y="339">Аудит боксов · мусор · дубликаты</text>
+  <text class="small" x="1101" y="373">Разделение train / фиксированный holdout</text>
+
+  <path class="line" d="M529 313 H559"/><path class="line" d="M1029 313 H1059"/>
+  <path class="line" d="M1297 424 V466"/>
+
+  <rect x="1070" y="472" width="455" height="215" rx="24" fill="#35105D"/>
+  <text class="num" x="1101" y="518">04</text>
+  <text class="heading white" x="1101" y="568">Обучение YOLO</text>
+  <text class="body white" x="1101" y="606">Ultralytics · PyTorch · GPU</text>
+  <text class="small white" x="1101" y="640">v11: fine-tune, best.pt и last.pt</text>
+
+  <rect class="node" x="570" y="472" width="455" height="215" rx="24"/>
+  <text class="num" x="601" y="518">05</text>
+  <text class="heading" x="601" y="568">Оценка</text>
+  <text class="body" x="601" y="606">Precision · Recall · mAP</text>
+  <text class="small" x="601" y="640">Внешний holdout; срезы по классам</text>
+
+  <rect class="node" x="70" y="472" width="455" height="215" rx="24"/>
+  <text class="num" x="101" y="518">06</text>
+  <text class="heading" x="101" y="568">Внедрение</text>
+  <text class="body" x="101" y="606">Проверка качества и прав на веса</text>
+  <text class="small" x="101" y="640">В рабочем детекторе пока используется v6</text>
+
+  <path class="line" d="M1066 579 H1036"/><path class="conditional" d="M566 579 H536"/>
+
+  <rect x="70" y="730" width="1455" height="112" rx="22" fill="#EDE9F3"/>
+  <rect x="96" y="753" width="223" height="63" rx="14" fill="#FFDBE7"/>
+  <text x="116" y="792" style="font:700 21px Arial,sans-serif;fill:#7B1748">Снимки ДГП</text>
+  <text x="347" y="773" style="font:21px Arial,sans-serif;fill:#352D43">Отдельная качественная проверка переноса на московские камеры.</text>
+  <text x="347" y="808" style="font:21px Arial,sans-serif;fill:#352D43">Нет официальной bbox-разметки — это не итоговый test-set.</text>
+  <path class="dashed" d="M795 725 V692"/>
+</svg>

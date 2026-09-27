@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Архитектура ПО и стек технологий BuildWatch</title>
+  <desc id="description">Пять звеньев: интерфейс Next.js, API FastAPI, очередь заданий, CV worker на Python и Ultralytics, правила и проверка инспектором. Отдельно показаны хранилище, локальные веса v6 и ИИ-помощник.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#FF0053" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .title{font:700 52px Arial,sans-serif;fill:#26123D}
+      .sub{font:24px Arial,sans-serif;fill:#5D5B69}
+      .num{font:700 26px Arial,sans-serif;fill:#FF0053}
+      .heading{font:700 27px Arial,sans-serif;fill:#26123D}
+      .body{font:20px Arial,sans-serif;fill:#4C4758}
+      .tag{font:700 18px Arial,sans-serif;fill:#6A5A9F}
+      .small{font:18px Arial,sans-serif;fill:#514B61}
+      .white{fill:white}
+      .node{fill:white;stroke:#E3DFEC;stroke-width:2}
+      .support{fill:#F0EBF8;stroke:#DCD2EF;stroke-width:2}
+      .line{fill:none;stroke:#FF0053;stroke-width:4;marker-end:url(#arrow)}
+      .link{fill:none;stroke:#A89ABD;stroke-width:3}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F7FA"/>
+  <text class="title" x="70" y="90">Архитектура ПО и стек технологий</text>
+  <text class="sub" x="72" y="132">От снимка камеры до проверяемого сигнала инспектору</text>
+
+  <rect class="node" x="65" y="215" width="265" height="260" rx="24"/>
+  <text class="num" x="93" y="262">01</text>
+  <text class="heading" x="93" y="318">Интерфейс</text>
+  <text class="body" x="93" y="356">План · снимки · отчёт</text>
+  <rect x="91" y="397" width="212" height="42" rx="12" fill="#F0EBF8"/>
+  <text class="tag" x="108" y="424">Next.js · React · TS</text>
+
+  <rect class="node" x="370" y="215" width="265" height="260" rx="24"/>
+  <text class="num" x="398" y="262">02</text>
+  <text class="heading" x="398" y="318">API</text>
+  <text class="body" x="398" y="356">Объекты · запросы</text>
+  <rect x="396" y="397" width="212" height="42" rx="12" fill="#F0EBF8"/>
+  <text class="tag" x="419" y="424">FastAPI · Python</text>
+
+  <rect class="node" x="675" y="215" width="265" height="260" rx="24"/>
+  <text class="num" x="703" y="262">03</text>
+  <text class="heading" x="703" y="318">Очередь</text>
+  <text class="body" x="703" y="356">Статус и повторы</text>
+  <rect x="701" y="397" width="212" height="42" rx="12" fill="#F0EBF8"/>
+  <text class="tag" x="719" y="424">detection_jobs</text>
+
+  <rect class="node" x="980" y="215" width="265" height="260" rx="24"/>
+  <text class="num" x="1008" y="262">04</text>
+  <text class="heading" x="1008" y="318">CV worker</text>
+  <text class="body" x="1008" y="356">Классы и рамки</text>
+  <rect x="1006" y="397" width="212" height="42" rx="12" fill="#F0EBF8"/>
+  <text class="tag" x="1022" y="424">YOLO · PyTorch</text>
+
+  <rect x="1285" y="215" width="265" height="260" rx="24" fill="#35105D"/>
+  <text class="num" x="1313" y="262">05</text>
+  <text class="heading white" x="1313" y="318">Решение</text>
+  <text class="body white" x="1313" y="356">R-01 / 02 / 03 / 07</text>
+  <text class="body white" x="1313" y="391">Проверка человеком</text>
+
+  <path class="line" d="M334 345 H359"/><path class="line" d="M639 345 H664"/>
+  <path class="line" d="M944 345 H969"/><path class="line" d="M1249 345 H1274"/>
+
+  <path class="link" d="M502 475 V520"/><path class="link" d="M1112 475 V520"/>
+  <rect class="support" x="370" y="520" width="570" height="145" rx="22"/>
+  <text class="heading" x="399" y="565">Данные и медиа</text>
+  <text class="body" x="399" y="604">SQLite сейчас · поддержка PostgreSQL</text>
+  <text class="small" x="399" y="636">Объекты, календарный план, снимки, детекции, сигналы</text>
+
+  <rect class="support" x="980" y="520" width="570" height="145" rx="22"/>
+  <text class="heading" x="1009" y="565">Локальная модель</text>
+  <text class="body" x="1009" y="604">equipment_v6_m1280_best.pt</text>
+  <text class="small" x="1009" y="636">Веса подключаются на сервере; в Git не входят</text>
+
+  <rect x="65" y="714" width="1485" height="112" rx="22" fill="#35105D"/>
+  <text x="94" y="758" style="font:700 24px Arial,sans-serif;fill:white">ИИ-помощник</text>
+  <text x="94" y="797" style="font:21px Arial,sans-serif;fill:white">Next.js ↔ FastAPI ↔ OpenCode Zen · ответ по данным объекта · изменение плана только после подтверждения</text>
+  <text x="70" y="867" style="font:18px Arial,sans-serif;fill:#6B6475">Развёртывание: Docker Compose · отдельные контейнеры API, worker и frontend</text>
+</svg>
