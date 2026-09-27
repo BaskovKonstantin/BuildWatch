@@ -161,7 +161,7 @@ export default function Home() {
               <div className="lt-date">{todayTitle()}</div>
               <h1>Объекты<span className="accent-dot">.</span></h1>
             </div>
-            <section className="widgets" aria-label="Сводка">
+            {view === "list" && <section className="widgets" aria-label="Сводка">
               <Widget tint="blue" icon={<IconBuilding size={18} />} label="Объекты"
                 value={projects ? totals.projects : "—"} />
               <Widget tint="red" icon={<IconWarning size={18} />} label="Сигналы о риске"
@@ -178,7 +178,7 @@ export default function Home() {
                 value={projects ? totals.reviews : "—"} />
               <Widget tint="teal" icon={<IconCamera size={18} />} label="Снимки"
                 value={projects ? totals.snapshots : "—"} />
-            </section>
+            </section>}
             <div className="toolbar">
               <label className="search">
                 <IconSearch size={17} />
@@ -249,7 +249,7 @@ export default function Home() {
             )}
           </div>
         ) : view === "map" ? (
-          <ObjectMap projects={visible} selectedId={selectedId} onSelect={setSelectedId} />
+          <ObjectMap projects={visible} totals={totals} selectedId={selectedId} onSelect={setSelectedId} />
         ) : theme === "tech" ? (
           <RegistryView list={visible} />
         ) : theme === "city" ? (

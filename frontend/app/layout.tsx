@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
 import { AssistantDock } from "@/components/AssistantDock";
 
 // SF Pro is used natively on Apple devices; Inter is the closest open
