@@ -10,7 +10,7 @@ type MapProject = {
   district: string;
   address: string;
   snapshots: number;
-  warnings_open: number;
+  violations_open: number;
   reviews_open: number;
   progress: number;
   last_snapshot: string | null;
@@ -53,7 +53,7 @@ function positionFor(project: MapProject, index: number): [number, number] {
 }
 
 function statusFor(project: MapProject) {
-  if (project.warnings_open > 0) return { className: "danger", label: "Есть сигналы" };
+  if (project.violations_open > 0) return { className: "danger", label: "Есть сигналы" };
   if (project.reviews_open > 0) return { className: "review", label: "Нужна проверка" };
   return { className: "clear", label: "Без открытых сигналов" };
 }
@@ -107,10 +107,10 @@ export function ObjectMap({ projects, selectedId, onSelect }: ObjectMapProps) {
                   className={`map-marker ${status.className} ${selectedMarker ? "selected" : ""}`}
                   style={{ left: `${x}%`, top: `${y}%` }}
                   onClick={() => onSelect(project.id)}
-                  aria-label={`${project.name}. ${status.label}. ${project.warnings_open} сигналов`}
+                  aria-label={`${project.name}. ${status.label}. ${project.violations_open} сигналов, ${project.reviews_open} на проверке`}
                   aria-pressed={selectedMarker}
                 >
-                  <span>{project.warnings_open || project.reviews_open || "✓"}</span>
+                  <span>{project.violations_open || project.reviews_open || "✓"}</span>
                 </button>
               );
             })}
@@ -129,7 +129,7 @@ export function ObjectMap({ projects, selectedId, onSelect }: ObjectMapProps) {
               <div className="map-facts">
                 <div><span>Текущий этап</span><strong>{selected.stage?.name ?? "Не задан"}</strong></div>
                 <div><span>Прогресс по плану</span><strong>{Math.round(selected.progress * 100)}%</strong></div>
-                <div><span>Сигналы</span><strong className={selected.warnings_open ? "is-danger" : ""}><IconWarning size={14} />{selected.warnings_open}</strong></div>
+                <div><span>Сигналы / проверка</span><strong className={selected.violations_open ? "is-danger" : ""}><IconWarning size={14} />{selected.violations_open} / {selected.reviews_open}</strong></div>
                 <div><span>Последний снимок</span><strong>{shortDate(selected.last_snapshot)}</strong></div>
               </div>
               <Link className="map-open" href={`/objects/${selected.id}`}>

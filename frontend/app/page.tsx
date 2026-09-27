@@ -24,6 +24,7 @@ type Project = {
   description: string;
   snapshots: number;
   warnings_open: number;
+  violations_open: number;
   reviews_open: number;
   progress: number;
   planned_finish: string | null;
