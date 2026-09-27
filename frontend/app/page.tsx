@@ -118,7 +118,6 @@ export default function Home() {
       violations: list.reduce((s, p) => s + p.warnings_open, 0),
       reviews: list.reduce((s, p) => s + p.reviews_open, 0),
       snapshots: list.reduce((s, p) => s + p.snapshots, 0),
-      withViolations: list.filter((p) => p.warnings_open > 0).length,
       last,
     };
   }, [projects]);
@@ -152,10 +151,9 @@ export default function Home() {
             </div>
             <section className="widgets" aria-label="Сводка">
               <Widget tint="blue" icon={<IconBuilding size={18} />} label="Объекты"
-                value={projects ? totals.projects : "—"} note="в мониторинге" />
+                value={projects ? totals.projects : "—"} />
               <Widget tint="red" icon={<IconWarning size={18} />} label="Сигналы о риске"
-                value={projects ? totals.violations : "—"}
-                note={projects ? `на ${totals.withViolations} ${plural(totals.withViolations, ["объекте", "объектах", "объектах"])}` : ""}>
+                value={projects ? totals.violations : "—"}>
                 {projects && <div className="mini-bars" aria-hidden="true">
                   {(projects ?? []).map((p) => (
                     <i key={p.id} title={p.name}
@@ -165,9 +163,9 @@ export default function Home() {
                 </div>}
               </Widget>
               <Widget tint="orange" icon={<IconEye size={18} />} label="Неуверенные сигналы"
-                value={projects ? totals.reviews : "—"} note="нужна дополнительная проверка" />
+                value={projects ? totals.reviews : "—"} />
               <Widget tint="teal" icon={<IconCamera size={18} />} label="Снимки"
-                value={projects ? totals.snapshots : "—"} note={totals.last ? `последний ${shortDate(totals.last)}` : "нет снимков"} />
+                value={projects ? totals.snapshots : "—"} />
             </section>
             <div className="toolbar">
               <label className="search">
@@ -248,9 +246,6 @@ export default function Home() {
           </>
         )}
 
-        <footer className="foot">
-          Снимки — выборка ДГП Москвы, виды работ — справочник ЛТЦ. Даты плана заданы для демонстрации.
-        </footer>
       </div>
 
       {sheetOpen && <NewProjectSheet onClose={() => setSheetOpen(false)} />}
@@ -261,7 +256,7 @@ export default function Home() {
 type Shared = {
   projects: Project[] | null;
   visible: Project[];
-  totals: { projects: number; violations: number; reviews: number; snapshots: number; withViolations: number; last: string | null };
+  totals: { projects: number; violations: number; reviews: number; snapshots: number; last: string | null };
   loadError: boolean;
   filtersActive: boolean | string;
   onRetry: () => void;
@@ -475,8 +470,8 @@ function PosterView({ list }: { list: Project[] }) {
   );
 }
 
-function Widget({ tint, icon, label, value, note, children }: {
-  tint: string; icon: React.ReactNode; label: string; value: number | string; note: string;
+function Widget({ tint, icon, label, value, children }: {
+  tint: string; icon: React.ReactNode; label: string; value: number | string;
   children?: React.ReactNode;
 }) {
   return (
@@ -486,7 +481,6 @@ function Widget({ tint, icon, label, value, note, children }: {
         <span className="w-label">{label}</span>
       </div>
       <div className="w-value">{value}</div>
-      <div className="w-note">{note}</div>
       {children}
     </div>
   );

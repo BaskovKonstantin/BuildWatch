@@ -6,6 +6,8 @@ RUN npm ci
 FROM deps AS build
 WORKDIR /app
 COPY . .
+ARG BUILDWATCH_API_ORIGIN=http://api:8600
+ENV BUILDWATCH_API_ORIGIN=$BUILDWATCH_API_ORIGIN
 ENV NODE_ENV=production
 RUN npx next build
 

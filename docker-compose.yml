@@ -30,6 +30,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        BUILDWATCH_API_ORIGIN: http://api:8600
     environment:
       BUILDWATCH_API_ORIGIN: http://api:8600
     ports: ["8700:3000"]
