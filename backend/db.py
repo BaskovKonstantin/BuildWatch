@@ -5,7 +5,7 @@ import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent / "buildwatch.db"
+DB_PATH = Path(os.getenv("BUILDWATCH_SQLITE_PATH", str(Path(__file__).resolve().parent / "buildwatch.db")))
 DATABASE_URL = os.getenv("BUILDWATCH_DATABASE_URL", "")
 
 def _pg():

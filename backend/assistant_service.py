@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import uuid
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -18,6 +19,20 @@ ZEN_URL = "https://opencode.ai/zen/v1/chat/completions"
 GO_URL = "https://opencode.ai/zen/go/v1/chat/completions"
 ZEN_MODEL = os.getenv("BUILDWATCH_ZEN_MODEL", "glm-5.3-flash")
 LOG = logging.getLogger(__name__)
+
+
+def _explicit_shift_days(question: str) -> int | None:
+    """Parse only an unambiguous user request to move a stage date."""
+    lowered = question.lower()
+    if not re.search(r"\b(?:сдвинь|перенеси|перенести)\b", lowered) or "этап" not in lowered:
+        return None
+    match = re.search(r"на\s+(?:(\d+)\s*дн(?:я|ей)?|недел(?:ю|и))", lowered)
+    if not match:
+        return None
+    days = int(match.group(1)) if match.group(1) else 7
+    if re.search(r"\b(?:раньше|назад)\b", lowered):
+        days = -days
+    return days
 
 
 class ZenAuthError(Exception):
@@ -190,6 +205,13 @@ def query(question: str, object_id: int | None) -> dict:
         evidence.append(refs[f"object:{object_id}"])
     response = {"answer": result["answer"][:3000], "evidence": evidence, "proposal": None}
     action = result.get("action")
+    explicit_days = _explicit_shift_days(question) if object_id is not None else None
+    if explicit_days is not None:
+        current_stage = next((stage for stage in context["stages"] if stage["status"] == "current"), None)
+        if current_stage is None and context["stages"]:
+            current_stage = context["stages"][-1]
+        if current_stage is not None:
+            action = {"kind": "shift_stage", "stage_id": current_stage["id"], "days": explicit_days}
     if object_id is None or not isinstance(action, dict) or action.get("kind") != "shift_stage":
         return response
     stage_id, days = action.get("stage_id"), action.get("days")

@@ -25,6 +25,7 @@ export function AssistantDock() {
   const [confirming, setConfirming] = useState<string | null>(null);
   const [error, setError] = useState("");
   const trigger = useRef<HTMLButtonElement>(null);
+  const invoker = useRef<HTMLElement | null>(null);
   const panel = useRef<HTMLElement>(null);
   const input = useRef<HTMLTextAreaElement>(null);
 
@@ -42,9 +43,17 @@ export function AssistantDock() {
     setError("");
   }, [pathname]);
 
+
   function close() {
     setOpen(false);
-    trigger.current?.focus();
+    (invoker.current ?? trigger.current)?.focus();
+    invoker.current = null;
+  }
+
+  function openAssistant() {
+    const active = document.activeElement;
+    invoker.current = active instanceof HTMLElement ? active : trigger.current;
+    setOpen(true);
   }
 
   function panelKeyDown(event: KeyboardEvent<HTMLElement>) {
@@ -107,7 +116,7 @@ export function AssistantDock() {
 
   return (
     <>
-      <button ref={trigger} className="assistant-trigger" onClick={() => setOpen(true)} aria-label="Открыть ИИ-помощника">
+      <button ref={trigger} className="assistant-trigger" onClick={openAssistant} aria-label="Открыть ИИ-помощника">
         <span className="assistant-trigger-mark" aria-hidden="true">✳</span>
         <span>Спросить BuildWatch</span>
       </button>

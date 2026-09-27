@@ -86,6 +86,9 @@ img{display:block}
 .mini.pri{background:var(--blue);color:#fff}
 .mini:active{transform:scale(.95)}
 .mini:disabled{opacity:.4}
+.assistant-nav-link{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px;border:1px solid var(--sep-strong);border-radius:4px;background:var(--card);color:var(--blue);font-size:12px;font-weight:700;white-space:nowrap}
+.assistant-nav-link:hover{background:var(--card2);border-color:var(--blue)}
+.assistant-nav-link:focus-visible{outline-offset:2px}
 
 /* ───────── page scaffold ───────── */
 .content{max-width:1280px;margin:0 auto;padding:0 20px 56px}
@@ -899,7 +902,7 @@ html:not([data-theme]) .brand .logo, html[data-theme=tech] .brand .logo{border-r
 .assistant-disclaimer{margin-top:12px;font-size:11px;color:var(--label2)}
 .assistant-error,.assistant-service-note{margin-bottom:12px;padding:9px 11px;background:color-mix(in srgb,var(--red) 10%,var(--card));color:var(--red-text);font-size:13px;line-height:1.4}
 .assistant-service-note{background:var(--card2);color:var(--label2)}
-@media(max-width:600px){.assistant-trigger{right:12px;bottom:12px;min-height:48px}.assistant-drawer{width:100%;border-left:0}.assistant-head,.assistant-feed{padding-left:20px;padding-right:20px}.assistant-compose{padding:15px 20px 20px}.assistant-head h2{font-size:25px}}
+@media(max-width:600px){.nav-inner{grid-template-columns:auto minmax(0,1fr) auto}.nav-right{position:relative;z-index:2;gap:6px}.assistant-trigger{right:12px;bottom:12px;width:48px;min-height:48px;padding:0;justify-content:center}.assistant-trigger>span:last-child{display:none}.assistant-drawer{width:100%;border-left:0}.assistant-head,.assistant-feed{padding-left:20px;padding-right:20px}.assistant-compose{padding:15px 20px 20px}.assistant-head h2{font-size:25px}.assistant-nav-link{width:38px;flex:0 0 38px;padding:0;justify-content:center}.assistant-nav-link>span:last-child{display:none}}
 /* Plan versus observation is the primary reading path on an object. */
 .plan-fact{margin:24px 0 22px;padding:24px;border:1.5px solid var(--label);background:var(--card);box-shadow:4px 4px 0 rgba(20,24,29,.12)}
 .plan-fact-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:20px}
@@ -971,3 +974,21 @@ html:not([data-theme]) .brand .logo, html[data-theme=tech] .brand .logo{border-r
 @media(max-width:800px){.report-sheet{padding:30px}.report-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.report-metrics>div:nth-child(3){padding-left:0;border-left:0;border-top:1px solid var(--sep)}.report-metrics>div:nth-child(4){border-top:1px solid var(--sep)}.report-case{grid-template-columns:1fr 1.2fr}.report-case a{grid-column:1/-1}}
 @media(max-width:600px){.report-page .content{padding-top:10px}.report-sheet{padding:22px 18px}.report-title{display:block}.report-stamp{margin-top:18px}.report-metrics b{font-size:24px}.report-section-head{display:block}.report-section-head span{display:block;margin-top:7px}.report-case{grid-template-columns:1fr;gap:10px}.report-case a{grid-column:auto}.report-table-wrap table{min-width:540px}}
 @media print{body{background:#fff;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}.nav,.assistant-trigger,.assistant-overlay,.report-print{display:none!important}.report-page .content{max-width:none;padding:0}.report-sheet{max-width:none;margin:0;padding:0;border:0;box-shadow:none}.report-title{padding-top:0}.report-case,.report-metrics>div,.report-section,.report-limits{break-inside:avoid}.report-case a{color:#000}.report-limits{background:#f2f2f2}@page{size:A4;margin:16mm}}
+@media(max-width:640px){
+  html:not([data-theme]) .hero-stats,
+  html[data-theme="tech"] .hero-stats,
+  html[data-theme="construct"] .hero-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  html:not([data-theme]) .hero-stats .stat,
+  html[data-theme="tech"] .hero-stats .stat,
+  html[data-theme="construct"] .hero-stats .stat{border-left:0;border-radius:0;box-shadow:none}
+  html:not([data-theme]) .hero-stats .stat:nth-child(even),
+  html[data-theme="tech"] .hero-stats .stat:nth-child(even),
+  html[data-theme="construct"] .hero-stats .stat:nth-child(even){border-left:.5px solid var(--sep-strong)}
+  html:not([data-theme]) .hero-stats .stat:nth-child(n+3),
+  html[data-theme="tech"] .hero-stats .stat:nth-child(n+3),
+  html[data-theme="construct"] .hero-stats .stat:nth-child(n+3){border-top:.5px solid var(--sep-strong)}
+  .hero-stats .stat-label{overflow-wrap:anywhere;line-height:1.25}
+  html:not([data-theme]) .hero-stats .stat:last-child,
+  html[data-theme="tech"] .hero-stats .stat:last-child,
+  html[data-theme="construct"] .hero-stats .stat:last-child{grid-column:1 / -1;border-left:0}
+}

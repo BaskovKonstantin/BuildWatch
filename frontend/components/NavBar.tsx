@@ -51,6 +51,14 @@ export function NavBar({
         </div>
         <div className="nav-title" aria-hidden={!compact}>{title}</div>
         <div className="nav-right">
+          <button
+            className="assistant-nav-link"
+            type="button"
+            onClick={() => document.querySelector<HTMLButtonElement>(".assistant-trigger")?.click()}
+            aria-label="Открыть ИИ-помощника"
+          >
+            <span aria-hidden="true">✳</span><span>Спросить BuildWatch</span>
+          </button>
           <ThemePicker />
           {right}
         </div>

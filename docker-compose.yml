@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      BUILDWATCH_SQLITE_PATH: /data/buildwatch.db
+      BUILDWATCH_ZEN_MODEL: ${BUILDWATCH_ZEN_MODEL:-glm-5.3-flash}
+      BUILDWATCH_ZEN_KEY: ${BUILDWATCH_ZEN_KEY:-}
+    volumes:
+      - buildwatch-data:/data
+      - buildwatch-media:/app/backend/media
+      - /home/kon/projects/BuildWatch/context/dgp_extract:/app/context/dgp_extract:ro
+      - /home/kon/.pi/agent/auth.json:/root/.pi/agent/auth.json:ro
+      - /home/kon/.local/share/opencode/auth.json:/root/.local/share/opencode/auth.json:ro
+    ports: ["8600:8600"]
+    command: ["sh", "-c", "if [ ! -f /data/buildwatch.db ]; then python seed.py; else python demo_projects.py; fi && uvicorn app:app --host 0.0.0.0 --port 8600"]
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      BUILDWATCH_SQLITE_PATH: /data/buildwatch.db
+      BUILDWATCH_DETECTOR_MODEL: equipment
+    volumes:
+      - buildwatch-data:/data
+      - buildwatch-media:/app/backend/media
+      - /home/kon/projects/BuildWatch/context/dgp_extract:/app/context/dgp_extract:ro
+    depends_on: [api]
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      BUILDWATCH_API_ORIGIN: http://api:8600
+    ports: ["8700:3000"]
+    depends_on: [api]
+volumes:
+  buildwatch-data:
+  buildwatch-media:

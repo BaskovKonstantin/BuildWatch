@@ -75,6 +75,7 @@ export default function Home() {
     if (q) p.set("q", q);
     if (filter !== "all") p.set("filter", filter);
     if (type) p.set("type", type);
+    if (new URLSearchParams(window.location.search).has("styles")) p.set("styles", "1");
     const qs = p.toString();
     window.history.replaceState(null, "", qs ? `/?${qs}` : "/");
   }, [q, filter, type]);
