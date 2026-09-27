@@ -54,13 +54,13 @@ export default function ReportPage() {
         {error ? <div className="report-error" role="alert">{error}</div> : !data ? <div className="hero skeleton" aria-label="Загрузка отчёта" /> : (
           <article className="report-sheet">
             <header className="report-title">
-              <div><span className="report-kicker">BUILDWATCH / ОБЪЕКТ {data.object.id}</span><h1>Ход работ и сигналы</h1><p>{data.object.name} · {data.object.type}{data.object.address ? ` · ${data.object.address}` : ""}</p></div>
+              <div><span className="report-kicker">BUILDWATCH / ОБЪЕКТ {data.object.id}</span><h1>Ход работ и проблемы</h1><p>{data.object.name} · {data.object.type}{data.object.address ? ` · ${data.object.address}` : ""}</p></div>
               <div className="report-stamp">Сформировано {longDate(new Date().toISOString())}<br />Источник: план объекта и снимки камер</div>
             </header>
             <div className="report-metrics">
               <div><span>Прошло времени по плану</span><b>{Math.round(data.summary.progress * 100)}%</b><small>Не является оценкой готовности</small></div>
               <div><span>Последний снимок</span><b>{data.summary.last_snapshot ? shortDate(data.summary.last_snapshot) : "—"}</b><small>{data.snapshots.length} {plural(data.snapshots.length, ["снимок", "снимка", "снимков"])} в истории</small></div>
-              <div><span>Открытые сигналы</span><b>{stats.open}</b><small>Требуют проверки человеком</small></div>
+              <div><span>Открытые проблемы</span><b>{stats.open}</b><small>Требуют проверки человеком</small></div>
               <div><span>Подтверждено</span><b>{stats.confirmed}</b><small>Решение инспектора</small></div>
             </div>
             <section className="report-section">
@@ -70,12 +70,12 @@ export default function ReportPage() {
               </tbody></table></div> : <p className="report-empty">Календарный план не загружен.</p>}
             </section>
             <section className="report-section">
-              <div className="report-section-head"><h2>Сигналы и доказательства</h2><span>{stats.open} {plural(stats.open, ["открытый", "открытых", "открытых"])} · {stats.confirmed} подтверждено · {stats.dismissed} отклонено</span></div>
+              <div className="report-section-head"><h2>Проблемы и доказательства</h2><span>{stats.open} {plural(stats.open, ["открытая проблема", "открытые проблемы", "открытых проблем"])} · {stats.confirmed} подтверждено · {stats.dismissed} отклонено</span></div>
               {data.warnings.length ? <div className="report-cases">{data.warnings.map((warning) => <div className="report-case" key={warning.id}>
                 <div><span className="report-rule">{warning.rule}</span><strong>{warning.title}</strong><span className={`report-case-status ${warning.status}`}>{STATUS[warning.status] ?? warning.status}</span></div>
                 <p>{warning.why.replace(/^Почему:\s*/, "")}</p>
                 <Link href={`/objects/${data.object.id}?snapshot=${warning.snapshot_id}&warning=${warning.id}`}>Открыть снимок от {warning.captured_at ? numericDate(warning.captured_at) : "неизвестной даты"} ↗</Link>
-              </div>)}</div> : <p className="report-empty">По загруженным снимкам сигналы не сформированы.</p>}
+              </div>)}</div> : <p className="report-empty">По загруженным снимкам проблемы не сформированы.</p>}
             </section>
             <aside className="report-limits"><strong>Ограничения вывода</strong><p>Камеры показывают только видимую часть площадки. Отсутствие техники на одном снимке не доказывает простой. Для заключения об отставании или опережении нужны подтверждённые фактические этапы работ и достаточная серия наблюдений.</p></aside>
           </article>

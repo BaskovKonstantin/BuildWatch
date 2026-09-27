@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { LayerGroup, Map as LeafletMap, Marker } from "leaflet";
 import {
   IconArrowUpRight, IconBuilding, IconCamera, IconEye, IconPin, IconWarning,
@@ -38,8 +38,31 @@ const DISTRICT_COORDINATES: Record<string, [number, number]> = {
 };
 const MOSCOW_CENTER: [number, number] = [55.7558, 37.6173];
 
-function coordinatesFor(project: MapProject): [number, number] {
-  return DISTRICT_COORDINATES[project.district] ?? MOSCOW_CENTER;
+function coordinatesFor(project: MapProject, ordinal = 0, total = 1): [number, number] {
+  const [baseLat, baseLng] = DISTRICT_COORDINATES[project.district] ?? MOSCOW_CENTER;
+  if (total <= 1) return [baseLat, baseLng];
+  const ringSize = Math.min(total, 8);
+  const ring = Math.floor(ordinal / ringSize);
+  const angle = -Math.PI / 2 + (ordinal % ringSize) * ((Math.PI * 2) / ringSize) + ring * 0.22;
+  const radius = 0.0035 + ring * 0.0022;
+  const longitudeRadius = radius / Math.max(0.2, Math.cos(baseLat * Math.PI / 180));
+  return [baseLat + Math.sin(angle) * radius, baseLng + Math.cos(angle) * longitudeRadius];
+}
+
+function buildCoordinates(projects: MapProject[]) {
+  const groups = new Map<string, MapProject[]>();
+  projects.forEach((project) => {
+    const group = groups.get(project.district) ?? [];
+    group.push(project);
+    groups.set(project.district, group);
+  });
+  const coordinates = new Map<number, [number, number]>();
+  groups.forEach((group) => {
+    group.sort((a, b) => a.id - b.id).forEach((project, ordinal) => {
+      coordinates.set(project.id, coordinatesFor(project, ordinal, group.length));
+    });
+  });
+  return coordinates;
 }
 
 function shortDate(value: string | null) {
@@ -49,9 +72,9 @@ function shortDate(value: string | null) {
 }
 
 function statusFor(project: MapProject) {
-  if (project.violations_open > 0) return { className: "danger", label: "Есть сигналы" };
-  if (project.reviews_open > 0) return { className: "review", label: "Нужна проверка" };
-  return { className: "clear", label: "Без открытых сигналов" };
+  if (project.violations_open > 0) return { className: "danger", label: "Есть проблемы" };
+  if (project.reviews_open > 0) return { className: "review", label: "Требует внимания" };
+  return { className: "clear", label: "Без открытых проблем" };
 }
 
 function markerIcon(L: typeof import("leaflet"), project: MapProject, selected: boolean) {
@@ -72,6 +95,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
   const leafletRef = useRef<typeof import("leaflet") | null>(null);
   const markersRef = useRef(new Map<number, Marker>());
   const [mapReady, setMapReady] = useState(false);
+  const coordinates = useMemo(() => buildCoordinates(projects), [projects]);
   const selected = projects.find((project) => project.id === selectedId) ?? null;
   const selectedStatus = selected ? statusFor(selected) : null;
 
@@ -86,6 +110,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
         maxZoom: 19,
         attribution: "© OpenStreetMap contributors",
       }).addTo(map);
+      map.attributionControl.setPrefix("");
       layerRef.current = L.layerGroup().addTo(map);
       mapRef.current = map;
       setMapReady(true);
@@ -109,7 +134,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
     layer.clearLayers();
     markersRef.current.clear();
     projects.forEach((project) => {
-      const marker = L.marker(coordinatesFor(project), {
+      const marker = L.marker(coordinates.get(project.id) ?? coordinatesFor(project), {
         icon: markerIcon(L, project, project.id === selectedId),
         title: project.name,
         alt: `${project.name}, ${statusFor(project).label}`,
@@ -118,19 +143,19 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
       marker.addTo(layer);
       markersRef.current.set(project.id, marker);
     });
-  }, [mapReady, projects, selectedId, onSelect]);
+  }, [coordinates, mapReady, projects, selectedId, onSelect]);
 
   useEffect(() => {
     if (!mapRef.current || !selected) return;
-    mapRef.current.panTo(coordinatesFor(selected), { animate: true, duration: 0.35 });
-  }, [selected]);
+    mapRef.current.panTo(coordinates.get(selected.id) ?? coordinatesFor(selected), { animate: true, duration: 0.35 });
+  }, [coordinates, selected]);
 
   return (
     <section className="object-map" aria-label="Объекты на карте Москвы">
       <div className="map-head">
         <div><span className="map-kicker">ПОРТФЕЛЬ / МОСКВА</span><h2>Объекты на карте</h2></div>
         <div className="map-legend" aria-label="Легенда состояний">
-          <span><i className="map-dot danger" />Сигналы</span><span><i className="map-dot review" />Проверка</span><span><i className="map-dot clear" />Норма</span>
+          <span><i className="map-dot danger" />Проблемы</span><span><i className="map-dot review" />Внимание</span><span><i className="map-dot clear" />Норма</span>
         </div>
       </div>
 
@@ -139,8 +164,8 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
           <div className="map-feed-head"><strong>Состояние портфеля</strong><span>Сейчас</span></div>
           <div className="map-feed-list">
             <div className="map-feed-item objects"><span className="map-feed-icon"><IconBuilding size={17} /></span><div><b>{totals.projects}</b><span>объектов в мониторинге</span></div></div>
-            <div className="map-feed-item danger"><span className="map-feed-icon"><IconWarning size={17} /></span><div><b>{totals.violations}</b><span>открытых сигналов</span></div></div>
-            <div className="map-feed-item review"><span className="map-feed-icon"><IconEye size={17} /></span><div><b>{totals.reviews}</b><span>сигналов на проверке</span></div></div>
+            <div className="map-feed-item danger"><span className="map-feed-icon"><IconWarning size={17} /></span><div><b>{totals.violations}</b><span>открытых проблем</span></div></div>
+            <div className="map-feed-item review"><span className="map-feed-icon"><IconEye size={17} /></span><div><b>{totals.reviews}</b><span>требуют внимания</span></div></div>
             <div className="map-feed-item snapshots"><span className="map-feed-icon"><IconCamera size={17} /></span><div><b>{totals.snapshots}</b><span>снимков в истории</span></div></div>
           </div>
         </aside>
@@ -156,13 +181,13 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
               <div className="map-facts">
                 <div><span>Текущий этап</span><strong>{selected.stage?.name ?? "Не задан"}</strong></div>
                 <div><span>Прогресс по плану</span><strong>{Math.round(selected.progress * 100)}%</strong></div>
-                <div><span>Сигналы / проверка</span><strong className={selected.violations_open ? "is-danger" : ""}><IconWarning size={14} />{selected.violations_open} / {selected.reviews_open}</strong></div>
+                <div><span>Проблемы / внимание</span><strong className={selected.violations_open ? "is-danger" : ""}><IconWarning size={14} />{selected.violations_open} / {selected.reviews_open}</strong></div>
                 <div><span>Последний снимок</span><strong>{shortDate(selected.last_snapshot)}</strong></div>
               </div>
               <Link className="map-open" href={`/objects/${selected.id}`}>Открыть объект <IconArrowUpRight size={16} /></Link>
             </>
           ) : (
-            <div className="map-empty"><span className="map-empty-mark"><IconPin size={20} /></span><h3>Выберите объект</h3><p>Нажмите на маркер, чтобы увидеть текущий этап, прогресс и сигналы.</p></div>
+            <div className="map-empty"><span className="map-empty-mark"><IconPin size={20} /></span><h3>Выберите объект</h3><p>Нажмите на маркер, чтобы увидеть текущий этап, прогресс и проблемы.</p></div>
           )}
         </aside>
       </div>

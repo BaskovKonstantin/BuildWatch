@@ -39,8 +39,8 @@ type Filter = "all" | "violations" | "clean";
 type PortfolioView = "map" | "list";
 const FILTERS: { id: Filter; label: string }[] = [
   { id: "all", label: "Все" },
-  { id: "violations", label: "С сигналами" },
-  { id: "clean", label: "Без сигналов" },
+  { id: "violations", label: "С проблемами" },
+  { id: "clean", label: "Без проблем" },
 ];
 
 function readUrlState(): { q: string; filter: Filter; type: string } {
@@ -164,7 +164,7 @@ export default function Home() {
             {view === "list" && <section className="widgets" aria-label="Сводка">
               <Widget tint="blue" icon={<IconBuilding size={18} />} label="Объекты"
                 value={projects ? totals.projects : "—"} />
-              <Widget tint="red" icon={<IconWarning size={18} />} label="Сигналы о риске"
+              <Widget tint="red" icon={<IconWarning size={18} />} label="Проблемы и риски"
                 value={projects ? totals.violations : "—"}>
                 {projects && <div className="mini-bars" aria-hidden="true">
                   {(projects ?? []).map((p) => (
@@ -174,7 +174,7 @@ export default function Home() {
                   ))}
                 </div>}
               </Widget>
-              <Widget tint="orange" icon={<IconEye size={18} />} label="Неуверенные сигналы"
+              <Widget tint="orange" icon={<IconEye size={18} />} label="Требует внимания"
                 value={projects ? totals.reviews : "—"} />
               <Widget tint="teal" icon={<IconCamera size={18} />} label="Снимки"
                 value={projects ? totals.snapshots : "—"} />
@@ -190,7 +190,7 @@ export default function Home() {
                   </button>
                 )}
               </label>
-              <div className="segmented" role="tablist" aria-label="Фильтр по сигналам">
+              <div className="segmented" role="tablist" aria-label="Фильтр по проблемам">
                 {FILTERS.map((f) => (
                   <button key={f.id} role="tab" aria-selected={filter === f.id}
                     className={filter === f.id ? "on" : ""} onClick={() => setFilter(f.id)}>
@@ -320,7 +320,7 @@ function ListHeader({ theme, q, setQ, filter, setFilter, types, type, setType, t
     return (
       <div className="board-head">
         <h1>Объекты</h1>
-        <p className="board-sub">{totals.projects} объектов · {totals.violations} сигналов о риске · обновлено {shortDate(totals.last)}</p>
+        <p className="board-sub">{totals.projects} объектов · {totals.violations} проблем с риском · обновлено {shortDate(totals.last)}</p>
         <div className="board-lines">
           {types.map((t) => (
             <button key={t.name} className={`line-chip ${type === t.name ? "on" : ""}`} onClick={() => setType(type === t.name ? "" : t.name)}>
@@ -336,8 +336,8 @@ function ListHeader({ theme, q, setQ, filter, setFilter, types, type, setType, t
       <div className="ops-head">
         <div className="ops-strip">
           <span>ОБЪЕКТЫ <b>{totals.projects}</b></span>
-          <span>СИГНАЛЫ <b className="ops-red">{totals.violations}</b></span>
-          <span>НЕУВЕРЕННЫЕ <b className="ops-amber">{totals.reviews}</b></span>
+          <span>ПРОБЛЕМЫ <b className="ops-red">{totals.violations}</b></span>
+          <span>ТРЕБУЕТ ВНИМАНИЯ <b className="ops-amber">{totals.reviews}</b></span>
           <span>СНИМКИ <b>{totals.snapshots}</b></span>
         </div>
         <div className="toolbar">
@@ -361,7 +361,7 @@ function ListHeader({ theme, q, setQ, filter, setFilter, types, type, setType, t
       <h1>Стройка<br />под контролем</h1>
       <div className="poster-sub">
         <span className="poster-badge">{totals.violations}</span>
-        <span>сигналов<br />на {totals.projects} объектах</span>
+        <span>проблем<br />на {totals.projects} объектах</span>
       </div>
     </div>
   );
@@ -373,7 +373,7 @@ function RegistryView({ list }: { list: Project[] }) {
     <div className="reg" role="table" aria-label="Реестр объектов">
       <div className="reg-row reg-cols" aria-hidden="true">
         <span>№</span><span>Объект</span><span>Тип</span><span>Этап</span>
-        <span>Время плана</span><span>Сигналы</span><span>Снимки</span>
+        <span>Время плана</span><span>Проблемы</span><span>Снимки</span>
       </div>
       {list.map((p, i) => (
         <Link className="reg-row" href={`/objects/${p.id}`} key={p.id}>
@@ -414,7 +414,7 @@ function BoardView({ list }: { list: Project[] }) {
               <span className="line-name">{p.name}</span>
               <span className="line-stage">{p.stage ? p.stage.name : "план не задан"}</span>
               <span className={`line-status ${p.warnings_open ? "bad" : p.reviews_open ? "warn" : "ok"}`}>
-                {p.warnings_open ? `${p.warnings_open} ${plural(p.warnings_open, ["сигнал", "сигнала", "сигналов"])}` : p.reviews_open ? `${p.reviews_open} на проверке` : "без сигналов"}
+                {p.warnings_open ? `${p.warnings_open} ${plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}` : p.reviews_open ? `${p.reviews_open} требуют внимания` : "без проблем"}
               </span>
               <span className="line-next">{p.last_snapshot ? `снимок ${shortDate(p.last_snapshot)}` : "нет снимков"}</span>
               <IconChevronRight size={15} />
@@ -431,12 +431,12 @@ function OpsView({ list, totals }: { list: Project[]; totals: Shared["totals"] }
   return (
     <div className="ops" role="table" aria-label="Сводка по объектам">
       <div className="ops-meta mono">
-        {totals.violations} ОТКРЫТЫХ СИГНАЛОВ · {totals.snapshots} СНИМКОВ · СОРТИРОВКА: СТАТУС
+        {totals.violations} ОТКРЫТЫХ ПРОБЛЕМ · {totals.snapshots} СНИМКОВ · СОРТИРОВКА: СТАТУС
       </div>
       <div className="ops-scroll">
         <table className="ops-table mono">
           <thead>
-            <tr><th>Объект</th><th>Тип</th><th>Этап</th><th>Время плана</th><th>Сигн.</th><th>Неувер.</th><th>Снимки</th><th>Статус</th></tr>
+            <tr><th>Объект</th><th>Тип</th><th>Этап</th><th>Время плана</th><th>Пробл.</th><th>Внимание</th><th>Снимки</th><th>Статус</th></tr>
           </thead>
           <tbody>
             {list.map((p) => (
@@ -448,7 +448,7 @@ function OpsView({ list, totals }: { list: Project[]; totals: Shared["totals"] }
                 <td className={p.warnings_open ? "ops-red" : ""}>{p.warnings_open || "0"}</td>
                 <td className={p.reviews_open ? "ops-amber" : ""}>{p.reviews_open || "0"}</td>
                 <td>{p.snapshots}</td>
-                <td><span className={`ops-tag ${p.warnings_open ? "bad" : "ok"}`}>{p.warnings_open ? "СИГНАЛ" : "НЕТ СИГНАЛОВ"}</span></td>
+                <td><span className={`ops-tag ${p.warnings_open ? "bad" : "ok"}`}>{p.warnings_open ? "ПРОБЛЕМА" : "БЕЗ ПРОБЛЕМ"}</span></td>
               </tr>
             ))}
           </tbody>
@@ -471,8 +471,8 @@ function PosterView({ list }: { list: Project[] }) {
           <span className="poster-kicker">{feat.type} · {feat.district || "МОСКВА"}</span>
           <h2>{feat.name}</h2>
           <p>{feat.warnings_open > 0
-            ? `${feat.warnings_open} ${plural(feat.warnings_open, ["сигнал", "сигнала", "сигналов"])} требуют проверки. Этап: ${feat.stage?.name ?? "—"}.`
-            : "Сигналов на снимках нет. Этап: " + (feat.stage?.name ?? "—") + "."}</p>
+            ? `${feat.warnings_open} ${plural(feat.warnings_open, ["проблема", "проблемы", "проблем"])} требуют проверки. Этап: ${feat.stage?.name ?? "—"}.`
+            : "Проблем на снимках нет. Этап: " + (feat.stage?.name ?? "—") + "."}</p>
           <span className="poster-cta">Смотреть объект →</span>
         </div>
         <i className="poster-circle" />
@@ -567,7 +567,7 @@ function AttentionSlider({ list }: { list: Project[] }) {
               <div className="att-top">
                 <span className="glass-pill att-flag alert">
                   <IconWarning size={14} />
-                  {p.warnings_open} {plural(p.warnings_open, ["сигнал", "сигнала", "сигналов"])}
+                  {p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}
                 </span>
                 <span className="glass-pill"><i className={`dot tint-${typeTint(p.type)}`} />{p.type}</span>
               </div>
@@ -616,12 +616,12 @@ function Ring({ value, size = 38 }: { value: number; size?: number }) {
 function StatusBadge({ p }: { p: Project }) {
   if (p.snapshots === 0) return <span className="status gray">Нет снимков</span>;
   if (p.warnings_open > 0 && p.warnings_open === p.reviews_open) {
-    return <span className="status orange"><i />{p.warnings_open} {plural(p.warnings_open, ["сигнал", "сигнала", "сигналов"])} с низкой уверенностью</span>;
+    return <span className="status orange"><i />{p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])} требуют внимания</span>;
   }
   if (p.warnings_open > 0) {
-    return <span className="status red"><i />{p.warnings_open} {plural(p.warnings_open, ["сигнал", "сигнала", "сигналов"])}</span>;
+    return <span className="status red"><i />{p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}</span>;
   }
-  return <span className="status green"><i />Без сигналов на снимках</span>;
+  return <span className="status green"><i />Без проблем на снимках</span>;
 }
 
 function ProjectCard({ p, index }: { p: Project; index: number }) {

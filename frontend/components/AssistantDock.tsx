@@ -135,7 +135,7 @@ export function AssistantDock() {
               {history.length === 0 && (
                 <div className="assistant-intro">
                   <div className="assistant-intro-mark" aria-hidden="true">✳</div>
-                  <h3>Разберите сигнал за минуту</h3>
+                  <h3>Разберите проблему за минуту</h3>
                   <p>Помощник отвечает по плану, снимкам и предупреждениям. У каждого вывода есть ссылка на источник. Изменение плана сначала появится как черновик.</p>
                   <div className="assistant-suggestions">
                     {(objectId ? ["Почему объект требует проверки?", "Сдвинь текущий этап на неделю"] : SUGGESTIONS).map((tip) => (

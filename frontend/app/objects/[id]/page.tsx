@@ -260,7 +260,7 @@ function ObjectCard({ id }: { id: string }) {
             <span className="stat-note">{summary?.stage ? `${summary.stage.position} из ${summary.stages_total} · до ${shortDate(summary.stage.date_to)}` : "откройте редактор этапов"}</span>
           </div>
           <div className="stat">
-            <span className="stat-label"><IconWarning size={14} /> Сигналы о риске</span>
+            <span className="stat-label"><IconWarning size={14} /> Проблемы и риски</span>
             <span className={`stat-value ${summary?.violations_open ? "red" : "green"}`}>{summary?.violations_open ?? 0}</span>
             <span className="stat-note">{card.counts.warnings_open} требуют проверки</span>
           </div>
@@ -332,10 +332,10 @@ function ObjectCard({ id }: { id: string }) {
           })}
 
           <div className="pane-h" style={{ borderTop: "1px solid var(--line2)" }}>
-            Сигналы для проверки
+            Проблемы для проверки
           </div>
           {warnings.length === 0 ? (
-            <div className="empty">{snap?.status === "new" || snap?.status === "processing" || snap?.status === "failed" ? "Снимок ещё не оценён" : "Для этого снимка сигналов нет"}</div>
+            <div className="empty">{snap?.status === "new" || snap?.status === "processing" || snap?.status === "failed" ? "Снимок ещё не оценён" : "Для этого снимка проблем нет"}</div>
           ) : (
             warnings.map((w) => (
               <div

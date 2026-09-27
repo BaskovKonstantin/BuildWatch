@@ -155,7 +155,7 @@ img{display:block}
 .map-feed-item div{display:flex;min-width:0;flex-direction:column;gap:1px}.map-feed-item b{font-family:var(--font-display);font-size:22px;line-height:1}.map-feed-item span:not(.map-feed-icon){font-size:11px;line-height:1.25;color:var(--label2)}
 .map-canvas{position:relative;min-height:540px;overflow:hidden;background:#dce5d9}
 .map-canvas .leaflet-container{width:100%;height:100%;min-height:540px;background:#dce5d9;font-family:var(--font)}
-.map-canvas .leaflet-control-attribution{font-size:10px}
+.map-canvas .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.78);padding:2px 5px;border-radius:4px}
 .leaflet-object-marker{background:transparent;border:0}
 .leaflet-object-marker span{display:grid;place-items:center;width:40px;height:40px;border:3px solid #fff;border-radius:50%;color:#fff;font-size:12px;font-weight:800;box-shadow:0 3px 12px rgba(0,0,0,.3);transition:transform .18s var(--ease),box-shadow .18s}
 .leaflet-object-marker.danger span{background:var(--red)}.leaflet-object-marker.review span{background:var(--orange)}.leaflet-object-marker.clear span{background:var(--green)}
@@ -466,6 +466,17 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radiu
   .sheet{border-radius:var(--radius) var(--radius) 0 0;padding-bottom:max(20px,env(safe-area-inset-bottom))}
   .sheet-grabber{display:block}
   .canvas .box .tag{max-width:160px;overflow:hidden;text-overflow:ellipsis}
+}
+@media (min-width:1440px){
+  .content,.nav-inner,.nav.wide .nav-inner{max-width:none;width:100%}
+  .content{padding-left:32px;padding-right:32px}
+  .nav-inner{padding-left:32px;padding-right:32px}
+  .map-layout{grid-template-columns:270px minmax(0,1fr) 380px;min-height:680px}
+  .map-canvas,.map-canvas .leaflet-container{min-height:680px}
+  .map-details{padding:30px 28px}
+  .map-feed{padding:24px 18px}
+  .map-feed-list{gap:12px}
+  .map-feed-item{padding:14px 11px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
