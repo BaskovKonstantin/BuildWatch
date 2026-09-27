@@ -262,7 +262,7 @@ function ObjectCard({ id }: { id: string }) {
           <div className="stat">
             <span className="stat-label"><IconWarning size={14} /> Проблемы и риски</span>
             <span className={`stat-value ${summary?.violations_open ? "red" : "green"}`}>{summary?.violations_open ?? 0}</span>
-            <span className="stat-note">{card.counts.warnings_open} требуют проверки</span>
+            <span className="stat-note">{summary?.reviews_open ?? 0} требуют внимания</span>
           </div>
           <div className="stat">
             <span className="stat-label"><IconCamera size={14} /> Снимки</span>

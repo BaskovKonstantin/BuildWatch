@@ -106,8 +106,8 @@ export default function Home() {
   const visible = useMemo(() => {
     const needle = q.trim().toLowerCase();
     return (projects ?? []).filter((p) => {
-      if (filter === "violations" && p.warnings_open === 0) return false;
-      if (filter === "clean" && p.warnings_open > 0) return false;
+      if (filter === "violations" && p.violations_open === 0) return false;
+      if (filter === "clean" && p.violations_open > 0) return false;
       if (type && p.type !== type) return false;
       if (!needle) return true;
       return [p.name, p.address, p.district, p.type, p.stage?.name ?? ""]
@@ -127,7 +127,7 @@ export default function Home() {
     const last = list.map((p) => p.last_snapshot).filter(Boolean).sort().at(-1) ?? null;
     return {
       projects: list.length,
-      violations: list.reduce((s, p) => s + p.warnings_open, 0),
+      violations: list.reduce((s, p) => s + p.violations_open, 0),
       reviews: list.reduce((s, p) => s + p.reviews_open, 0),
       snapshots: list.reduce((s, p) => s + p.snapshots, 0),
       last,
@@ -169,8 +169,8 @@ export default function Home() {
                 {projects && <div className="mini-bars" aria-hidden="true">
                   {(projects ?? []).map((p) => (
                     <i key={p.id} title={p.name}
-                      style={{ height: `${Math.max(8, (p.warnings_open / Math.max(1, totals.violations)) * 100)}%` }}
-                      className={p.warnings_open ? "" : "zero"} />
+                      style={{ height: `${Math.max(8, (p.violations_open / Math.max(1, totals.violations)) * 100)}%` }}
+                      className={p.violations_open ? "" : "zero"} />
                   ))}
                 </div>}
               </Widget>
@@ -382,8 +382,8 @@ function RegistryView({ list }: { list: Project[] }) {
           <span className="reg-type">{p.type}</span>
           <span className="reg-stage">{p.stage ? `${p.stage.position}/${p.stages_total} · ${p.stage.name}` : "план не задан"}</span>
           <span className="reg-prog"><span className="bar"><i style={{ width: `${p.progress * 100}%` }} /></span><b className="mono">{Math.round(p.progress * 100)}%</b></span>
-          <span className={`reg-warn ${p.warnings_open ? "bad" : "ok"}`}>
-            {p.warnings_open ? `${p.warnings_open}` : "—"}
+          <span className={`reg-warn ${p.violations_open ? "bad" : "ok"}`}>
+            {p.violations_open ? `${p.violations_open}` : "—"}
             {p.reviews_open > 0 && <small> +{p.reviews_open}</small>}
           </span>
           <span className="mono">{p.snapshots}</span>
@@ -413,8 +413,8 @@ function BoardView({ list }: { list: Project[] }) {
               <i className={`dot tint-${typeTint(p.type)}`} />
               <span className="line-name">{p.name}</span>
               <span className="line-stage">{p.stage ? p.stage.name : "план не задан"}</span>
-              <span className={`line-status ${p.warnings_open ? "bad" : p.reviews_open ? "warn" : "ok"}`}>
-                {p.warnings_open ? `${p.warnings_open} ${plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}` : p.reviews_open ? `${p.reviews_open} требуют внимания` : "без проблем"}
+              <span className={`line-status ${p.violations_open ? "bad" : p.reviews_open ? "warn" : "ok"}`}>
+                {p.violations_open ? `${p.violations_open} ${plural(p.violations_open, ["проблема", "проблемы", "проблем"])}` : p.reviews_open ? `${p.reviews_open} требуют внимания` : "без проблем"}
               </span>
               <span className="line-next">{p.last_snapshot ? `снимок ${shortDate(p.last_snapshot)}` : "нет снимков"}</span>
               <IconChevronRight size={15} />
@@ -440,15 +440,15 @@ function OpsView({ list, totals }: { list: Project[]; totals: Shared["totals"] }
           </thead>
           <tbody>
             {list.map((p) => (
-              <tr key={p.id} data-warn={p.warnings_open > 0 ? "1" : undefined}>
+              <tr key={p.id} data-warn={p.violations_open > 0 ? "1" : undefined}>
                 <td><Link href={`/objects/${p.id}`} className="ops-link">{p.name}</Link></td>
                 <td>{p.type}</td>
                 <td>{p.stage ? p.stage.name : "—"}</td>
                 <td>{Math.round(p.progress * 100)}%</td>
-                <td className={p.warnings_open ? "ops-red" : ""}>{p.warnings_open || "0"}</td>
+                <td className={p.violations_open ? "ops-red" : ""}>{p.violations_open || "0"}</td>
                 <td className={p.reviews_open ? "ops-amber" : ""}>{p.reviews_open || "0"}</td>
                 <td>{p.snapshots}</td>
-                <td><span className={`ops-tag ${p.warnings_open ? "bad" : "ok"}`}>{p.warnings_open ? "ПРОБЛЕМА" : "БЕЗ ПРОБЛЕМ"}</span></td>
+                <td><span className={`ops-tag ${p.violations_open ? "bad" : "ok"}`}>{p.violations_open ? "ПРОБЛЕМА" : "БЕЗ ПРОБЛЕМ"}</span></td>
               </tr>
             ))}
           </tbody>
@@ -460,7 +460,7 @@ function OpsView({ list, totals }: { list: Project[]; totals: Shared["totals"] }
 
 /* ─── «Конструктивизм»: плакат + список-полосы ─── */
 function PosterView({ list }: { list: Project[] }) {
-  const feat = [...list].sort((a, b) => b.warnings_open - a.warnings_open)[0] ?? list[0];
+  const feat = [...list].sort((a, b) => b.violations_open - a.violations_open || b.reviews_open - a.reviews_open)[0] ?? list[0];
   const rest = list.filter((p) => p.id !== feat.id);
   return (
     <div className="poster">
@@ -470,9 +470,11 @@ function PosterView({ list }: { list: Project[] }) {
         <div className="poster-txt">
           <span className="poster-kicker">{feat.type} · {feat.district || "МОСКВА"}</span>
           <h2>{feat.name}</h2>
-          <p>{feat.warnings_open > 0
-            ? `${feat.warnings_open} ${plural(feat.warnings_open, ["проблема", "проблемы", "проблем"])} требуют проверки. Этап: ${feat.stage?.name ?? "—"}.`
-            : "Проблем на снимках нет. Этап: " + (feat.stage?.name ?? "—") + "."}</p>
+          <p>{feat.violations_open > 0
+            ? `${feat.violations_open} ${plural(feat.violations_open, ["проблема", "проблемы", "проблем"])} требуют проверки. Этап: ${feat.stage?.name ?? "—"}.`
+            : feat.reviews_open > 0
+              ? `${feat.reviews_open} требуют внимания. Этап: ${feat.stage?.name ?? "—"}.`
+              : "Проблем на снимках нет. Этап: " + (feat.stage?.name ?? "—") + "."}</p>
           <span className="poster-cta">Смотреть объект →</span>
         </div>
         <i className="poster-circle" />
@@ -483,7 +485,7 @@ function PosterView({ list }: { list: Project[] }) {
             <span className="mono">{String(i + 1).padStart(2, "0")}</span>
             <span className="strip-name">{p.name}</span>
             <span className="strip-stage">{p.stage ? p.stage.name : "—"}</span>
-            <span className={`strip-status ${p.warnings_open ? "bad" : "ok"}`}>{p.warnings_open || "✓"}</span>
+            <span className={`strip-status ${p.violations_open ? "bad" : "ok"}`}>{p.violations_open || "✓"}</span>
           </Link>
         ))}
       </div>
@@ -513,9 +515,9 @@ function AttentionSlider({ list }: { list: Project[] }) {
   const [idx, setIdx] = useState(0);
 
   const items = useMemo(() => [...list]
-    .filter((p) => p.warnings_open > 0 || p.reviews_open > 0)
+    .filter((p) => p.violations_open > 0 || p.reviews_open > 0)
     .sort((a, b) =>
-      b.warnings_open - a.warnings_open || b.reviews_open - a.reviews_open)
+      b.violations_open - a.violations_open || b.reviews_open - a.reviews_open)
     .slice(0, 5), [list]);
 
   const onScroll = () => {
@@ -567,7 +569,9 @@ function AttentionSlider({ list }: { list: Project[] }) {
               <div className="att-top">
                 <span className="glass-pill att-flag alert">
                   <IconWarning size={14} />
-                  {p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}
+                  {p.violations_open > 0
+                    ? `${p.violations_open} ${plural(p.violations_open, ["проблема", "проблемы", "проблем"])}`
+                    : `${p.reviews_open} требуют внимания`}
                 </span>
                 <span className="glass-pill"><i className={`dot tint-${typeTint(p.type)}`} />{p.type}</span>
               </div>
@@ -615,11 +619,11 @@ function Ring({ value, size = 38 }: { value: number; size?: number }) {
 
 function StatusBadge({ p }: { p: Project }) {
   if (p.snapshots === 0) return <span className="status gray">Нет снимков</span>;
-  if (p.warnings_open > 0 && p.warnings_open === p.reviews_open) {
-    return <span className="status orange"><i />{p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])} требуют внимания</span>;
+  if (p.violations_open > 0) {
+    return <span className="status red"><i />{p.violations_open} {plural(p.violations_open, ["проблема", "проблемы", "проблем"])}</span>;
   }
-  if (p.warnings_open > 0) {
-    return <span className="status red"><i />{p.warnings_open} {plural(p.warnings_open, ["проблема", "проблемы", "проблем"])}</span>;
+  if (p.reviews_open > 0) {
+    return <span className="status orange"><i />{p.reviews_open} требуют внимания</span>;
   }
   return <span className="status green"><i />Без проблем на снимках</span>;
 }
