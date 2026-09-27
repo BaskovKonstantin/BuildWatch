@@ -243,6 +243,7 @@ def query(question: str, object_id: int | None) -> dict:
 
 
 def confirm(proposal_id: str, user_id: int | None = None) -> dict:
+    """Apply a proposal only while its source stage still matches the reviewed dates."""
     con = db.connect()
     try:
         proposal_row = con.execute(db._sql("SELECT * FROM assistant_proposals WHERE id=?"), (proposal_id,)).fetchone()
@@ -258,6 +259,8 @@ def confirm(proposal_id: str, user_id: int | None = None) -> dict:
         if not stage_row:
             raise HTTPException(409, "Этап больше не существует")
         stage = dict(stage_row)
+        # The dates are an optimistic concurrency guard: a stale AI proposal
+        # must never overwrite an inspector's newer plan edit.
         if str(stage["date_from"])[:10] != proposal["old_from"] or str(stage["date_to"])[:10] != proposal["old_to"]:
             raise HTTPException(409, "План изменился. Запросите новый черновик")
         con.execute(db._sql("UPDATE stages SET date_from=?,date_to=? WHERE id=?"),

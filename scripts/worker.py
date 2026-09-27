@@ -93,6 +93,7 @@ def _run_detector(model: str, snapshot_id: int, source: Path, suffix: str = "") 
 
 
 def run_once() -> bool:
+    """Claim and finish one queued job; retry failures without treating them as no detections."""
     rows = db.query("SELECT * FROM detection_jobs WHERE status='queued' ORDER BY id LIMIT 1")
     if not rows:
         return False

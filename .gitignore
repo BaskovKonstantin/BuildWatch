@@ -25,3 +25,14 @@ context/validation/exploratory_training_v2/
 .env
 *.log
 dataset_preview/
+backend/buildwatch.*.db
+.next/
+runtime-logs/
+inbox_videos/
+checkpoints/
+yolov8*.pt
+*.tsbuildinfo
+context/bw7_audit/
+context/design-refs/
+context/holdout_perclass_full.json
+/.public-release/

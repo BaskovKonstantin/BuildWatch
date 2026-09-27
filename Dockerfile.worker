@@ -7,6 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 COPY backend backend
 COPY scripts scripts
 COPY context context
-COPY weights weights
-COPY yolov8s-world.pt .
 CMD ["python", "scripts/worker.py"]

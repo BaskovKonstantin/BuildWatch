@@ -21,6 +21,7 @@ class DetectionResultError(ValueError):
 
 
 def _validated_detections(data: object) -> tuple[str, list[tuple]]:
+    """Normalize legacy model names and reject invalid detector JSON before DB writes."""
     if not isinstance(data, dict):
         raise DetectionResultError("detector result must be an object")
     try:

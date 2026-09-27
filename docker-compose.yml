@@ -10,11 +10,9 @@ services:
     volumes:
       - buildwatch-data:/data
       - buildwatch-media:/app/backend/media
-      - /home/kon/projects/BuildWatch/context/dgp_extract:/app/context/dgp_extract:ro
-      - /home/kon/.pi/agent/auth.json:/root/.pi/agent/auth.json:ro
-      - /home/kon/.local/share/opencode/auth.json:/root/.local/share/opencode/auth.json:ro
+      - ./context/dgp_extract:/app/context/dgp_extract:ro
     ports: ["8600:8600"]
-    command: ["sh", "-c", "if [ ! -f /data/buildwatch.db ]; then python seed.py; else python demo_projects.py; fi && uvicorn app:app --host 0.0.0.0 --port 8600"]
+    command: ["sh", "-c", "if [ ! -f /data/buildwatch.db ]; then if [ -f /app/context/dgp_extract/Сводный перечень строительных работ_ЛТЦ.xlsx ] && [ -f /app/context/detector_compare.json ]; then python seed.py; else python /app/scripts/seed_public_demo.py; fi; fi && uvicorn app:app --host 0.0.0.0 --port 8600"]
   worker:
     build:
       context: .
@@ -25,7 +23,8 @@ services:
     volumes:
       - buildwatch-data:/data
       - buildwatch-media:/app/backend/media
-      - /home/kon/projects/BuildWatch/context/dgp_extract:/app/context/dgp_extract:ro
+      - ./context/dgp_extract:/app/context/dgp_extract:ro
+      - ./weights:/app/weights:ro
     depends_on: [api]
   frontend:
     build:

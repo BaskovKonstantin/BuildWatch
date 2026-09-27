@@ -1,0 +1,15 @@
+{
+  "images": [
+    {
+      "image": "Screenshot_1.png",
+      "width": 1920,
+      "height": 1080,
+      "objects": [
+        {
+          "label": "excavator",
+          "box": [100, 100, 500, 600]
+        }
+      ]
+    }
+  ]
+}

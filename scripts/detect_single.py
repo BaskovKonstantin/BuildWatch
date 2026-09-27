@@ -39,10 +39,13 @@ def main() -> None:
                 "score": float(box.conf[0]),
                 "box": [float(v) for v in box.xyxy[0].tolist()],
             })
-    out_path.write_text(
-        json.dumps({"image": image_path.name, "detections": detections}, ensure_ascii=False),
-        encoding="utf-8",
+    payload = json.dumps(
+        {"model": "yolo_world", "image": image_path.name, "detections": detections},
+        ensure_ascii=False,
     )
+    temporary = out_path.with_name(out_path.name + ".tmp")
+    temporary.write_text(payload, encoding="utf-8")
+    temporary.replace(out_path)
 
 
 if __name__ == "__main__":
