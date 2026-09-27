@@ -11,7 +11,7 @@
 ## Запуск
 
 ```powershell
-cd D:\Projects\BuildWatch
+cd C:\path\to\BuildWatch
 pip install -r requirements.txt
 npm --prefix frontend ci
 python scripts/seed_public_demo.py
