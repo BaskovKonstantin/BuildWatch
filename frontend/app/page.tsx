@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { NavBar } from "@/components/NavBar";
+import { ObjectMap } from "@/components/ObjectMap";
 import {
   IconBuilding, IconCalendar, IconCamera, IconChevronRight, IconClose, IconEye,
   IconPin, IconPlus, IconSearch, IconTruck, IconWarning,
@@ -34,6 +35,7 @@ type Project = {
 };
 
 type Filter = "all" | "violations" | "clean";
+type PortfolioView = "map" | "list";
 const FILTERS: { id: Filter; label: string }[] = [
   { id: "all", label: "Все" },
   { id: "violations", label: "С сигналами" },
@@ -58,6 +60,8 @@ export default function Home() {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [type, setType] = useState("");
+  const [view, setView] = useState<PortfolioView>("map");
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const hydrated = useRef(false);
 
@@ -109,6 +113,13 @@ export default function Home() {
         .some((v) => v.toLowerCase().includes(needle));
     });
   }, [projects, q, filter, type]);
+
+  useEffect(() => {
+    if (view !== "map" || visible.length === 0) return;
+    if (selectedId === null || !visible.some((project) => project.id === selectedId)) {
+      setSelectedId(visible[0].id);
+    }
+  }, [view, visible, selectedId]);
 
   const totals = useMemo(() => {
     const list = projects ?? [];
@@ -204,6 +215,13 @@ export default function Home() {
             types={types} type={type} setType={setType} totals={totals} />
         )}
 
+        <div className="portfolio-switcher" role="group" aria-label="Представление объектов">
+          <button type="button" className={view === "map" ? "on" : ""} aria-pressed={view === "map"}
+            onClick={() => setView("map")}>Карта</button>
+          <button type="button" className={view === "list" ? "on" : ""} aria-pressed={view === "list"}
+            onClick={() => setView("list")}>Список</button>
+        </div>
+
         {loadError && (
           <div className="banner error" role="alert">
             <IconWarning size={18} />
@@ -229,6 +247,8 @@ export default function Home() {
               <button className="btn tinted" onClick={() => { setQ(""); setFilter("all"); setType(""); }}>Сбросить фильтры</button>
             )}
           </div>
+        ) : view === "map" ? (
+          <ObjectMap projects={visible} selectedId={selectedId} onSelect={setSelectedId} />
         ) : theme === "tech" ? (
           <RegistryView list={visible} />
         ) : theme === "city" ? (

@@ -27,6 +27,9 @@ export const IconChevronLeft = (p: P) => (
 export const IconChevronRight = (p: P) => (
   <Svg {...p}><path d="M9 5l7 7-7 7" /></Svg>
 );
+export const IconArrowUpRight = (p: P) => (
+  <Svg {...p}><path d="M7 17L17 7M8 7h9v9" /></Svg>
+);
 export const IconPlus = (p: P) => (
   <Svg {...p}><path d="M12 5v14M5 12h14" /></Svg>
 );
