@@ -3,8 +3,11 @@ from __future__ import annotations
 
 from collections import defaultdict
 
-import db
-import rules
+try:
+    from . import db, rules
+except ImportError:  # direct execution from backend/ remains supported
+    import db
+    import rules
 
 
 def evaluate_object(object_id: int) -> int:

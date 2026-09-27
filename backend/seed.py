@@ -22,6 +22,7 @@ import openpyxl
 from PIL import Image
 
 import db
+import demo_projects
 import rules
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -29,15 +30,7 @@ SAMPLES = ROOT / "context" / "dgp_extract" / "samples"
 COMPARE = ROOT / "context" / "detector_compare.json"
 XLSX = ROOT / "context" / "dgp_extract" / "Сводный перечень строительных работ_ЛТЦ.xlsx"
 
-DEMO_OBJECT = ("ЖК «Северный», корп. 12", "Жильё")
-# Demo plan: dates are entered by the inspector (stages editor), not from ЛТЦ.
-DEMO_STAGES = [
-    ("ground", "Инженерная подготовка", "2026-03-01", "2026-04-20", "done"),
-    ("excavation", "Устройство котлована", "2026-04-21", "2026-06-05", "done"),
-    ("frame", "Монтаж каркаса", "2026-06-06", "2026-07-10", "done"),
-    ("facade", "Фасадные работы", "2026-07-11", "2026-09-15", "current"),
-    ("roof", "Кровля", "2026-09-16", "2026-09-30", "future"),
-]
+DEMO_OBJECT = (demo_projects.PROJECTS[0]["name"], demo_projects.PROJECTS[0]["type"])
 
 
 def import_catalog(con: sqlite3.Connection) -> int:
@@ -111,15 +104,10 @@ def main() -> None:
     compare = json.loads(COMPARE.read_text())
     dates = assign_dates()
 
+    # Snapshots land in the first demo project; demo_projects.apply() then
+    # distributes them across the portfolio and writes per-project stages.
     cur = con.execute("INSERT INTO objects(name, type) VALUES (?,?)", DEMO_OBJECT)
     object_id = cur.lastrowid
-
-    for pos, (kind, name, dfrom, dto, status) in enumerate(DEMO_STAGES):
-        con.execute(
-            "INSERT INTO stages(object_id, position, kind, name, date_from, date_to, status)"
-            " VALUES (?,?,?,?,?,?,?)",
-            (object_id, pos, kind, name, dfrom, dto, status),
-        )
 
     for path in sorted(SAMPLES.glob("Screenshot_*.png")):
         with Image.open(path) as im:
@@ -149,13 +137,15 @@ def main() -> None:
         else:
             con.execute("UPDATE snapshots SET status='empty' WHERE id=?", (snap_id,))
 
+    object_ids = demo_projects.apply(con, date.today().isoformat())
     con.commit()
     con.close()
 
     # Rules evaluation needs the API layer (evaluate_object); do it inline here.
     from evaluate import evaluate_object  # noqa: E402
-    evaluate_object(object_id)
-    print(f"catalog rows: {n_catalog}, object id: {object_id}")
+    for oid in object_ids:
+        evaluate_object(oid)
+    print(f"catalog rows: {n_catalog}, projects: {len(object_ids)}")
 
 
 def evaluate_object(object_id: int) -> None:

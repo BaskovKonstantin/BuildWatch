@@ -1,12 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import {
   IconBan, IconCalendar, IconCamera, IconClose, IconPin, IconQuestion, IconUpload, IconWarning,
 } from "@/components/Icons";
 import { apiFetch } from "@/lib/api";
+import { useThemeId } from "@/lib/themes";
 import { equipmentRu, longDate, plural, shortDate, typeTint } from "@/lib/format";
 
 type Detection = {
@@ -60,6 +62,7 @@ type Card = {
   summary?: Summary;
   stages: Stage[];
   stage_kinds: string[];
+  stage_requirements: Record<string, { name: string; classes: string[] }[]>;
   snapshots: Snapshot[];
   warnings: Warning[];
   counts: { snapshots: number; warnings_open: number; warnings_total: number };
@@ -95,6 +98,8 @@ export default function Page() {
 }
 
 function ObjectCard({ id }: { id: string }) {
+  const deepLinkApplied = useRef(false);
+  const deepLinkScrolled = useRef(false);
   const [card, setCard] = useState<Card | null>(null);
   const [snapId, setSnapId] = useState<number | null>(null);
   const [model, setModel] = useState("equipment");
@@ -110,7 +115,12 @@ function ObjectCard({ id }: { id: string }) {
     if (!res.ok) return;
     const data: Card = await res.json();
     setCard(data);
+    const requestedSnapshot = !deepLinkApplied.current && typeof window !== "undefined" ? Number(new URLSearchParams(window.location.search).get("snapshot")) : 0;
+    deepLinkApplied.current = true;
     setSnapId((cur) =>
+      requestedSnapshot && data.snapshots.some((s) => s.id === requestedSnapshot)
+        ? requestedSnapshot
+        :
       cur && data.snapshots.some((s) => s.id === cur)
         ? cur
         : (data.snapshots[0]?.id ?? null),
@@ -118,6 +128,14 @@ function ObjectCard({ id }: { id: string }) {
   }, [id]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    const refresh = (event: Event) => {
+      if ((event as CustomEvent<{ objectId: number }>).detail?.objectId === Number(id)) void load();
+    };
+    window.addEventListener("buildwatch:plan-updated", refresh);
+    return () => window.removeEventListener("buildwatch:plan-updated", refresh);
+  }, [id, load]);
 
   const snap = useMemo(
     () => card?.snapshots.find((s) => s.id === snapId) ?? null,
@@ -127,10 +145,26 @@ function ObjectCard({ id }: { id: string }) {
     () => (card ? card.warnings.filter((w) => w.snapshot_id === snapId) : []),
     [card, snapId],
   );
+  useEffect(() => {
+    if (deepLinkScrolled.current || !card) return;
+    const warningId = Number(new URLSearchParams(window.location.search).get("warning"));
+    if (!warningId || !warnings.some((warning) => warning.id === warningId)) return;
+    deepLinkScrolled.current = true;
+    requestAnimationFrame(() => document.getElementById(`warning-${warningId}`)?.scrollIntoView({ block: "center" }));
+  }, [card, warnings]);
   const visibleDets = useMemo(() => {
     if (!snap) return [];
     return snap.detections.filter((d) => d.score >= conf);
   }, [snap, conf]);
+  const planStage = useMemo(() => {
+    if (!card || !snap) return null;
+    const day = snap.captured_at.slice(0, 10);
+    return card.stages.find((stage) => stage.date_from.slice(0, 10) <= day && day <= stage.date_to.slice(0, 10)) ?? null;
+  }, [card, snap]);
+  const observed = useMemo(() => new Set(
+    (snap?.detections ?? []).filter((d) => d.score >= 0.35).map((d) => d.label),
+  ), [snap]);
+  const requirements = planStage ? card?.stage_requirements?.[planStage.kind] ?? [] : [];
 
   async function resolveWarning(warningId: number, action: "confirm" | "dismiss" | "reopen") {
     const body = new FormData();
@@ -162,9 +196,11 @@ function ObjectCard({ id }: { id: string }) {
     return () => window.clearInterval(timer);
   }, [card, load]);
 
+  const theme = useThemeId();
+
   if (!card) {
     return (
-      <main className="page">
+      <main className={`page v-${theme}`}>
         <NavBar wide title="Объект" back={{ href: "/", label: "Объекты" }} />
         <div className="content"><div className="hero skeleton" /></div>
       </main>
@@ -177,26 +213,29 @@ function ObjectCard({ id }: { id: string }) {
   const snapDates = card.snapshots.map((s) => s.captured_at).sort();
 
   return (
-    <main className="page">
+    <main className={`page v-${theme}`}>
       <NavBar
         wide
         title={card.object.name}
         back={{ href: "/", label: "Объекты" }}
         right={
-          <label className="btn small" style={{ cursor: "pointer" }}>
-            <IconUpload size={16} />
-            <span className="hide-sm">Загрузить снимок</span>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) uploadFile(f);
-                e.target.value = "";
-              }}
-            />
-          </label>
+          <>
+            <Link className="mini report-nav-link" href={`/objects/${id}/report`}>Отчёт</Link>
+            <label className="btn small" style={{ cursor: "pointer" }}>
+              <IconUpload size={16} />
+              <span className="hide-sm">Загрузить снимок</span>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) uploadFile(f);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          </>
         }
       />
 
@@ -211,7 +250,7 @@ function ObjectCard({ id }: { id: string }) {
         </div>
         <div className="hero-stats">
           <div className="stat">
-            <span className="stat-label">Готовность по плану</span>
+            <span className="stat-label">Прошло времени по плану</span>
             <span className="stat-value">{Math.round((summary?.progress ?? 0) * 100)}%</span>
             <div className="bar"><i style={{ width: `${(summary?.progress ?? 0) * 100}%` }} /></div>
           </div>
@@ -221,9 +260,9 @@ function ObjectCard({ id }: { id: string }) {
             <span className="stat-note">{summary?.stage ? `${summary.stage.position} из ${summary.stages_total} · до ${shortDate(summary.stage.date_to)}` : "откройте редактор этапов"}</span>
           </div>
           <div className="stat">
-            <span className="stat-label"><IconWarning size={14} /> Нарушения</span>
+            <span className="stat-label"><IconWarning size={14} /> Сигналы о риске</span>
             <span className={`stat-value ${summary?.violations_open ? "red" : "green"}`}>{summary?.violations_open ?? 0}</span>
-            <span className="stat-note">{summary?.reviews_open ?? 0} на проверке</span>
+            <span className="stat-note">{card.counts.warnings_open} требуют проверки</span>
           </div>
           <div className="stat">
             <span className="stat-label"><IconCamera size={14} /> Снимки</span>
@@ -236,6 +275,22 @@ function ObjectCard({ id }: { id: string }) {
             <span className="stat-note">по плану объекта</span>
           </div>
         </div>
+      </section>
+      <section className="plan-fact" aria-labelledby="plan-fact-heading">
+        <div className="plan-fact-heading">
+          <div>
+            <span className="plan-fact-kicker">ПЛАН / НАБЛЮДЕНИЕ</span>
+            <h2 id="plan-fact-heading">Что можно сказать по выбранному снимку</h2>
+          </div>
+          <span className="plan-fact-date">{snap ? fmt(snap.captured_at) : "Снимок не выбран"}</span>
+        </div>
+        <div className="plan-fact-grid">
+          <div><span className="plan-fact-label">Этап по плану</span><strong>{planStage?.name ?? "На дату снимка этап не задан"}</strong><small>{planStage ? `${fmt(planStage.date_from)} — ${fmt(planStage.date_to)}` : "Уточните календарный план"}</small></div>
+          <div><span className="plan-fact-label">Ожидается техника</span><strong>{requirements.length ? requirements.map((item) => item.name).join(", ") : "Правило не задано"}</strong><small>{requirements.length ? "По методике для этого этапа" : "Добавьте правило для анализа"}</small></div>
+          <div><span className="plan-fact-label">Обнаружено на кадре</span><strong>{snap?.status === "processing" ? "Идёт распознавание" : snap?.status === "failed" ? "Ошибка распознавания" : observed.size ? [...observed].map(equipmentRu).join(", ") : "Техника не найдена"}</strong><small>{snap ? `Снимок №${snap.id} · модель CV` : "Загрузите снимок"}</small></div>
+          <div><span className="plan-fact-label">Вывод</span><strong>{!snap || snap.status === "new" || snap.status === "processing" || snap.status === "failed" ? "Недостаточно данных" : !planStage ? "Нужна привязка к плану" : !requirements.length ? "Правило не задано" : requirements.some((item) => !item.classes.some((cls) => observed.has(cls))) ? "Требуется проверка" : "На кадре соответствует плану"}</strong><small>{requirements.length && (snap?.status === "detected" || snap?.status === "empty") ? `На кадре не найдено: ${requirements.filter((item) => !item.classes.some((cls) => observed.has(cls))).map((item) => item.name).join(", ") || "все ожидаемые группы найдены"}` : "Вывод касается только видимой части кадра"}</small></div>
+        </div>
+        <p className="plan-fact-caveat">Камера и зона покрытия для этих снимков не заданы. Отсутствие техники в кадре само по себе не доказывает простой или отставание.</p>
       </section>
       <div className="wrap">
         {/* LEFT: stages + warnings */}
@@ -277,14 +332,15 @@ function ObjectCard({ id }: { id: string }) {
           })}
 
           <div className="pane-h" style={{ borderTop: "1px solid var(--line2)" }}>
-            Предупреждения
+            Сигналы для проверки
           </div>
           {warnings.length === 0 ? (
-            <div className="empty">На этом снимке нарушений нет</div>
+            <div className="empty">{snap?.status === "new" || snap?.status === "processing" || snap?.status === "failed" ? "Снимок ещё не оценён" : "Для этого снимка сигналов нет"}</div>
           ) : (
             warnings.map((w) => (
               <div
                 key={w.id}
+                id={`warning-${w.id}`}
                 className={`warn-card ${w.severity} ${w.status}`}
                 onClick={() => setHlBox(null)}
               >
@@ -563,35 +619,110 @@ function StagesEditor({
     })),
   );
   const [saving, setSaving] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [importNote, setImportNote] = useState("");
+  const [importIssues, setImportIssues] = useState<string[]>([]);
+  const [editorError, setEditorError] = useState("");
+  const dialog = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement | null;
+    dialog.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    return () => previousFocus?.focus();
+  }, []);
+
+  function dialogKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") { onClose(); return; }
+    if (event.key !== "Tab" || !dialog.current) return;
+    const focusable = Array.from(dialog.current.querySelectorAll<HTMLElement>(
+      "button:not([disabled]), input:not([disabled]), select:not([disabled])",
+    ));
+    if (!focusable.length) return;
+    if (event.shiftKey && document.activeElement === focusable[0]) {
+      event.preventDefault(); focusable[focusable.length - 1].focus();
+    } else if (!event.shiftKey && document.activeElement === focusable[focusable.length - 1]) {
+      event.preventDefault(); focusable[0].focus();
+    }
+  }
+
+  async function importPlan(file: File) {
+    if (file.size > 2 * 1024 * 1024) {
+      setEditorError("Файл должен быть не больше 2 МБ");
+      return;
+    }
+    setImporting(true);
+    setEditorError("");
+    setImportNote("");
+    setImportIssues([]);
+    try {
+      const body = new FormData();
+      body.set("file", file);
+      const response = await apiFetch(`/api/objects/${card.object.id}/plan/preview`, { method: "POST", body });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || "Не удалось прочитать план");
+      const today = new Date().toISOString().slice(0, 10);
+      setRows((data.stages as EditorStage[]).map((stage) => ({
+        ...stage, status: stage.date_to < today ? "done" : stage.date_from <= today ? "current" : "future",
+      })));
+      setImportNote(`Загружено ${data.stages.length} этапов. Проверьте типы работ и даты перед сохранением.`);
+      setImportIssues(data.issues ?? []);
+    } catch (cause) {
+      setEditorError(cause instanceof Error ? cause.message : "Не удалось прочитать план");
+    } finally {
+      setImporting(false);
+    }
+  }
 
   async function save() {
     setSaving(true);
-    await apiFetch(`/api/objects/${card.object.id}/stages`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(rows),
-    });
-    onSaved();
+    setEditorError("");
+    try {
+      const response = await apiFetch(`/api/objects/${card.object.id}/stages`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(rows),
+      });
+      if (!response.ok) throw new Error((await response.json()).detail || "Не удалось сохранить план");
+      onSaved();
+    } catch (cause) {
+      setEditorError(cause instanceof Error ? cause.message : "Не удалось сохранить план");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
     <div className="modal-back" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div className="modal" ref={dialog} role="dialog" aria-modal="true" aria-labelledby="plan-editor-title"
+        onKeyDown={dialogKeyDown} onClick={(e) => e.stopPropagation()}>
         <div className="pane-h" style={{ padding: "0 0 12px" }}>
-          Редактор этапов · план объекта
+          <span id="plan-editor-title">Редактор этапов · план объекта</span>
           <button className="mini" onClick={onClose}>Закрыть</button>
         </div>
         <div className="hint" style={{ padding: "0 0 10px" }}>
           Виды работ выбираются из справочника ЛТЦ; плановые даты задаёт
           инспектор. После сохранения предупреждения пересчитываются.
         </div>
+        <div className="plan-import">
+          <div><strong>Импорт календарного плана</strong><p>CSV или XLSX со столбцами «Этап», «Дата начала», «Дата окончания». Сначала откроется предпросмотр.</p></div>
+          <label className="mini pri plan-import-picker" style={{ cursor: importing ? "wait" : "pointer" }}>
+            {importing ? "Чтение…" : "Выбрать файл"}
+            <input type="file" accept=".csv,.xlsx" disabled={importing} aria-label="Выбрать календарный план CSV или XLSX"
+              onChange={(event) => { const file = event.target.files?.[0]; if (file) void importPlan(file); event.target.value = ""; }} />
+          </label>
+        </div>
+        {importNote && <p className="plan-import-ok" role="status">{importNote}</p>}
+        {importIssues.length > 0 && <div className="plan-import-issues"><strong>Пропущено строк: {importIssues.length}</strong>{importIssues.slice(0, 3).map((issue) => <p key={issue}>{issue}</p>)}</div>}
+        {editorError && <p className="plan-import-error" role="alert">{editorError}</p>}
         {rows.map((st, i) => (
           <div className="stage-row" key={i}>
             <input
+              aria-label={`Название этапа ${i + 1}`}
               value={st.name}
               onChange={(e) => setRows(rows.map((r, j) => j === i ? { ...r, name: e.target.value } : r))}
             />
             <select
+              aria-label={`Вид работ этапа ${i + 1}`}
               value={st.kind}
               onChange={(e) => setRows(rows.map((r, j) => j === i ? { ...r, kind: e.target.value } : r))}
             >
@@ -601,15 +732,18 @@ function StagesEditor({
             </select>
             <input
               type="date"
+              aria-label={`Дата начала этапа ${i + 1}`}
               value={st.date_from}
               onChange={(e) => setRows(rows.map((r, j) => j === i ? { ...r, date_from: e.target.value } : r))}
             />
             <input
               type="date"
+              aria-label={`Дата окончания этапа ${i + 1}`}
               value={st.date_to}
               onChange={(e) => setRows(rows.map((r, j) => j === i ? { ...r, date_to: e.target.value } : r))}
             />
             <select
+              aria-label={`Статус этапа ${i + 1}`}
               value={st.status}
               onChange={(e) => setRows(rows.map((r, j) => j === i ? { ...r, status: e.target.value } : r))}
             >
@@ -619,6 +753,7 @@ function StagesEditor({
             </select>
             <button
               className="mini"
+              aria-label={`Удалить этап ${i + 1}`}
               onClick={() => setRows(rows.filter((_, j) => j !== i))}
             >
               ✕

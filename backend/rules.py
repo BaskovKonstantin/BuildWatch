@@ -23,7 +23,7 @@ PPE_CLASSES = {"worker", "safety helmet", "vest"}
 # Machinery groups
 CRANES = {"tower crane", "truck crane", "mobile crane", "crane manipulator"}
 ALL_CLASSES = {
-    "excavator", "dump truck", "truck", "bulldozer", "road roller",
+    "excavator", "dump truck", "truck", "bulldozer", "loader", "grader", "road roller",
     "concrete mixer", "mobile crane", "tower crane", "truck crane",
     "crane manipulator", "concrete pump", "drilling rig", *PPE_CLASSES,
 }
@@ -32,8 +32,8 @@ ALL_CLASSES = {
 STAGE_ALLOWED: dict[str, set[str]] = {
     kind: classes | PPE_CLASSES
     for kind, classes in {
-        "ground": {"truck", "dump truck", "excavator", "bulldozer", "drilling rig", "road roller"},
-        "excavation": {"excavator", "dump truck", "bulldozer", "truck", "drilling rig", "concrete pump", "road roller"},
+        "ground": {"truck", "dump truck", "excavator", "bulldozer", "loader", "drilling rig", "road roller"},
+        "excavation": {"excavator", "dump truck", "bulldozer", "loader", "truck", "drilling rig", "concrete pump", "road roller"},
         "frame": {"tower crane", "truck crane", "mobile crane", "crane manipulator",
                   "concrete mixer", "concrete pump", "truck", "drilling rig", "bulldozer", "excavator"},
         "facade": {"truck", "dump truck", "concrete mixer", "excavator", "bulldozer", "road roller"},
@@ -43,20 +43,45 @@ STAGE_ALLOWED: dict[str, set[str]] = {
 }
 
 # uisikdag class typos → canonical labels
+# Minimum expected capabilities for a stage. Each named requirement is
+# satisfied by at least one class from its alternatives. This avoids brittle
+# rules such as requiring a tower crane when a mobile crane is valid too.
+STAGE_REQUIRED: dict[str, dict[str, set[str]]] = {
+    "ground": {
+        "земляная техника": {"excavator", "bulldozer", "loader"},
+        "транспорт": {"truck", "dump truck"},
+    },
+    "excavation": {
+        "экскаватор": {"excavator"},
+        "самосвал": {"dump truck"},
+    },
+    "frame": {
+        "кран": set(CRANES),
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+    },
+    "facade": {},
+    "roof": {"кран": set(CRANES)},
+    "other": {},
+}
+
 LABEL_FIXES = {
     "dumb_truck": "dump truck", "bull_dozer": "bulldozer",
     "road_roller": "road roller", "concrete_mixer": "concrete mixer",
     "mobile_crane": "mobile crane", "tower_crane": "tower crane",
     "truck_crane": "truck crane", "crane_manipulator": "crane manipulator",
     "concrete_pump": "concrete pump", "drilling_rig": "drilling rig",
+    "backhoe_loader": "loader", "wheel_loader": "loader",
+    "compactor": "road roller", "concrete_mixer_truck": "concrete mixer",
+    "dozer": "bulldozer", "dump_truck": "dump truck",
+    "grader": "grader",
 }
 
 
 def normalize_label(raw: str) -> str:
     label = raw.strip().lower().replace("_", " ")
     fixed = LABEL_FIXES.get(label.replace(" ", "_"), label)
-    # uisikdag synonyms → canonical vocabulary
-    return {"roller": "road roller", "loader": "bulldozer"}.get(fixed, fixed)
+    # UISikDag keeps loader as its own class; it is not a bulldozer.
+    return {"roller": "road roller"}.get(fixed, fixed)
 
 
 def active_stage(stages: list[dict], date: str) -> dict | None:
@@ -81,16 +106,22 @@ def iou(a: tuple[float, float, float, float], b: tuple[float, float, float, floa
 
 
 def group_detections(dets: list[dict]) -> list[dict]:
-    """Merge overlapping boxes (IoU>0.85) into single groups."""
+    """Group duplicate boxes, including the same object seen by two models."""
     groups: list[dict] = []
     for det in sorted(dets, key=lambda d: -d["score"]):
         box = (det["x1"], det["y1"], det["x2"], det["y2"])
+        model = det.get("model", "unknown")
+        matched = False
         for group in groups:
-            if iou(group["box"], box) > 0.85:
+            overlap = iou(group["box"], box)
+            cross_model = model not in group["models"]
+            if overlap > 0.85 or (cross_model and overlap > 0.5):
                 group["labels"].append((det["label"], det["score"]))
-                continue
-        else:
-            groups.append({"box": box, "labels": [(det["label"], det["score"])]})
+                group["models"].add(model)
+                matched = True
+                break
+        if not matched:
+            groups.append({"box": box, "labels": [(det["label"], det["score"])], "models": {model}})
     return groups
 
 
@@ -160,6 +191,36 @@ def evaluate_snapshot(
                 "source": f"боксы: {', '.join(l for l, _ in labels)} · правило R-02",
                 "severity": "review",
             })
+    # R-03: required equipment is absent from completed detector evidence.
+    # A new/processing snapshot is not evidence of absence.
+    required = STAGE_REQUIRED.get(stage["kind"], {})
+    if required and snapshot.get("status") in {"detected", "empty"}:
+        observed = {
+            d["label"] for d in detections
+            if d["score"] >= WARN_BOX_THRESHOLD and d["label"] in ALL_CLASSES
+        }
+        missing = sorted(
+            name for name, alternatives in required.items()
+            if observed.isdisjoint(alternatives)
+        )
+        if missing:
+            warnings.append({
+                "snapshot_id": snapshot["id"],
+                "rule": "R-03",
+                "title": "Не обнаружена обязательная техника",
+                "body": (
+                    "Для этапа «%s» не обнаружено: %s. "
+                    "Это может указывать на риск снижения темпа работ."
+                    % (stage["name"], ", ".join(missing))
+                ),
+                "why": (
+                    "Почему: правило R-03 — обязательные классы этапа "
+                    "сравниваются с детекциями выше порога %.2f. Активный этап «%s»."
+                    % (WARN_BOX_THRESHOLD, stage["name"])
+                ),
+                "source": "план объекта + методика «этап → обязательная техника»",
+                "severity": "violation",
+            })
     return warnings
 
 
@@ -168,7 +229,7 @@ def detection_match(detection: dict, stages: list[dict], snapshot_date: str) -> 
     stage = active_stage(stages, snapshot_date)
     allowed = STAGE_ALLOWED.get(stage["kind"], set()) if stage else set()
     if detection["score"] < CONF_THRESHOLD and detection["label"] not in allowed:
-        return "mismatch"
+        return "review"
     if detection["label"] not in allowed:
         return "mismatch"
     if detection["score"] < CONF_THRESHOLD:
