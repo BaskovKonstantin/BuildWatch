@@ -24,7 +24,7 @@ class WorkerTest(unittest.TestCase):
         )
         db.execute(
             "INSERT INTO detection_jobs(snapshot_id,model,status) VALUES (?,?,?)",
-            (self.snapshot_id, "yolo_world", "queued"),
+            (self.snapshot_id, "equipment", "queued"),
         )
         self.out = root / "detector"
         self.out.mkdir()
@@ -46,12 +46,13 @@ class WorkerTest(unittest.TestCase):
     def test_success_finalizes_snapshot_and_preserves_model(self):
         def run(args, **kwargs):
             payload = json.loads((self.out / f"snap_{self.snapshot_id}.in.json").read_text())
-            self.assertEqual(payload["model"], "yolo_world")
-            self.assertTrue(payload["image"].startswith("D:\\"))
-            self.assertTrue(args[0].startswith("/tmp/") or ":\\" in args[0])
-            self.assertNotIn("/mnt/", kwargs["cwd"])
+            self.assertEqual(payload["model"], "equipment")
+            source = worker.ROOT / "backend" / "media" / "uploads" / "x.png"
+            self.assertEqual(payload["image"], worker.runtime_path(source))
+            self.assertEqual(args[0], worker.runtime_path(self.python))
+            self.assertEqual(kwargs["cwd"], worker.runtime_path(worker.ROOT))
             (self.out / f"snap_{self.snapshot_id}.json").write_text(json.dumps({
-                "model": "yolo_world", "detections": [],
+                "model": "equipment", "detections": [],
             }))
             return type("Result", (), {"returncode": 0, "stdout": ""})()
 

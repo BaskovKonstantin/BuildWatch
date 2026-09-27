@@ -3,6 +3,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
@@ -55,19 +56,22 @@ class UploadApiTest(unittest.TestCase):
         )
         self.assertEqual(created.status_code, 200, created.text)
         snap_id = created.json()["id"]
-        queued = self.client.post(
-            f"/api/snapshots/{snap_id}/detect",
-            data={"model": "uisikdag"},
-        )
+        # Queue behavior is independent of whether proprietary local weights are installed.
+        with patch.object(api, "detector_available", return_value=True):
+            queued = self.client.post(
+                f"/api/snapshots/{snap_id}/detect",
+                data={"model": "uisikdag"},
+            )
         self.assertEqual(queued.status_code, 200, queued.text)
         self.assertEqual(queued.json()["model"], "equipment")
         job = dict(db.query("SELECT model,status FROM detection_jobs WHERE snapshot_id=?", (snap_id,))[0])
         self.assertEqual(job, {"model": "equipment", "status": "queued"})
         db.execute("UPDATE snapshots SET status='failed' WHERE id=?", (snap_id,))
-        retried = self.client.post(
-            f"/api/snapshots/{snap_id}/detect",
-            data={"model": "yolo_world"},
-        )
+        with patch.object(api, "detector_available", return_value=True):
+            retried = self.client.post(
+                f"/api/snapshots/{snap_id}/detect",
+                data={"model": "yolo_world"},
+            )
         self.assertEqual(retried.status_code, 200, retried.text)
         job = dict(db.query("SELECT model,status,attempts FROM detection_jobs WHERE snapshot_id=?", (snap_id,))[0])
         self.assertEqual(job, {"model": "equipment", "status": "queued", "attempts": 0})
