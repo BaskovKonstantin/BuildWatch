@@ -60,9 +60,9 @@ class UploadApiTest(unittest.TestCase):
             data={"model": "uisikdag"},
         )
         self.assertEqual(queued.status_code, 200, queued.text)
-        self.assertEqual(queued.json()["model"], "uisikdag")
+        self.assertEqual(queued.json()["model"], "equipment")
         job = dict(db.query("SELECT model,status FROM detection_jobs WHERE snapshot_id=?", (snap_id,))[0])
-        self.assertEqual(job, {"model": "uisikdag", "status": "queued"})
+        self.assertEqual(job, {"model": "equipment", "status": "queued"})
         db.execute("UPDATE snapshots SET status='failed' WHERE id=?", (snap_id,))
         retried = self.client.post(
             f"/api/snapshots/{snap_id}/detect",
@@ -70,7 +70,7 @@ class UploadApiTest(unittest.TestCase):
         )
         self.assertEqual(retried.status_code, 200, retried.text)
         job = dict(db.query("SELECT model,status,attempts FROM detection_jobs WHERE snapshot_id=?", (snap_id,))[0])
-        self.assertEqual(job, {"model": "yolo_world", "status": "queued", "attempts": 0})
+        self.assertEqual(job, {"model": "equipment", "status": "queued", "attempts": 0})
         self.client.delete(f"/api/snapshots/{snap_id}")
 
     def test_validates_content_and_deletes_uploaded_file(self):
