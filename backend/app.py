@@ -135,7 +135,7 @@ def object_card(object_id: int) -> dict:
     stages = [dict(r) for r in db.query(
         "SELECT * FROM stages WHERE object_id=? ORDER BY position", (object_id,))]
     snapshots = [dict(r) for r in db.query(
-        "SELECT * FROM snapshots WHERE object_id=? ORDER BY captured_at DESC, id",
+        "SELECT * FROM snapshots WHERE object_id=? ORDER BY captured_at DESC, id DESC",
         (object_id,))]
     warnings = [dict(r) for r in db.query(
         "SELECT * FROM warnings WHERE object_id=? ORDER BY id", (object_id,))]
@@ -154,7 +154,7 @@ def object_card(object_id: int) -> dict:
         for det in dets.get(snap["id"], []):
             det_rows.append({
                 **det,
-                "match": rules.detection_match(det, stages, snap["captured_at"]),
+                "match": rules.detection_match(det, stages, snap["captured_at"], obj.get("type")),
             })
         snap_list.append({**snap, "detections": det_rows})
 
@@ -172,8 +172,11 @@ def object_card(object_id: int) -> dict:
         "stages": stages,
         "stage_kinds": sorted(rules.STAGE_ALLOWED.keys()),
         "stage_requirements": {
-            kind: [{"name": name, "classes": sorted(classes)} for name, classes in groups.items()]
-            for kind, groups in rules.STAGE_REQUIRED.items()
+            str(stage["id"]): [
+                {"name": name, "classes": sorted(classes)}
+                for name, classes in rules.requirements_for_stage(stage, obj.get("type")).items()
+            ]
+            for stage in stages
         },
         "snapshots": snap_list,
         "warnings": warns_out,
@@ -205,7 +208,11 @@ def project_summary(card: dict, today: str) -> dict:
     """Portfolio-card facts: plan progress, current stage, latest evidence."""
     stages = card["stages"]
     stage = rules.active_stage(stages, today) if stages else None
-    latest = card["snapshots"][0] if card["snapshots"] else None
+    # Prefer a finished snapshot so in-flight detection does not hide equipment.
+    latest = next(
+        (snap for snap in card["snapshots"] if snap.get("status") in {"detected", "empty"}),
+        card["snapshots"][0] if card["snapshots"] else None,
+    )
     equipment: list[str] = []
     if latest:
         for det in latest["detections"]:
@@ -272,6 +279,79 @@ def create_object(
 def get_object(object_id: int) -> dict:
     card = object_card(object_id)
     return {**card, "summary": project_summary(card, date.today().isoformat())}
+
+
+@app.get("/api/objects/{object_id}/comments")
+def get_object_comments(object_id: int) -> list[dict]:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    return [dict(row) for row in db.query(
+        "SELECT id, object_id, body, created_at FROM object_comments "
+        "WHERE object_id=? ORDER BY id DESC LIMIT 50", (object_id,)
+    )]
+
+
+@app.post("/api/objects/{object_id}/comments")
+def add_object_comment(object_id: int, payload: dict = Body(...)) -> dict:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    body = str(payload.get("body", "")).strip()
+    if not body:
+        raise HTTPException(422, "comment body is required")
+    if len(body) > 1000:
+        raise HTTPException(422, "comment body is too long")
+    comment_id = db.execute(
+        "INSERT INTO object_comments(object_id, body) VALUES (?, ?)",
+        (object_id, body),
+    )
+    row = db.query(
+        "SELECT id, object_id, body, created_at FROM object_comments WHERE id=?",
+        (comment_id,),
+    )
+    return dict(row[0])
+
+
+@app.get("/api/objects/{object_id}/events")
+def get_object_events(object_id: int) -> list[dict]:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    return [dict(row) for row in db.query(
+        "SELECT id, object_id, stage_id, snapshot_id, event_type, title, body, event_date, created_at "
+        "FROM object_events WHERE object_id=? ORDER BY event_date DESC, id DESC LIMIT 100",
+        (object_id,),
+    )]
+
+
+@app.post("/api/objects/{object_id}/events")
+def add_object_event(object_id: int, payload: dict = Body(...)) -> dict:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    title = str(payload.get("title", "")).strip()
+    body = str(payload.get("body", "")).strip()
+    event_date = str(payload.get("event_date", "")).strip()
+    stage_id = payload.get("stage_id")
+    if not title or len(title) > 160:
+        raise HTTPException(422, "event title is required and must be at most 160 characters")
+    if len(body) > 1200:
+        raise HTTPException(422, "event body is too long")
+    try:
+        date.fromisoformat(event_date)
+    except ValueError as exc:
+        raise HTTPException(422, "event date must be YYYY-MM-DD") from exc
+    if stage_id is not None and not db.query(
+        "SELECT id FROM stages WHERE id=? AND object_id=?", (stage_id, object_id)
+    ):
+        raise HTTPException(422, "stage does not belong to object")
+    event_id = db.execute(
+        "INSERT INTO object_events(object_id, stage_id, event_type, title, body, event_date) "
+        "VALUES (?, ?, 'human', ?, ?, ?)",
+        (object_id, stage_id, title, body, event_date),
+    )
+    row = db.query(
+        "SELECT id, object_id, stage_id, snapshot_id, event_type, title, body, event_date, created_at "
+        "FROM object_events WHERE id=?", (event_id,)
+    )
+    return dict(row[0])
 
 
 @app.post("/api/objects/{object_id}/plan/preview")

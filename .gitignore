@@ -36,3 +36,9 @@ context/bw7_audit/
 context/design-refs/
 context/holdout_perclass_full.json
 /.public-release/
+
+# PPTX agent tooling / backups (keep on disk, not in git)
+docs/backups/
+tools/pptx/node_modules/
+.agents/skills/
+context/pptx_final_slides/
