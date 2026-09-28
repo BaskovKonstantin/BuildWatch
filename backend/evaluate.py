@@ -13,6 +13,8 @@ except ImportError:  # direct execution from backend/ remains supported
 def evaluate_object(object_id: int) -> int:
     con = db.connect()
     try:
+        object_row = con.execute("SELECT type FROM objects WHERE id=?", (object_id,)).fetchone()
+        object_type = object_row["type"] if object_row else None
         stages = [dict(r) for r in con.execute(
             "SELECT * FROM stages WHERE object_id=? ORDER BY position", (object_id,))]
 
@@ -40,7 +42,7 @@ def evaluate_object(object_id: int) -> int:
             "SELECT * FROM snapshots WHERE object_id=?", (object_id,)
         ):
             for w in rules.evaluate_snapshot(
-                dict(snap), dets_by_snap.get(snap["id"], []), stages
+                dict(snap), dets_by_snap.get(snap["id"], []), stages, object_type
             ):
                 status = keep.get((snap["id"], w["rule"]), "open")
                 con.execute(

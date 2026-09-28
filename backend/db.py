@@ -67,6 +67,23 @@ CREATE TABLE IF NOT EXISTS warnings(
   status TEXT NOT NULL DEFAULT 'open',  -- open|confirmed|dismissed
   severity TEXT NOT NULL DEFAULT 'violation'  -- violation|review
 );
+CREATE TABLE IF NOT EXISTS object_comments(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  object_id INTEGER NOT NULL REFERENCES objects(id),
+  body TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS object_events(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  object_id INTEGER NOT NULL REFERENCES objects(id),
+  stage_id INTEGER REFERENCES stages(id),
+  snapshot_id INTEGER REFERENCES snapshots(id),
+  event_type TEXT NOT NULL DEFAULT 'human',
+  title TEXT NOT NULL,
+  body TEXT NOT NULL DEFAULT '',
+  event_date TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS users(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT NOT NULL UNIQUE,

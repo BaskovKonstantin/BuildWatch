@@ -9,7 +9,7 @@ import uuid
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.request import ProxyHandler, Request, build_opener, urlopen
 
 from fastapi import HTTPException
 
@@ -19,6 +19,15 @@ ZEN_URL = "https://opencode.ai/zen/v1/chat/completions"
 GO_URL = "https://opencode.ai/zen/go/v1/chat/completions"
 ZEN_MODEL = os.getenv("BUILDWATCH_ZEN_MODEL", "glm-5.3-flash")
 LOG = logging.getLogger(__name__)
+
+
+def _urlopen(request: Request, timeout: float):
+    """Honor HTTPS_PROXY/HTTP_PROXY for Zen when the host IP is Cloudflare-blocked."""
+    proxy = os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+    if proxy:
+        opener = build_opener(ProxyHandler({"http": proxy, "https": proxy}))
+        return opener.open(request, timeout=timeout)
+    return urlopen(request, timeout=timeout)
 
 
 def _explicit_shift_days(question: str) -> int | None:
@@ -149,7 +158,7 @@ def _ask_zen(question: str, context: dict, key: str, endpoint: str) -> dict:
         method="POST",
     )
     try:
-        with urlopen(request, timeout=35) as response:
+        with _urlopen(request, timeout=35) as response:
             payload = json.load(response)
         message = payload["choices"][0]["message"]
         content = message.get("content") or message.get("reasoning_content") or ""

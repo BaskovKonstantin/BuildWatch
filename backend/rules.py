@@ -36,7 +36,8 @@ STAGE_ALLOWED: dict[str, set[str]] = {
         "excavation": {"excavator", "dump truck", "bulldozer", "loader", "truck", "drilling rig", "concrete pump", "road roller"},
         "frame": {"tower crane", "truck crane", "mobile crane", "crane manipulator",
                   "concrete mixer", "concrete pump", "truck", "drilling rig", "bulldozer", "excavator"},
-        "facade": {"truck", "dump truck", "concrete mixer", "excavator", "bulldozer", "road roller"},
+        "facade": {"truck", "dump truck", "concrete mixer", "excavator", "bulldozer",
+                   "road roller", *CRANES},
         "roof": {"truck", "dump truck", "mobile crane", "truck crane", "tower crane", "concrete mixer"},
         "other": set(),
     }.items()
@@ -59,10 +60,69 @@ STAGE_REQUIRED: dict[str, dict[str, set[str]]] = {
         "кран": set(CRANES),
         "бетонная техника": {"concrete mixer", "concrete pump"},
     },
-    "facade": {},
+    "facade": {
+        "транспорт для доставки": {"truck", "dump truck"},
+    },
     "roof": {"кран": set(CRANES)},
     "other": {},
 }
+
+# Refine broad plan kinds using the exact work names from the ДГП / ЛТЦ test
+# catalog. Snapshot detectors only report visible objects, so these are
+# minimum evidence groups rather than a claim that every machine must appear
+# in every camera frame.
+STAGE_REQUIRED_BY_NAME: dict[str, dict[str, set[str]]] = {
+    "Монтаж фасадной системы": {
+        "подъёмная или доставочная техника": {"truck", "dump truck", *CRANES},
+    },
+    "Монтаж металлоконструкций каркаса": {
+        "кран": set(CRANES),
+    },
+    "Монолитный каркас": {
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+        "кран": set(CRANES),
+    },
+    "Устройство буронабивных свай": {
+        "буровая установка": {"drilling rig"},
+        "транспорт": {"truck", "dump truck"},
+    },
+    "Устройство фундаментной плиты": {
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+    },
+    "Устройство фундаментов": {
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+    },
+    "Монолитные работы ниже отм. 0": {
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+    },
+    "Монолитные работы выше отм. 0": {
+        "бетонная техника": {"concrete mixer", "concrete pump"},
+    },
+    "Покрытие дорожной одежды": {
+        "дорожная техника": {"grader", "road roller", "bulldozer"},
+        "транспорт": {"truck", "dump truck"},
+    },
+    "Устройство нижнего слоя основания": {
+        "уплотняющая техника": {"road roller"},
+        "транспорт": {"truck", "dump truck"},
+    },
+}
+
+
+def requirements_for_stage(stage: dict, object_type: str | None = None) -> dict[str, set[str]]:
+    """Return evidence groups for an exact plan stage, with kind fallback."""
+    del object_type  # reserved for object-type-specific catalog extensions
+    return STAGE_REQUIRED_BY_NAME.get(
+        stage.get("name", ""), STAGE_REQUIRED.get(stage.get("kind", "other"), {})
+    )
+
+
+def allowed_for_stage(stage: dict, object_type: str | None = None) -> set[str]:
+    """Equipment classes accepted for the active work; refine road surfacing."""
+    del object_type
+    if stage.get("name") == "Покрытие дорожной одежды":
+        return {"truck", "dump truck", "bulldozer", "loader", "grader", "road roller"} | PPE_CLASSES
+    return STAGE_ALLOWED.get(stage.get("kind", "other"), set())
 
 LABEL_FIXES = {
     "dumb_truck": "dump truck", "bull_dozer": "bulldozer",
@@ -126,13 +186,13 @@ def group_detections(dets: list[dict]) -> list[dict]:
 
 
 def evaluate_snapshot(
-    snapshot: dict, detections: list[dict], stages: list[dict]
+    snapshot: dict, detections: list[dict], stages: list[dict], object_type: str | None = None
 ) -> list[dict]:
     """Return warning dicts for one snapshot. detections = joined models."""
     stage = active_stage(stages, snapshot["captured_at"])
     if stage is None:
         return []
-    allowed = STAGE_ALLOWED.get(stage["kind"], set())
+    allowed = allowed_for_stage(stage, object_type)
     warnings: list[dict] = []
     for group in group_detections(detections):
         labels = sorted(group["labels"], key=lambda p: -p[1])
@@ -191,9 +251,10 @@ def evaluate_snapshot(
                 "source": f"боксы: {', '.join(l for l, _ in labels)} · правило R-02",
                 "severity": "review",
             })
-    # R-03: required equipment is absent from completed detector evidence.
-    # A new/processing snapshot is not evidence of absence.
-    required = STAGE_REQUIRED.get(stage["kind"], {})
+    # R-03: required equipment is not visible in this detector result. A
+    # single frame cannot prove that equipment is absent from the site, so it
+    # is a human-review question, not a confirmed plan violation.
+    required = requirements_for_stage(stage, object_type)
     if required and snapshot.get("status") in {"detected", "empty"}:
         observed = {
             d["label"] for d in detections
@@ -207,27 +268,27 @@ def evaluate_snapshot(
             warnings.append({
                 "snapshot_id": snapshot["id"],
                 "rule": "R-03",
-                "title": "Не обнаружена обязательная техника",
+                "title": "Не подтверждена обязательная техника",
                 "body": (
-                    "Для этапа «%s» не обнаружено: %s. "
-                    "Это может указывать на риск снижения темпа работ."
+                    "На снимке для этапа «%s» не распознано: %s. "
+                    "Проверьте, попадает ли нужная зона в кадр и присутствует ли техника на площадке."
                     % (stage["name"], ", ".join(missing))
                 ),
                 "why": (
-                    "Почему: правило R-03 — обязательные классы этапа "
-                    "сравниваются с детекциями выше порога %.2f. Активный этап «%s»."
+                    "Почему: правило R-03 — отсутствие детекции на одном снимке "
+                    "не доказывает отсутствие техники; классы сверяются выше порога %.2f. Этап «%s»."
                     % (WARN_BOX_THRESHOLD, stage["name"])
                 ),
                 "source": "план объекта + методика «этап → обязательная техника»",
-                "severity": "violation",
+                "severity": "review",
             })
     return warnings
 
 
-def detection_match(detection: dict, stages: list[dict], snapshot_date: str) -> str:
+def detection_match(detection: dict, stages: list[dict], snapshot_date: str, object_type: str | None = None) -> str:
     """ok | mismatch | review for a single detection row."""
     stage = active_stage(stages, snapshot_date)
-    allowed = STAGE_ALLOWED.get(stage["kind"], set()) if stage else set()
+    allowed = allowed_for_stage(stage, object_type) if stage else set()
     if detection["score"] < CONF_THRESHOLD and detection["label"] not in allowed:
         return "review"
     if detection["label"] not in allowed:

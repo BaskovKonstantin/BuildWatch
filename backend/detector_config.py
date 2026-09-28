@@ -22,7 +22,7 @@ MODELS = {
     "equipment": DetectorConfig(
         "equipment",
         ROOT / "scripts" / "detect_equipment_single.py",
-        ROOT / "weights" / "equipment_v6_m1280_best.pt",
+        ROOT / "weights" / "equipment_v12ft_2_best.pt",
     ),
     "equipment-v2": DetectorConfig(
         "equipment-v2",

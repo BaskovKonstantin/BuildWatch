@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  basePath: process.env.BUILDWATCH_BASE_PATH || "",
+  env: {
+    NEXT_PUBLIC_BASE_PATH: process.env.BUILDWATCH_BASE_PATH || "",
+  },
   distDir: process.env.NODE_ENV === "production" ? ".next-prod" : ".next",
   async rewrites() {
     return [
