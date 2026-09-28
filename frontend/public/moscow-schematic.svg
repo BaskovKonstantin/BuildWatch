@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" preserveAspectRatio="none">
+  <defs>
+    <pattern id="blocks" width="78" height="64" patternUnits="userSpaceOnUse">
+      <path d="M9 11h25v16H9zM45 8h23v22H45zM16 39h19v16H16zM44 40h26v13H44z" fill="#e6e1d8" stroke="#ddd7cc" stroke-width="2"/>
+    </pattern>
+    <pattern id="park" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="8" cy="11" r="3" fill="#a7bd9c"/><circle cx="28" cy="25" r="4" fill="#b4c9a8"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="850" fill="#f0eee8"/>
+  <rect width="1200" height="850" fill="url(#blocks)" opacity=".72"/>
+  <path d="M0 83 112 28l120 34 56 78-39 76-95 10-86-42L0 211Z" fill="#dce8d3"/>
+  <path d="M0 83 112 28l120 34 56 78-39 76-95 10-86-42L0 211Z" fill="url(#park)" opacity=".8"/>
+  <path d="M851 38 1082 45l118 103-27 114-117 40-107-65-50-97Z" fill="#dce8d3"/>
+  <path d="M851 38 1082 45l118 103-27 114-117 40-107-65-50-97Z" fill="url(#park)" opacity=".8"/>
+  <path d="M45 606 190 550l126 47 37 103-74 114H98L14 731Z" fill="#dce8d3"/>
+  <path d="M45 606 190 550l126 47 37 103-74 114H98L14 731Z" fill="url(#park)" opacity=".8"/>
+  <path d="M1104 515 1200 470v270l-95 40-83-80 30-112Z" fill="#dce8d3"/>
+  <path d="M1104 515 1200 470v270l-95 40-83-80 30-112Z" fill="url(#park)" opacity=".8"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-40 375C150 340 210 420 355 390s220-150 365-118 235 130 520 64" stroke="#b8d6dc" stroke-width="39"/>
+    <path d="M-40 375C150 340 210 420 355 390s220-150 365-118 235 130 520 64" stroke="#d3e6e8" stroke-width="27"/>
+    <path d="M42 492C225 435 302 292 414 245S634 220 735 346s178 189 306 194" stroke="#fffdf8" stroke-width="21"/>
+    <path d="M42 492C225 435 302 292 414 245S634 220 735 346s178 189 306 194" stroke="#d8d1c6" stroke-width="3"/>
+    <path d="M181 47C250 170 270 270 261 391s-58 236-45 430M515-30c-24 165-6 267 75 365s143 223 126 545M955-20c-78 142-85 266-38 386s85 224 216 366M-20 650c195-98 353-98 494-18s273 98 748 11" stroke="#fffdf8" stroke-width="15"/>
+    <path d="M181 47C250 170 270 270 261 391s-58 236-45 430M515-30c-24 165-6 267 75 365s143 223 126 545M955-20c-78 142-85 266-38 386s85 224 216 366M-20 650c195-98 353-98 494-18s273 98 748 11" stroke="#d9d3c9" stroke-width="2"/>
+    <path d="M301 325c69-131 183-187 307-167s211 102 236 231-51 257-171 304-274 16-352-91-75-180-20-277Z" stroke="#fffdf8" stroke-width="18"/>
+    <path d="M301 325c69-131 183-187 307-167s211 102 236 231-51 257-171 304-274 16-352-91-75-180-20-277Z" stroke="#d5cec2" stroke-width="3"/>
+    <path d="M406 340c44-70 108-103 181-94s124 58 139 128-28 144-95 171-154 9-197-51-59-99-28-154Z" stroke="#fffdf8" stroke-width="13"/>
+  </g>
+  <g font-family="Arial,sans-serif" font-weight="700" fill="#777a73" text-anchor="middle">
+    <text x="510" y="408" font-size="24" letter-spacing="4">МОСКВА</text>
+    <text x="155" y="145" font-size="19">СЗАО</text><text x="520" y="95" font-size="19">САО</text>
+    <text x="1010" y="151" font-size="19">ВАО</text><text x="103" y="705" font-size="19">ЮЗАО</text>
+    <text x="1113" y="669" font-size="19">ЮАО</text><text x="562" y="733" font-size="18">НАО</text>
+    <text x="80" y="90" font-size="16">ЗелАО</text>
+  </g>
+  <g font-family="Arial,sans-serif" fill="#8d8b83" font-size="14">
+    <text x="34" y="825">СХЕМАТИЧНАЯ КАРТА · ПОЗИЦИИ ОБЪЕКТОВ ПРИБЛИЗИТЕЛЬНЫ</text>
+  </g>
+</svg>
