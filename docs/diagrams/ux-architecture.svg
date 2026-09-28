@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1180" role="img" aria-labelledby="title description">
+  <title id="title">UX-архитектура BuildWatch</title>
+  <desc id="description">Схема пользовательского опыта: вход, портфель объектов (карта и список), карточка объекта (план, хронология, снимок с детекциями), отчёт, ИИ-помощник, темы и общие состояния.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#FF0053" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrowsoft" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M1 1 L10 5.5 L1 10" fill="none" stroke="#A89ABD" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .title{font:700 50px Arial,sans-serif;fill:#26123D}
+      .sub{font:23px Arial,sans-serif;fill:#5D5B69}
+      .num{font:700 25px Arial,sans-serif;fill:#FF0053}
+      .heading{font:700 26px Arial,sans-serif;fill:#26123D}
+      .h21{font:700 21px Arial,sans-serif;fill:#26123D}
+      .h22{font:700 22px Arial,sans-serif;fill:#26123D}
+      .body{font:19px Arial,sans-serif;fill:#4C4758}
+      .tag{font:700 17px Arial,sans-serif;fill:#6A5A9F}
+      .small{font:17px Arial,sans-serif;fill:#514B61}
+      .tiny{font:15px Arial,sans-serif;fill:#6B6577}
+      .lane{font:700 19px Arial,sans-serif;fill:#8A7BA6;letter-spacing:2px}
+      .node{fill:white;stroke:#E3DFEC;stroke-width:2}
+      .inner{fill:#F6F3FB;stroke:#E3DFEC;stroke-width:1.5}
+      .inner-hot{fill:#FFF3F6;stroke:#F8C7D4;stroke-width:1.5}
+      .support{fill:#F0EBF8;stroke:#DCD2EF;stroke-width:2}
+      .line{fill:none;stroke:#FF0053;stroke-width:3.5;marker-end:url(#arrow)}
+      .link{fill:none;stroke:#A89ABD;stroke-width:2.5;marker-end:url(#arrowsoft);stroke-dasharray:7 6}
+    </style>
+  </defs>
+  <rect width="1600" height="1180" fill="#F8F7FA"/>
+  <text class="title" x="70" y="90">UX-архитектура интерфейса</text>
+  <text class="sub" x="72" y="132">Маршруты, экраны и состояния · Next.js App Router · frontend/ (app/, components/, lib/)</text>
+
+  <!-- ======================= ROW 1: вход + портфель ======================= -->
+  <rect class="node" x="70" y="200" width="272" height="252" rx="22"/>
+  <text class="num" x="96" y="244">00</text>
+  <text class="heading" x="96" y="292">Вход</text>
+  <text class="body" x="96" y="324">Форма email и пароль</text>
+  <text class="small" x="96" y="352">Показывается, когда API</text>
+  <text class="small" x="96" y="374">вернул 401 на любом</text>
+  <text class="small" x="96" y="396">экране · POST /api/auth/login</text>
+  <rect x="96" y="410" width="220" height="32" rx="10" fill="#F0EBF8"/>
+  <text class="tag" x="112" y="432">токен → localStorage</text>
+
+  <rect class="node" x="410" y="185" width="1120" height="300" rx="22"/>
+  <text class="num" x="438" y="229">01</text>
+  <text class="heading" x="478" y="229">Портфель объектов — «/»</text>
+
+  <!-- переключатель вида -->
+  <g>
+    <rect x="1224" y="196" width="278" height="44" rx="14" fill="#26123D"/>
+    <rect x="1232" y="204" width="130" height="28" rx="9" fill="#FF0053"/>
+    <text x="1276" y="224" font-family="Arial" font-size="17" font-weight="bold" fill="#ffffff">Карта</text>
+    <text x="1398" y="224" font-family="Arial" font-size="17" font-weight="bold" fill="#ffffff">Список</text>
+    <text class="tiny" x="1212" y="224" text-anchor="end">вид:</text>
+  </g>
+
+  <!-- controls strip -->
+  <rect class="inner" x="438" y="252" width="1064" height="84" rx="14"/>
+  <text class="small" x="458" y="280">Панель управления:</text>
+  <text class="body" font-weight="bold" x="620" y="274">поиск · сегмент «Все / С проблемами / Без проблем» · чипы типа объекта</text>
+  <text class="tiny" x="458" y="304">состояние фильтров живёт в URL (?q, ?filter, ?type) — переживает перезагрузку и «назад»</text>
+  <text class="tiny" x="458" y="326">по умолчанию вид «Карта», выбор сохраняется в состоянии страницы</text>
+
+  <!-- карта -->
+  <rect class="inner-hot" x="438" y="350" width="480" height="112" rx="14"/>
+  <text class="h22" x="460" y="380">Карта (view = map) — по умолчанию</text>
+  <text class="body" x="460" y="408">карта с пинами объектов,</text>
+  <text class="body" x="460" y="434">панель объекта — bottom-sheet</text>
+  <text class="small" x="460" y="456">клик по пину = выбор объекта</text>
+
+  <!-- список -->
+  <rect class="inner" x="934" y="350" width="280" height="112" rx="14"/>
+  <text class="h22" x="954" y="380">Список (view = list)</text>
+  <text class="body" x="954" y="408">виджеты-сводки:</text>
+  <text class="body" x="954" y="434">объекты · проблемы ·</text>
+  <text class="small" x="954" y="456">«требует внимания»</text>
+
+  <!-- карточки -->
+  <rect class="inner" x="1230" y="350" width="272" height="112" rx="14"/>
+  <text class="h22" x="1250" y="380">Карточки и слайдер</text>
+  <text class="body" x="1250" y="408">AttentionSlider — объекты</text>
+  <text class="body" x="1250" y="434">с проблемами первыми,</text>
+  <text class="small" x="1250" y="456">далее сетка карточек</text>
+
+  <path class="line" d="M342 326 H 402"/>
+
+  <!-- ======================= ROW 2: объект + отчёт ======================= -->
+  <path class="line" d="M560 487 V 580"/>
+  <text class="tiny" x="576" y="540">клик по карточке / пину → /objects/[id]</text>
+
+  <rect class="node" x="70" y="588" width="1030" height="360" rx="22"/>
+  <text class="num" x="98" y="630">02</text>
+  <text class="heading" x="138" y="630">Карточка объекта — «/objects/[id]»</text>
+  <text class="tiny" x="1024" y="626" text-anchor="end">deep-links: ?snapshot=N&#38;warning=M открывают</text>
+  <text class="tiny" x="1024" y="646" text-anchor="end">нужный снимок и предупреждение</text>
+
+  <!-- Hero -->
+  <rect class="inner" x="98" y="660" width="974" height="88" rx="14"/>
+  <text class="h21" x="118" y="686">Hero-шапка</text>
+  <text class="body" x="260" y="686">тип · название · адрес · прогресс работ</text>
+  <text class="body" x="118" y="714">линия этапов — клик по этапу открывает его снимок ·</text>
+  <text class="body" x="620" y="714">счётчики «Проблемы» и «Вопросы»</text>
+
+  <!-- План/факт -->
+  <rect class="inner-hot" x="98" y="762" width="470" height="108" rx="14"/>
+  <text class="h21" x="118" y="786">Блок «План / Наблюдение»</text>
+  <text class="body" x="118" y="812">этап по плану → ожидается техника →</text>
+  <text class="body" x="118" y="838">обнаружено на кадре → вывод</text>
+  <text class="small" x="118" y="862">‹ › навигация по снимкам</text>
+
+  <!-- план-хронология -->
+  <rect class="inner" x="98" y="880" width="470" height="50" rx="12"/>
+  <text class="body" x="118" y="912">План: единая хронология «лента / календарь»</text>
+
+  <!-- снимок -->
+  <rect class="inner" x="584" y="760" width="488" height="170" rx="14"/>
+  <text class="h21" x="604" y="788">Снимок · детекции · работа инспектора</text>
+  <text class="body" x="604" y="814">кадр с рамками CV · фильтр по уверенности</text>
+  <text class="body" x="604" y="840">таблица: класс · score · ok / mismatch / review</text>
+  <text class="body" x="604" y="866">подтвердить / отклонить детекцию</text>
+  <text class="body" x="604" y="892">предупреждения: open → confirmed / dismissed</text>
+  <text class="small" x="604" y="918">＋ загрузка снимка · события · редактор этапов</text>
+
+  <!-- Отчёт -->
+  <rect class="node" x="1130" y="588" width="400" height="360" rx="22"/>
+  <text class="num" x="1158" y="630">03</text>
+  <text class="heading" x="1198" y="630">Отчёт — «/…/report»</text>
+  <text class="body" x="1158" y="676">сводка по объекту для показа</text>
+  <text class="body" x="1158" y="702">и печати:</text>
+  <text class="body" x="1158" y="728">прошло времени по плану ·</text>
+  <text class="body" x="1158" y="754">ход работ · полный список</text>
+  <text class="body" x="1158" y="780">проблем с пояснением «почему»</text>
+  <rect x="1158" y="806" width="344" height="56" rx="12" fill="#F0EBF8"/>
+  <text class="tag" x="1178" y="828">свёртка: проблема →</text>
+  <text class="tag" x="1178" y="850">обратный deep-link на снимок</text>
+  <text class="small" x="1158" y="896">кнопка «Открыть снимок от …»</text>
+  <text class="small" x="1158" y="920">ведёт обратно с параметрами в URL</text>
+
+  <path class="line" d="M1100 740 H 1122"/>
+  <path class="link" d="M635 948 V 992"/>
+
+  <!-- ======================= ROW 3: сквозные слои ======================= -->
+  <rect class="support" x="70" y="996" width="1460" height="160" rx="16"/>
+  <text class="lane" x="98" y="1032">СКВОЗНЫЕ СЛОИ</text>
+  <text class="small" x="98" y="1062">AssistantDock — ИИ-помощник на всех экранах: вопрос → ответ со ссылками-доказательствами и</text>
+  <text class="small" x="98" y="1088">предложением перенести срок этапа (подтверждение в один клик)</text>
+  <text class="small" x="98" y="1092"> </text>
+  <text class="small" x="98" y="1120">Темы (?styles=1): iOS · Техпаспорт · Городская операционная · Командный центр · Конструктивизм — меняют и вид списка</text>
+  <text class="small" x="98" y="1146">Состояния везде: скелетоны · банер ошибки с «Повторить» · empty-state · 401 → форма входа · NavBar с back-ссылкой</text>
+</svg>
