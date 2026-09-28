@@ -1,0 +1,76 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    restart: unless-stopped
+    environment:
+      HOME: /root
+      BUILDWATCH_SQLITE_PATH: /data/buildwatch.db
+      BUILDWATCH_ZEN_MODEL: ${BUILDWATCH_ZEN_MODEL:-glm-5.3-flash}
+      BUILDWATCH_ZEN_KEY: ${BUILDWATCH_ZEN_KEY:-}
+      BUILDWATCH_DETECTOR_MODEL: equipment
+    volumes:
+      - buildwatch-data:/data
+      - buildwatch-media:/app/backend/media
+      - ./context/dgp_extract:/app/context/dgp_extract:ro
+      - ./weights:/app/weights:ro
+      - ./backend/detector_config.py:/app/backend/detector_config.py:ro
+      - ./backend/app.py:/app/backend/app.py:ro
+      - ./backend/assistant_service.py:/app/backend/assistant_service.py:ro
+      - ./backend/db.py:/app/backend/db.py:ro
+      - ./backend/rules.py:/app/backend/rules.py:ro
+      - ./backend/evaluate.py:/app/backend/evaluate.py:ro
+      - ./scripts/seed_public_demo.py:/app/scripts/seed_public_demo.py:ro
+      - /home/kon/.local/share/opencode/auth.json:/root/.local/share/opencode/auth.json:ro
+    ports:
+      - "127.0.0.1:8601:8600"
+    command:
+      - sh
+      - -c
+      - |
+        if [ ! -f /data/buildwatch.db ]; then
+          if [ -f "/app/context/dgp_extract/Сводный перечень строительных работ_ЛТЦ.xlsx" ] && [ -f /app/context/detector_compare.json ]; then
+            python seed.py
+          else
+            python /app/scripts/seed_public_demo.py
+          fi
+        fi
+        uvicorn app:app --host 0.0.0.0 --port 8600
+  worker:
+    # Reuse the already-built LAN worker image (torch+ultralytics) to avoid a multi-GB rebuild on a nearly full disk.
+    image: buildwatch-worker:cv2
+    restart: unless-stopped
+    environment:
+      BUILDWATCH_SQLITE_PATH: /data/buildwatch.db
+      BUILDWATCH_DETECTOR_MODEL: equipment
+    volumes:
+      - buildwatch-data:/data
+      - buildwatch-media:/app/backend/media
+      - ./context/dgp_extract:/app/context/dgp_extract:ro
+      - ./weights:/app/weights:ro
+      - ./backend/detector_config.py:/app/backend/detector_config.py:ro
+      - ./scripts/detect_equipment_single.py:/app/scripts/detect_equipment_single.py:ro
+      - ./scripts/worker.py:/app/scripts/worker.py:ro
+    depends_on:
+      - api
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        BUILDWATCH_API_ORIGIN: http://api:8600
+        BUILDWATCH_BASE_PATH: ""
+    restart: unless-stopped
+    environment:
+      BUILDWATCH_API_ORIGIN: http://api:8600
+      BUILDWATCH_BASE_PATH: ""
+    ports:
+      - "127.0.0.1:8701:3000"
+    volumes:
+      - ./frontend/public/moscow-schematic.svg:/app/public/moscow-schematic.svg:ro
+    depends_on:
+      - api
+volumes:
+  buildwatch-data:
+  buildwatch-media:

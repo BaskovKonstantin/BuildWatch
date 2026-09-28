@@ -116,7 +116,7 @@ export function AssistantDock() {
 
   return (
     <>
-      <button ref={trigger} className="assistant-trigger" onClick={openAssistant} aria-label="Открыть ИИ-помощника">
+      <button ref={trigger} className={`assistant-trigger ${pathname === "/" ? "assistant-trigger-home" : ""}`} onClick={openAssistant} aria-label="Открыть ИИ-помощника">
         <span className="assistant-trigger-mark" aria-hidden="true">✳</span>
         <span>Спросить BuildWatch</span>
       </button>

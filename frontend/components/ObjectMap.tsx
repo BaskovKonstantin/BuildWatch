@@ -62,6 +62,7 @@ const DISTRICT_COORDINATES: Record<string, [number, number]> = {
   ЦАО: [55.7558, 37.6173], ЮАО: [55.67, 37.64],
 };
 const MOSCOW_CENTER: [number, number] = [55.7558, 37.6173];
+const OSM_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
 function coordinatesFor(project: MapProject, ordinal = 0, total = 1): [number, number] {
   const [baseLat, baseLng] = DISTRICT_COORDINATES[project.district] ?? MOSCOW_CENTER;
@@ -152,6 +153,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
   const mapElement = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const layerRef = useRef<LayerGroup | null>(null);
+  const didFitBoundsRef = useRef(false);
   const leafletRef = useRef<typeof import("leaflet") | null>(null);
   const markersRef = useRef(new Map<number, Marker>());
   const [mapReady, setMapReady] = useState(false);
@@ -182,48 +184,30 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
     import("leaflet").then((L) => {
       if (disposed || !mapElement.current || mapRef.current) return;
       leafletRef.current = L;
-      const mapBounds: [[number, number], [number, number]] = [[55.43, 37.12], [56.08, 38.08]];
-      const bounds = L.latLngBounds(mapBounds);
-      const mapBase = process.env.NEXT_PUBLIC_BASE_PATH || "";
-      const schematicUrl = `${mapBase}/moscow-schematic.svg`;
-      // Draw schematic via CSS so it always fills the canvas; Leaflet only positions markers.
-      mapElement.current.style.backgroundImage = `url("${schematicUrl}")`;
-      mapElement.current.style.backgroundSize = "100% 100%";
-      mapElement.current.style.backgroundPosition = "center";
-      mapElement.current.style.backgroundRepeat = "no-repeat";
       const map = L.map(mapElement.current, {
-        center: bounds.getCenter(),
+        center: MOSCOW_CENTER,
         zoom: 10,
-        minZoom: 1,
+        minZoom: 9,
         maxZoom: 18,
         zoomControl: true,
         attributionControl: false,
-        maxBounds: bounds,
-        maxBoundsViscosity: 1,
       });
+      L.tileLayer(OSM_TILE_URL, { maxZoom: 19, attribution: "" }).addTo(map);
       layerRef.current = L.layerGroup().addTo(map);
       mapRef.current = map;
       setMapReady(true);
 
-      const syncMapSize = (animate = false) => {
+      const syncMapSize = () => {
         map.invalidateSize({ pan: false });
-        // Lock the geographic frame to the schematic extents so markers stay aligned.
-        const size = map.getSize();
-        if (size.x < 40 || size.y < 40) return;
-        const zoom = map.getBoundsZoom(bounds, false, L.point(0, 0));
-        map.setMaxBounds(bounds);
-        map.setMinZoom(zoom);
-        map.setMaxZoom(Math.max(zoom, zoom + 2));
-        map.setView(bounds.getCenter(), zoom, { animate });
       };
-      syncMapSize(false);
+      syncMapSize();
       sizeTimers = [0, 50, 150, 400, 1000].map((delay) => window.setTimeout(() => {
-        if (!disposed && mapRef.current === map) syncMapSize(false);
+        if (!disposed && mapRef.current === map) syncMapSize();
       }, delay));
 
       if (typeof ResizeObserver !== "undefined" && mapElement.current) {
         resizeObserver = new ResizeObserver(() => {
-          if (!disposed && mapRef.current === map) syncMapSize(false);
+          if (!disposed && mapRef.current === map) syncMapSize();
         });
         resizeObserver.observe(mapElement.current);
       }
@@ -237,12 +221,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
       mapRef.current = null;
       layerRef.current = null;
       leafletRef.current = null;
-      if (mapElement.current) {
-        mapElement.current.style.backgroundImage = "";
-        mapElement.current.style.backgroundSize = "";
-        mapElement.current.style.backgroundPosition = "";
-        mapElement.current.style.backgroundRepeat = "";
-      }
+      didFitBoundsRef.current = false;
       setMapReady(false);
     };
   }, []);
@@ -253,8 +232,11 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
     if (!mapReady || !L || !layer) return;
     layer.clearLayers();
     markersRef.current.clear();
+    const latLngs: [number, number][] = [];
     projects.forEach((project) => {
-      const marker = L.marker(coordinates.get(project.id) ?? coordinatesFor(project), {
+      const position = coordinates.get(project.id) ?? coordinatesFor(project);
+      latLngs.push(position);
+      const marker = L.marker(position, {
         icon: markerIcon(L, project, project.id === selectedId),
         title: project.name,
         alt: `${project.name}, ${statusFor(project).label}`,
@@ -263,6 +245,15 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
       marker.addTo(layer);
       markersRef.current.set(project.id, marker);
     });
+    const map = mapRef.current;
+    if (map && latLngs.length > 0 && !didFitBoundsRef.current) {
+      if (latLngs.length === 1) {
+        map.setView(latLngs[0], 12);
+      } else {
+        map.fitBounds(L.latLngBounds(latLngs), { padding: [48, 48], maxZoom: 12 });
+      }
+      didFitBoundsRef.current = true;
+    }
   }, [coordinates, mapReady, projects, selectedId, onSelect]);
 
   useEffect(() => {
@@ -439,7 +430,15 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
   return (
     <section className={`object-map ${routePending ? "is-routing" : ""}`} aria-label="Объекты на карте Москвы" aria-busy={routePending}>
       <div className="map-head">
-        <div><span className="map-kicker">ПОРТФЕЛЬ / МОСКВА</span><h2>Объекты на карте</h2></div>
+        <div>
+          <span className="map-kicker">ПОРТФЕЛЬ / МОСКВА</span>
+          <h2>Объекты на карте</h2>
+          <p className="map-osm-credit">
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">
+              © OpenStreetMap
+            </a>
+          </p>
+        </div>
         <div className="map-legend" aria-label="Легенда состояний">
           <span><i className="map-dot danger" />Проблемы</span><span><i className="map-dot review" />Вопросы</span><span><i className="map-dot clear" />Норма</span>
         </div>
@@ -515,7 +514,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
                           );
                         })}
                       </div>
-                      <Link className="map-issues-link" href={`/objects/${selected.id}`}>Открыть список проблем <IconArrowUpRight size={14} /></Link>
+                      <Link className="map-issues-link" href={`/objects/${selected.id}?review=1`}>Разобрать проблемы <IconArrowUpRight size={14} /></Link>
                       <div className="map-comments">
                         <div className="map-comments-head"><strong>Комментарии</strong><span>{comments.length}</span></div>
                         {commentsLoading && <p className="map-comment-muted">Загружаю комментарии…</p>}

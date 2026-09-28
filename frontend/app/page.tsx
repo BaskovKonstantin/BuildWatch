@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { NavBar } from "@/components/NavBar";
 import { ObjectMap } from "@/components/ObjectMap";
 import {
-  IconBuilding, IconCalendar, IconCamera, IconChevronRight, IconClose, IconEye,
+  IconArrowUpRight, IconBuilding, IconCalendar, IconChevronRight, IconClose, IconEye,
   IconPin, IconPlus, IconSearch, IconTruck, IconWarning,
 } from "@/components/Icons";
 import { apiFetch, saveToken } from "@/lib/api";
@@ -134,6 +134,10 @@ export default function Home() {
     };
   }, [projects]);
 
+  const reviewTarget = useMemo(() => [...(projects ?? [])]
+    .filter((p) => p.violations_open + p.reviews_open > 0)
+    .sort((a, b) => b.violations_open - a.violations_open || b.reviews_open - a.reviews_open)[0] ?? null,
+  [projects]);
 
   if (authRequired) {
     return <Login onDone={() => { setAuthRequired(false); load(); }} />;
@@ -147,6 +151,7 @@ export default function Home() {
     <main className={`page v-${theme}`}>
       <NavBar
         title="Объекты"
+        assistant={false}
         right={
           <button className="icon-btn tinted" onClick={() => setSheetOpen(true)} aria-label="Новый объект">
             <IconPlus size={20} />
@@ -158,8 +163,25 @@ export default function Home() {
         {theme === "ios" ? (
           <>
             <div className="large-title">
-              <div className="lt-date">{todayTitle()}</div>
-              <h1>Объекты<span className="accent-dot">.</span></h1>
+              <div className="large-title-copy">
+                <div className="lt-date">{todayTitle()}</div>
+                <h1>Объекты<span className="accent-dot">.</span></h1>
+              </div>
+              <div className="lt-actions">
+              {reviewTarget && (
+                <Link className="review-cta" href={`/objects/${reviewTarget.id}?review=1`}>
+                  <span className="review-cta-count">{totals.violations + totals.reviews}</span>
+                  <span><strong>Начать разбор</strong><small>сигналов ждут решения · первым {reviewTarget.name}</small></span>
+                  <IconArrowUpRight size={17} aria-hidden="true" />
+                </Link>
+              )}
+              <button className="assistant-center-cta" type="button"
+                onClick={() => document.querySelector<HTMLButtonElement>(".assistant-trigger")?.click()}>
+                <span className="assistant-center-mark" aria-hidden="true">✳</span>
+                <span><strong>Спросить BuildWatch</strong><small>Проверить портфель с помощью ИИ</small></span>
+                <IconArrowUpRight size={17} aria-hidden="true" />
+              </button>
+              </div>
             </div>
             {view === "list" && <section className="widgets" aria-label="Сводка">
               <Widget tint="blue" icon={<IconBuilding size={18} />} label="Объекты"
@@ -176,8 +198,6 @@ export default function Home() {
               </Widget>
               <Widget tint="orange" icon={<IconEye size={18} />} label="Требует внимания"
                 value={projects ? totals.reviews : "—"} />
-              <Widget tint="teal" icon={<IconCamera size={18} />} label="Снимки"
-                value={projects ? totals.snapshots : "—"} />
             </section>}
             <div className="toolbar">
               <label className="search">
@@ -199,29 +219,37 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            {types.length > 1 && (
-              <div className="chips" role="group" aria-label="Тип объекта">
-                <button className={`chip-btn ${type === "" ? "on" : ""}`} onClick={() => setType("")}>Все типы</button>
-                {types.map((t) => (
-                  <button key={t.name} className={`chip-btn ${type === t.name ? "on" : ""}`}
-                    onClick={() => setType(type === t.name ? "" : t.name)}>
-                    <i className={`dot tint-${t.tint}`} />{t.name}
-                  </button>
-                ))}
+            <div className="view-controls">
+              {types.length > 1 && (
+                <div className="chips" role="group" aria-label="Тип объекта">
+                  <button className={`chip-btn ${type === "" ? "on" : ""}`} onClick={() => setType("")}>Все типы</button>
+                  {types.map((t) => (
+                    <button key={t.name} className={`chip-btn ${type === t.name ? "on" : ""}`}
+                      onClick={() => setType(type === t.name ? "" : t.name)}>
+                      <i className={`dot tint-${t.tint}`} />{t.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="portfolio-switcher" role="group" aria-label="Представление объектов">
+                <button type="button" className={view === "map" ? "on" : ""} aria-pressed={view === "map"}
+                  onClick={() => setView("map")}>Карта</button>
+                <button type="button" className={view === "list" ? "on" : ""} aria-pressed={view === "list"}
+                  onClick={() => setView("list")}>Список</button>
               </div>
-            )}
+            </div>
           </>
         ) : (
           <ListHeader theme={theme} q={q} setQ={setQ} filter={filter} setFilter={setFilter}
             types={types} type={type} setType={setType} totals={totals} />
         )}
 
-        <div className="portfolio-switcher" role="group" aria-label="Представление объектов">
+        {theme !== "ios" && <div className="portfolio-switcher" role="group" aria-label="Представление объектов">
           <button type="button" className={view === "map" ? "on" : ""} aria-pressed={view === "map"}
             onClick={() => setView("map")}>Карта</button>
           <button type="button" className={view === "list" ? "on" : ""} aria-pressed={view === "list"}
             onClick={() => setView("list")}>Список</button>
-        </div>
+        </div>}
 
         {loadError && (
           <div className="banner error" role="alert">

@@ -14,11 +14,13 @@ export function NavBar({
   back,
   right,
   wide = false,
+  assistant = true,
 }: {
   title: string;
   wide?: boolean;
   back?: { href: string; label: string };
   right?: React.ReactNode;
+  assistant?: boolean;
 }) {
   const [compact, setCompact] = useState(false);
 
@@ -51,14 +53,14 @@ export function NavBar({
         </div>
         <div className="nav-title" aria-hidden={!compact}>{title}</div>
         <div className="nav-right">
-          <button
-            className="assistant-nav-link"
-            type="button"
-            onClick={() => document.querySelector<HTMLButtonElement>(".assistant-trigger")?.click()}
-            aria-label="Открыть ИИ-помощника"
-          >
-            <span aria-hidden="true">✳</span><span>Спросить BuildWatch</span>
-          </button>
+          {assistant && <button
+              className="assistant-nav-link"
+              type="button"
+              onClick={() => document.querySelector<HTMLButtonElement>(".assistant-trigger")?.click()}
+              aria-label="Открыть ИИ-помощника"
+            >
+              <span aria-hidden="true">✳</span><span>Спросить BuildWatch</span>
+            </button>}
           <ThemePicker />
           {right}
         </div>
