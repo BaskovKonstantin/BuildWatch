@@ -23,6 +23,7 @@ type MapProject = {
   last_snapshot: string | null;
   stage: { name: string; position: number; progress: number } | null;
   stages_total: number;
+  forecast?: { headline: string; disclaimer: string };
 };
 
 type MapTotals = { projects: number; violations: number; reviews: number; snapshots: number };
@@ -497,6 +498,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
               <div className="map-facts">
                 <div className={`map-plan-fact ${planFactTone}`}>
                   <div className="map-plan-fact-head"><span>План / факт</span><b>{planFactLabel}</b></div>
+                  {selected.forecast?.headline && <p className="map-forecast-line">{selected.forecast.headline}. {selected.forecast.disclaimer}</p>}
                   <div className="map-plan-fact-grid">
                     <div><span>План</span><strong>{selected.stage?.name ?? "Этап не задан"}</strong><small>Этап {selected.stage ? selected.stage.position : "—"} из {selected.stages_total}</small></div>
                     <div><span>Факт на снимке</span><strong>{factStage?.name ?? (latestSnapshot ? "Этап не определён" : "Нет данных")}</strong><small>{latestSnapshot ? shortDate(latestSnapshot.captured_at) : "Выберите снимок"}</small></div>

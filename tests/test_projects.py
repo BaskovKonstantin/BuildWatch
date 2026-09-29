@@ -106,6 +106,39 @@ class ProjectPortfolioTest(unittest.TestCase):
         self.assertEqual(len(db.query("SELECT id FROM objects")), len(demo_projects.PROJECTS))
         self.assertEqual(len(db.query("SELECT id FROM stages WHERE object_id=?", (school,))), 5)
 
+    def test_zone_rectangle_creates_danger_warning(self):
+        oid = db.execute("INSERT INTO objects(name, type) VALUES ('Зона', 'Жильё')")
+        db.execute(
+            "INSERT INTO stages(object_id, position, kind, name, date_from, date_to, status)"
+            " VALUES (?,?,?,?,?,?,?)",
+            (oid, 0, "excavation", "Котлован", "2026-01-01", "2026-12-31", "current"),
+        )
+        sid = db.execute(
+            "INSERT INTO snapshots(object_id, filename, src, captured_at, status, width, height)"
+            " VALUES (?,?,?,?,?,?,?)",
+            (oid, "z.png", "uploads", "2026-06-01", "detected", 100, 100),
+        )
+        db.execute(
+            "INSERT INTO detections(snapshot_id, model, label, score, x1, y1, x2, y2)"
+            " VALUES (?,?,?,?,?,?,?,?)",
+            (sid, "yolo_world", "excavator", 0.9, 10, 10, 30, 30),
+        )
+        created = self.client.post(f"/api/objects/{oid}/zones", json={
+            "kind": "danger",
+            "name": "Опасная зона",
+            "polygon": [[0, 0], [0.5, 0], [0.5, 0.5], [0, 0.5]],
+        })
+        self.assertEqual(created.status_code, 200, created.text)
+        detail = self.client.get(f"/api/objects/{oid}").json()
+        self.assertEqual(detail["zones"][0]["kind"], "danger")
+        self.assertTrue(any(item["rule"] == "R-09" for item in detail["warnings"]))
+        self.assertIn("forecast", detail["summary"])
+        self.assertIn("sentence", detail["dynamics"])
+        self.assertIn("correct", detail["quality"])
+        removed = self.client.delete(f"/api/objects/{oid}/zones/{created.json()['id']}")
+        self.assertEqual(removed.status_code, 200)
+        self.assertEqual(self.client.get(f"/api/objects/{oid}/zones").json(), [])
+
 
 if __name__ == "__main__":
     unittest.main()

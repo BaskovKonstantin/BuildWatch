@@ -185,13 +185,23 @@ def group_detections(dets: list[dict]) -> list[dict]:
     return groups
 
 
+IDLE_IOU = 0.55
+SERIES_LIMIT = 3
+ZONE_KINDS = {"work", "danger", "storage"}
+
+
 def evaluate_snapshot(
-    snapshot: dict, detections: list[dict], stages: list[dict], object_type: str | None = None
+    snapshot: dict,
+    detections: list[dict],
+    stages: list[dict],
+    object_type: str | None = None,
+    zones: list[dict] | None = None,
 ) -> list[dict]:
     """Return warning dicts for one snapshot. detections = joined models."""
     stage = active_stage(stages, snapshot["captured_at"])
+    zone_warnings = _zone_warnings(snapshot, detections, stage, zones or [])
     if stage is None:
-        return []
+        return zone_warnings
     allowed = allowed_for_stage(stage, object_type)
     warnings: list[dict] = []
     for group in group_detections(detections):
@@ -282,6 +292,7 @@ def evaluate_snapshot(
                 "source": "план объекта + методика «этап → обязательная техника»",
                 "severity": "review",
             })
+    warnings.extend(zone_warnings)
     return warnings
 
 
@@ -296,3 +307,181 @@ def detection_match(detection: dict, stages: list[dict], snapshot_date: str, obj
     if detection["score"] < CONF_THRESHOLD:
         return "review"
     return "ok"
+
+
+def ready_snapshots(snapshots: list[dict]) -> list[dict]:
+    """Detected frames, oldest first, so a series can be compared in time order."""
+    ready = [snap for snap in snapshots if snap.get("status") in {"detected", "empty"}]
+    ready.sort(key=lambda snap: (str(snap.get("captured_at", ""))[:10], int(snap.get("id") or 0)))
+    return ready
+
+
+def _boxes_by_label(snapshot: dict) -> dict[str, list[tuple[float, float, float, float]]]:
+    width = float(snapshot.get("width") or 0)
+    height = float(snapshot.get("height") or 0)
+    grouped: dict[str, list[tuple[float, float, float, float]]] = {}
+    if width <= 0 or height <= 0:
+        return grouped
+    for det in snapshot.get("detections") or []:
+        if det.get("score", 0) < WARN_BOX_THRESHOLD or det.get("verdict") == "wrong":
+            continue
+        label = det.get("label")
+        if not label or label in PPE_CLASSES:
+            continue
+        grouped.setdefault(label, []).append((
+            float(det["x1"]) / width,
+            float(det["y1"]) / height,
+            float(det["x2"]) / width,
+            float(det["y2"]) / height,
+        ))
+    return grouped
+
+
+def series_motion(snapshots: list[dict]) -> dict:
+    """Compare the last few frames. High IoU means the machine did not visibly move."""
+    recent = ready_snapshots(snapshots)[-SERIES_LIMIT:]
+    idle: dict[str, float] = {}
+    moved: set[str] = set()
+    for left, right in zip(recent, recent[1:]):
+        left_boxes = _boxes_by_label(left)
+        right_boxes = _boxes_by_label(right)
+        for label in set(left_boxes) & set(right_boxes):
+            score = max(iou(a, b) for a in left_boxes[label] for b in right_boxes[label])
+            if score >= IDLE_IOU:
+                idle[label] = max(idle.get(label, 0.0), score)
+            else:
+                moved.add(label)
+    moved -= set(idle)
+    if len(recent) < 2:
+        verdict = "insufficient"
+    elif idle:
+        verdict = "idle"
+    elif moved:
+        verdict = "working"
+    else:
+        verdict = "insufficient"
+    return {
+        "verdict": verdict,
+        "idle_labels": sorted(idle),
+        "moved_labels": sorted(moved),
+        "frames": len(recent),
+    }
+
+
+def evaluate_series(snapshots: list[dict]) -> list[dict]:
+    """R-08: same class stays in one place across a short dated series."""
+    motion = series_motion(snapshots)
+    if motion["verdict"] != "idle":
+        return []
+    recent = ready_snapshots(snapshots)[-SERIES_LIMIT:]
+    latest = recent[-1]
+    labels = ", ".join(motion["idle_labels"])
+    return [{
+        "snapshot_id": latest["id"],
+        "rule": "R-08",
+        "title": "Техника на месте, активность по кадрам не подтверждена",
+        "body": (
+            "На последних снимках %s остаётся в одной области кадра. "
+            "По серии это похоже на простой, но один кадр этого не доказывает."
+            % labels
+        ),
+        "why": (
+            "Почему: правило R-08 — если боксы одного класса почти совпадают "
+            "(IoU > %.2f) на серии датированных снимков, активность не подтверждена. "
+            "Нужен ещё кадр или выезд."
+            % IDLE_IOU
+        ),
+        "source": "серия снимков · правило R-08",
+        "severity": "review",
+    }]
+
+
+def point_in_polygon(x: float, y: float, polygon: list) -> bool:
+    inside = False
+    count = len(polygon)
+    if count < 3:
+        return False
+    previous = count - 1
+    for index in range(count):
+        xi, yi = float(polygon[index][0]), float(polygon[index][1])
+        xj, yj = float(polygon[previous][0]), float(polygon[previous][1])
+        if ((yi > y) != (yj > y)) and (x < (xj - xi) * (y - yi) / ((yj - yi) or 1e-12) + xi):
+            inside = not inside
+        previous = index
+    return inside
+
+
+def _box_center(det: dict, snapshot: dict) -> tuple[float, float] | None:
+    width = float(snapshot.get("width") or 0)
+    height = float(snapshot.get("height") or 0)
+    if width <= 0 or height <= 0:
+        return None
+    return (
+        (float(det["x1"]) + float(det["x2"])) / 2 / width,
+        (float(det["y1"]) + float(det["y2"])) / 2 / height,
+    )
+
+
+def _is_mounting(stage: dict | None) -> bool:
+    if not stage:
+        return False
+    if stage.get("kind") in {"frame", "roof"}:
+        return True
+    return "монтаж" in str(stage.get("name", "")).lower()
+
+
+def _zone_warnings(
+    snapshot: dict, detections: list[dict], stage: dict | None, zones: list[dict]
+) -> list[dict]:
+    if not zones:
+        return []
+    danger: list[str] = []
+    stored_cranes: list[str] = []
+    for det in detections:
+        if det.get("score", 0) < WARN_BOX_THRESHOLD or det.get("verdict") == "wrong":
+            continue
+        label = det.get("label")
+        if not label or label in PPE_CLASSES:
+            continue
+        center = _box_center(det, snapshot)
+        if center is None:
+            continue
+        for zone in zones:
+            polygon = zone.get("polygon") or []
+            if not point_in_polygon(center[0], center[1], polygon):
+                continue
+            kind = zone.get("kind")
+            if kind == "danger" and label not in danger:
+                danger.append(label)
+            if kind == "storage" and label in CRANES and _is_mounting(stage) and label not in stored_cranes:
+                stored_cranes.append(label)
+    warnings: list[dict] = []
+    if danger:
+        warnings.append({
+            "snapshot_id": snapshot["id"],
+            "rule": "R-09",
+            "title": "Техника в опасной зоне",
+            "body": "На снимке от %s в опасной зоне: %s." % (snapshot["captured_at"], ", ".join(danger)),
+            "why": (
+                "Почему: правило R-09 — центр бокса техники попал в полигон «опасная зона», "
+                "заданный в долях кадра. %s"
+                % (f"Этап «{stage['name']}»." if stage else "Этап по дате снимка не найден.")
+            ),
+            "source": "зоны площадки · правило R-09",
+            "severity": "violation",
+        })
+    if stored_cranes:
+        stage_name = stage["name"] if stage else "монтаж"
+        warnings.append({
+            "snapshot_id": snapshot["id"],
+            "rule": "R-10",
+            "title": "Кран в зоне складирования на этапе монтажа",
+            "body": "На этапе «%s» в зоне складирования: %s." % (stage_name, ", ".join(stored_cranes)),
+            "why": (
+                "Почему: правило R-10 — крановый класс в полигоне «склад» при этапе монтажа. "
+                "Это вопрос инспектору, не подтверждённый простой."
+            ),
+            "source": "зоны площадки · правило R-10",
+            "severity": "review",
+        })
+    return warnings

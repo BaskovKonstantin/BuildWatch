@@ -14,6 +14,7 @@ from urllib.request import ProxyHandler, Request, build_opener, urlopen
 from fastapi import HTTPException
 
 import db
+import forecast
 
 ZEN_URL = "https://opencode.ai/zen/v1/chat/completions"
 GO_URL = "https://opencode.ai/zen/go/v1/chat/completions"
@@ -105,12 +106,12 @@ def _context(object_id: int | None) -> tuple[dict, dict[str, dict]]:
         (object_id,),
     )]
     snapshots = [dict(r) for r in db.query(
-        "SELECT id,captured_at,status FROM snapshots WHERE object_id=? ORDER BY captured_at DESC,id DESC LIMIT 12",
+        "SELECT id,captured_at,status,width,height FROM snapshots WHERE object_id=? ORDER BY captured_at DESC,id DESC LIMIT 12",
         (object_id,),
     )]
     for snap in snapshots:
         snap["detections"] = [dict(r) for r in db.query(
-            "SELECT label,score FROM detections WHERE snapshot_id=? AND score>=0.35 ORDER BY score DESC LIMIT 25",
+            "SELECT label,score,x1,y1,x2,y2,verdict FROM detections WHERE snapshot_id=? AND score>=0.35 ORDER BY score DESC LIMIT 25",
             (snap["id"],),
         )]
         refs[f"snapshot:{snap['id']}"] = {
@@ -126,7 +127,39 @@ def _context(object_id: int | None) -> tuple[dict, dict[str, dict]]:
             "label": f"{warning['rule']} · {warning['title']}",
             "url": f"/objects/{object_id}?snapshot={warning['snapshot_id']}&warning={warning['id']}",
         }
-    return {"scope": "object", "object": obj, "stages": stages, "snapshots": snapshots, "warnings": warnings}, refs
+    captured = {snap["id"]: snap["captured_at"] for snap in snapshots}
+    for warning in warnings:
+        warning["captured_at"] = captured.get(warning["snapshot_id"])
+    card = {"object": obj, "stages": stages, "snapshots": snapshots, "warnings": warnings}
+    today = date.today().isoformat()
+    schedule = forecast.forecast_schedule(card, today)
+    dynamics = forecast.build_dynamics(card, today)
+    quality = forecast.recognition_quality(card)
+    for snap in snapshots:
+        for det in snap["detections"]:
+            det.pop("x1", None)
+            det.pop("y1", None)
+            det.pop("x2", None)
+            det.pop("y2", None)
+    return {
+        "scope": "object",
+        "object": obj,
+        "stages": stages,
+        "snapshots": snapshots,
+        "warnings": warnings,
+        "forecast": {
+            "headline": schedule["headline"],
+            "verdict": schedule["verdict"],
+            "days_delta": schedule["days_delta"],
+            "confidence": schedule["confidence"],
+            "drivers": schedule["drivers"],
+            "disclaimer": schedule["disclaimer"],
+            "activity": schedule["activity"],
+            "equipment_gap": schedule["equipment_gap"],
+        },
+        "dynamics": dynamics["sentence"],
+        "quality": quality,
+    }, refs
 
 
 def _ask_zen(question: str, context: dict, key: str, endpoint: str) -> dict:
@@ -134,6 +167,8 @@ def _ask_zen(question: str, context: dict, key: str, endpoint: str) -> dict:
         "Ты помощник инспектора BuildWatch. Отвечай по-русски только по переданным данным. "
         "Снимки показывают обнаруженную технику, но сами по себе не доказывают работу, простой, "
         "отставание или фактический процент готовности. Различай отсутствие техники и отсутствие данных. "
+        "Поля forecast, dynamics и quality — эвристика и оценки инспектора. "
+        "Если говоришь о сроках или простое, повтори disclaimer и не называй это фактом готовности. "
         "Верни только JSON: {\"answer\": string, \"evidence\": [\"object:ID\"|\"snapshot:ID\"|\"warning:ID\"], "
         "\"action\": null|{\"kind\":\"shift_stage\",\"stage_id\":integer,\"days\":integer}}. "
         "Если пользователь явно просит сдвинуть даты конкретного этапа, дай action с количеством дней; "

@@ -52,6 +52,44 @@ export type HumanEvent = {
   event_date: string;
   created_at: string;
 };
+export type Forecast = {
+  verdict: "behind" | "ahead" | "on_track" | "unknown";
+  days_delta: number | null;
+  pace_label: string;
+  confidence: string;
+  drivers: string[];
+  disclaimer: string;
+  headline: string;
+  fact_stage: string | null;
+  plan_stage: string | null;
+  equipment_gap: { window: number; rows: { name: string; seen: boolean; missing: boolean }[] };
+  activity: { verdict: "working" | "idle" | "insufficient"; label: string; note: string };
+};
+export type DynamicsPoint = {
+  date: string;
+  snapshots: number;
+  stage_kind: string | null;
+  stage_name: string | null;
+  violations: number;
+  reviews: number;
+  equipment_present: string[];
+};
+export type Dynamics = { window_days: number; sentence: string; points: DynamicsPoint[] };
+export type Quality = {
+  correct: number;
+  wrong: number;
+  pending: number;
+  total: number;
+  rated: number;
+  correct_share: number | null;
+  note: string;
+};
+export type SiteZone = {
+  id: number;
+  name: string;
+  kind: "work" | "danger" | "storage";
+  polygon: number[][];
+};
 export type Summary = {
   progress: number;
   planned_finish: string | null;
@@ -60,6 +98,7 @@ export type Summary = {
   last_snapshot: string | null;
   violations_open: number;
   reviews_open: number;
+  forecast?: Forecast;
 };
 export type Card = {
   object: { id: number; name: string; type: string; district?: string; address?: string; description?: string };
@@ -69,6 +108,9 @@ export type Card = {
   stage_requirements: Record<string, { name: string; classes: string[] }[]>;
   snapshots: Snapshot[];
   warnings: Warning[];
+  zones?: SiteZone[];
+  dynamics?: Dynamics;
+  quality?: Quality;
   events?: HumanEvent[];
   counts: { snapshots: number; warnings_open: number; warnings_total: number };
   conf_threshold: number;

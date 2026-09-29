@@ -117,6 +117,13 @@ CREATE TABLE IF NOT EXISTS catalog(
   name TEXT NOT NULL,
   applies TEXT NOT NULL             -- csv of building types from ЛТЦ
 );
+CREATE TABLE IF NOT EXISTS site_zones(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  object_id INTEGER NOT NULL REFERENCES objects(id),
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  polygon_json TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS assistant_proposals(
   id TEXT PRIMARY KEY,
   object_id INTEGER NOT NULL REFERENCES objects(id),

@@ -33,6 +33,7 @@ type Project = {
   last_snapshot: string | null;
   equipment: string[];
   cover: string | null;
+  forecast?: { headline: string; disclaimer: string };
 };
 
 type Filter = "all" | "violations" | "clean";

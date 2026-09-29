@@ -5,12 +5,25 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { NavBar } from "@/components/NavBar";
 import { ObjectTimelineFeed } from "@/components/ObjectTimelineFeed";
+import { SiteZoneLayer, type SiteZone } from "@/components/SiteZoneLayer";
 import { SwipeReview, reviewItems } from "@/components/SwipeReview";
 import { IconArrowUpRight, IconCheck, IconClose, IconPin, IconUpload, IconWarning } from "@/components/Icons";
 import { apiFetch } from "@/lib/api";
-import { Card, HumanEvent, fmt, snapshotTone, stageForDate, useObjectCard } from "@/lib/objectCard";
+import { Card, Forecast, HumanEvent, fmt, snapshotTone, stageForDate, useObjectCard } from "@/lib/objectCard";
 import { equipmentRu, shortDate, typeTint } from "@/lib/format";
 import { useThemeId } from "@/lib/themes";
+
+const FORECAST_TONE: Record<Forecast["verdict"], Schedule["tone"]> = {
+  behind: "late",
+  ahead: "ok",
+  on_track: "ok",
+  unknown: "none",
+};
+const ZONE_KINDS: { id: SiteZone["kind"]; label: string }[] = [
+  { id: "danger", label: "Опасная" },
+  { id: "work", label: "Работы" },
+  { id: "storage", label: "Склад" },
+];
 
 const BOX_CONF = 0.2;
 const OBSERVED_CONF = 0.35;
@@ -41,6 +54,8 @@ export default function ObjectPage() {
   const [swipeOpen, setSwipeOpen] = useState(false);
   const [humanEvents, setHumanEvents] = useState<HumanEvent[]>([]);
   const [error, setError] = useState("");
+  const [zonesOn, setZonesOn] = useState(false);
+  const [zoneKind, setZoneKind] = useState<SiteZone["kind"]>("danger");
 
   const loadEvents = useCallback(async () => {
     const res = await apiFetch(`/api/objects/${id}/events`);
@@ -97,6 +112,8 @@ export default function ObjectPage() {
   }
 
   const schedule = scheduleVerdict(card);
+  const forecast = card.summary?.forecast;
+  const gap = forecast?.equipment_gap.rows ?? [];
   const location = [card.object.district, card.object.address].filter(Boolean).join(" · ");
   const openSignals = (card.summary?.violations_open ?? 0) + (card.summary?.reviews_open ?? 0);
   const conclusion = !snap || ["new", "processing", "failed"].includes(snap.status) ? { tone: "none", text: "Недостаточно данных" }
@@ -109,6 +126,7 @@ export default function ObjectPage() {
     <main className={`page v-${theme}`}>
       <NavBar wide title={card.object.name} back={{ href: "/", label: "Объекты" }}
         right={<>
+          <Link className="mini" href={`/objects/${id}#quality`}>Качество</Link>
           <Link className="mini" href={`/objects/${id}#chronology`}>Хронология</Link>
           <Link className="mini report-nav-link" href={`/objects/${id}/report`}>Отчёт</Link>
           <label className="btn small" style={{ cursor: "pointer" }}>
@@ -126,12 +144,43 @@ export default function ObjectPage() {
             <h1>{card.object.name}</h1>
             {location && <div className="hero-addr"><IconPin size={15} />{location}</div>}
           </div>
-          <div className={`oc-verdict ${schedule.tone}`}>
-            <span className="oc-kicker">Статус по графику</span>
-            <strong>{schedule.label}</strong>
-            <p>{schedule.note}</p>
+          <div className="oc-verdicts">
+            <div className={`oc-verdict ${schedule.tone}`}>
+              <span className="oc-kicker">Статус по графику</span>
+              <strong>{schedule.label}</strong>
+              <p>{schedule.note}</p>
+            </div>
+            {forecast && (
+              <div className={`oc-verdict forecast ${FORECAST_TONE[forecast.verdict]}`}>
+                <span className="oc-kicker">Прогноз по графику</span>
+                <strong>{forecast.headline}</strong>
+                <p>Факт: {forecast.fact_stage ?? "нет снимка в сроках плана"} · план: {forecast.plan_stage ?? "—"}</p>
+                <p>{`Темп: ${forecast.pace_label}. ${forecast.drivers[0] ?? ""}`}</p>
+                <p>{forecast.disclaimer}</p>
+              </div>
+            )}
           </div>
         </section>
+
+        {card.dynamics && <p className="oc-dynamics">{card.dynamics.sentence}</p>}
+        {card.dynamics && card.dynamics.points.length > 0 && (
+          <div className="oc-weeks">
+            <table>
+              <thead><tr><th>Неделя</th><th>Снимки</th><th>Этап по дате</th><th>Проблемы</th><th>Вопросы</th></tr></thead>
+              <tbody>
+                {card.dynamics.points.map((point) => (
+                  <tr key={point.date}>
+                    <td>{fmt(point.date)}</td>
+                    <td>{point.snapshots}</td>
+                    <td>{point.stage_name ?? "—"}</td>
+                    <td>{point.violations}</td>
+                    <td>{point.reviews}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {card.stages.length > 0 && (
           <ol className="oc-stages" aria-label="Этапы плана">
@@ -148,8 +197,19 @@ export default function ObjectPage() {
           <div className="oc-viewer">
             <div className="oc-viewer-bar">
               <span className="oc-kicker">Снимок · {snap ? fmt(snap.captured_at) : "нет снимков"}</span>
-              <label className="tgl"><input type="checkbox" checked={showBoxes} onChange={(e) => setShowBoxes(e.target.checked)} />Боксы</label>
+              <span className="oc-viewer-actions">
+                <button type="button" className={`mini ${zonesOn ? "pri" : ""}`} onClick={() => setZonesOn((on) => !on)}>Зоны</button>
+                <label className="tgl"><input type="checkbox" checked={showBoxes} onChange={(e) => setShowBoxes(e.target.checked)} />Боксы</label>
+              </span>
             </div>
+            {zonesOn && (
+              <div className="zone-tools">
+                {ZONE_KINDS.map((item) => (
+                  <button key={item.id} type="button" className={`mini ${zoneKind === item.id ? "pri" : ""}`} onClick={() => setZoneKind(item.id)}>{item.label}</button>
+                ))}
+                <span>Протяните прямоугольник по кадру</span>
+              </div>
+            )}
             {snap ? (
               <div className="canvas">
                 <img src={`/api/snapshots/${snap.id}/file`} alt={`Снимок ${fmt(snap.captured_at)}`} />
@@ -159,6 +219,7 @@ export default function ObjectPage() {
                     width: `${((d.x2 - d.x1) / snap.width) * 100}%`, height: `${((d.y2 - d.y1) / snap.height) * 100}%`,
                   }}><span className="tag">{equipmentRu(d.label)} · {d.score.toFixed(2)}</span></div>
                 ))}
+                <SiteZoneLayer objectId={id} zones={card.zones ?? []} enabled={zonesOn} kind={zoneKind} onChanged={() => void load()} onError={setError} />
                 {snap.status === "processing" && <div className="canvas-state">Идёт распознавание…</div>}
                 {(snap.status === "new" || snap.status === "failed") && (
                   <button type="button" className="canvas-state action" onClick={() => void startDetect(snap.id)}>
@@ -187,7 +248,21 @@ export default function ObjectPage() {
                 <div><dt>Этап по плану</dt><dd>{planStage?.name ?? "—"}</dd></div>
                 <div><dt>Нужна техника</dt><dd>{requirements.length ? requirements.map((r) => r.name).join(", ") : "—"}</dd></div>
                 <div><dt>Видно на кадре</dt><dd>{observed.size ? [...observed].map(equipmentRu).join(", ") : "техника не найдена"}</dd></div>
+                {forecast && (
+                  <div><dt>Активность (по серии снимков)</dt><dd>{forecast.activity.label}</dd></div>
+                )}
               </dl>
+              {forecast && <p className="oc-activity-note">{forecast.activity.note}</p>}
+              {gap.length > 0 && (
+                <table className="oc-gap">
+                  <thead><tr><th>На этапе нужно</th><th>Последние {forecast?.equipment_gap.window ?? 3} снимка</th><th>Не хватает</th></tr></thead>
+                  <tbody>
+                    {gap.map((row) => (
+                      <tr key={row.name}><td>{row.name}</td><td>{row.seen ? "видели" : "не видно"}</td><td>{row.missing ? "да" : "—"}</td></tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
               <div className={`oc-conclusion ${conclusion.tone}`}>
                 {conclusion.tone === "bad" ? <IconWarning size={16} /> : conclusion.tone === "ok" ? <IconCheck size={16} /> : null}
                 {conclusion.text}
@@ -209,6 +284,20 @@ export default function ObjectPage() {
             </Link>
           </aside>
         </section>
+
+        {card.quality && (
+          <section className="oc-quality" id="quality">
+            <span className="oc-kicker">Качество распознавания</span>
+            <h2>Вердикты инспектора</h2>
+            <p>{card.quality.note}</p>
+            <div className="oc-quality-grid">
+              <div><b>{card.quality.correct}</b><span>верно</span></div>
+              <div><b>{card.quality.wrong}</b><span>ошибка</span></div>
+              <div><b>{card.quality.pending}</b><span>без вердикта</span></div>
+              <div><b>{card.quality.correct_share == null ? "—" : `${Math.round(card.quality.correct_share * 100)}%`}</b><span>верных среди проверенных</span></div>
+            </div>
+          </section>
+        )}
 
         <section className="oc-timeline" id="chronology" aria-labelledby="oc-chronology-title">
           <header className="oc-timeline-head">

@@ -17,6 +17,13 @@ CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at);
 ALTER TABLE objects ADD COLUMN IF NOT EXISTS district TEXT NOT NULL DEFAULT '';
 ALTER TABLE objects ADD COLUMN IF NOT EXISTS address TEXT NOT NULL DEFAULT '';
 ALTER TABLE objects ADD COLUMN IF NOT EXISTS description TEXT NOT NULL DEFAULT '';
+CREATE TABLE IF NOT EXISTS site_zones (
+  id BIGSERIAL PRIMARY KEY,
+  object_id BIGINT NOT NULL REFERENCES objects(id),
+  name TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  polygon_json TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS assistant_proposals (
   id TEXT PRIMARY KEY,
   object_id BIGINT NOT NULL REFERENCES objects(id),

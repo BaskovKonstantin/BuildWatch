@@ -50,6 +50,36 @@ class RulesTest(unittest.TestCase):
         ]
         self.assertEqual(len(rules.group_detections(detections)), 1)
 
+    def test_stationary_equipment_raises_activity_question(self):
+        first = {"id": 1, "captured_at": "2026-06-01", "status": "detected", "width": 100, "height": 100,
+                 "detections": [self.det("excavator")]}
+        second = {"id": 2, "captured_at": "2026-06-08", "status": "detected", "width": 100, "height": 100,
+                  "detections": [self.det("excavator")]}
+        warnings = rules.evaluate_series([second, first])
+        self.assertEqual(warnings[0]["rule"], "R-08")
+        self.assertEqual(warnings[0]["severity"], "review")
+        self.assertEqual(warnings[0]["snapshot_id"], 2)
+
+    def test_moved_equipment_is_not_idle(self):
+        first = {"id": 1, "captured_at": "2026-06-01", "status": "detected", "width": 100, "height": 100,
+                 "detections": [self.det("excavator")]}
+        second = {"id": 2, "captured_at": "2026-06-08", "status": "detected", "width": 100, "height": 100,
+                  "detections": [{**self.det("excavator"), "x1": 60, "y1": 60, "x2": 90, "y2": 90}]}
+        self.assertEqual(rules.evaluate_series([first, second]), [])
+        self.assertEqual(rules.series_motion([first, second])["verdict"], "working")
+
+    def test_danger_zone_and_crane_storage(self):
+        snap = {**self.snap(), "width": 100, "height": 100}
+        danger = {"kind": "danger", "name": "Опасная зона", "polygon": [[0, 0], [0.5, 0], [0.5, 0.5], [0, 0.5]]}
+        storage = {"kind": "storage", "name": "Склад", "polygon": [[0, 0], [1, 0], [1, 1], [0, 1]]}
+        warnings = rules.evaluate_snapshot(snap, [self.det("excavator")], stage(), zones=[danger])
+        self.assertTrue(any(w["rule"] == "R-09" and w["severity"] == "violation" for w in warnings))
+        mounting = [{"kind": "frame", "name": "Монолитный каркас", "date_from": "2026-01-01", "date_to": "2026-12-31", "status": "current"}]
+        crane = {**self.det("tower crane"), "x1": 10, "y1": 10, "x2": 40, "y2": 40}
+        stored = rules.evaluate_snapshot(snap, [crane], mounting, zones=[storage])
+        self.assertTrue(any(w["rule"] == "R-10" and w["severity"] == "review" for w in stored))
+        excavation = rules.evaluate_snapshot(snap, [crane], stage(), zones=[storage])
+        self.assertFalse(any(w["rule"] == "R-10" for w in excavation))
 
 
 if __name__ == "__main__":

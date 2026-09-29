@@ -6,6 +6,7 @@ can use the Windows CPU environment from WSL and writes a validated result file.
 from __future__ import annotations
 
 import io
+import json
 import uuid
 from datetime import date
 from pathlib import Path
@@ -17,6 +18,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 import db
+import forecast
 import rules
 from evaluate import evaluate_object
 import security
@@ -110,6 +112,35 @@ app.mount("/media/samples", StaticFiles(directory=str(SAMPLES)), name="samples")
 app.mount("/media/uploads", StaticFiles(directory=str(UPLOADS)), name="uploads")
 
 
+def _parse_polygon(raw: object) -> list[list[float]]:
+    if not isinstance(raw, list) or len(raw) < 3:
+        raise HTTPException(422, "polygon must contain at least 3 points")
+    points: list[list[float]] = []
+    for point in raw:
+        if not isinstance(point, (list, tuple)) or len(point) != 2:
+            raise HTTPException(422, "polygon point must be [x, y]")
+        x, y = float(point[0]), float(point[1])
+        if not (0 <= x <= 1 and 0 <= y <= 1):
+            raise HTTPException(422, "polygon coordinates must be between 0 and 1")
+        points.append([round(x, 4), round(y, 4)])
+    return points
+
+
+def _load_zones(object_id: int) -> list[dict]:
+    zones = []
+    for row in db.query(
+        "SELECT id, name, kind, polygon_json FROM site_zones WHERE object_id=? ORDER BY id",
+        (object_id,),
+    ):
+        try:
+            polygon = json.loads(row["polygon_json"])
+        except (TypeError, json.JSONDecodeError):
+            continue
+        if isinstance(polygon, list):
+            zones.append({"id": row["id"], "name": row["name"], "kind": row["kind"], "polygon": polygon})
+    return zones
+
+
 def snapshot_path(snap: dict) -> Path:
     return (SAMPLES if snap["src"] == "samples" else UPLOADS) / snap["filename"]
 
@@ -180,6 +211,7 @@ def object_card(object_id: int) -> dict:
         },
         "snapshots": snap_list,
         "warnings": warns_out,
+        "zones": _load_zones(object_id),
         "counts": {
             "snapshots": len(snap_list),
             "warnings_open": sum(1 for w in warns_out if w["status"] == "open"),
@@ -239,6 +271,7 @@ def project_summary(card: dict, today: str) -> dict:
         "equipment": equipment,
         "violations_open": sum(1 for w in open_warnings if w["severity"] == "violation"),
         "reviews_open": sum(1 for w in open_warnings if w["severity"] != "violation"),
+        "forecast": forecast.forecast_schedule(card, today),
     }
 
 
@@ -278,7 +311,55 @@ def create_object(
 @app.get("/api/objects/{object_id}")
 def get_object(object_id: int) -> dict:
     card = object_card(object_id)
-    return {**card, "summary": project_summary(card, date.today().isoformat())}
+    today = date.today().isoformat()
+    return {
+        **card,
+        "summary": project_summary(card, today),
+        "dynamics": forecast.build_dynamics(card, today),
+        "quality": forecast.recognition_quality(card),
+    }
+
+
+@app.get("/api/objects/{object_id}/dynamics")
+def get_object_dynamics(object_id: int) -> dict:
+    return forecast.build_dynamics(object_card(object_id), date.today().isoformat())
+
+
+@app.get("/api/objects/{object_id}/zones")
+def list_zones(object_id: int) -> list[dict]:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    return _load_zones(object_id)
+
+
+@app.post("/api/objects/{object_id}/zones")
+def create_zone(object_id: int, payload: dict = Body(...)) -> dict:
+    if not db.query("SELECT id FROM objects WHERE id=?", (object_id,)):
+        raise HTTPException(404, "object not found")
+    kind = str(payload.get("kind", ""))
+    if kind not in rules.ZONE_KINDS:
+        raise HTTPException(422, "kind must be work|danger|storage")
+    fallback = {"work": "Зона работ", "danger": "Опасная зона", "storage": "Зона складирования"}
+    name = str(payload.get("name", "")).strip() or fallback[kind]
+    if len(name) > 80:
+        raise HTTPException(422, "name is too long")
+    polygon = _parse_polygon(payload.get("polygon"))
+    zone_id = db.execute(
+        "INSERT INTO site_zones(object_id, name, kind, polygon_json) VALUES (?,?,?,?)",
+        (object_id, name, kind, json.dumps(polygon, ensure_ascii=False)),
+    )
+    evaluate_object(object_id)
+    return {"id": zone_id, "name": name, "kind": kind, "polygon": polygon}
+
+
+@app.delete("/api/objects/{object_id}/zones/{zone_id}")
+def delete_zone(object_id: int, zone_id: int) -> dict:
+    rows = db.query("SELECT id FROM site_zones WHERE id=? AND object_id=?", (zone_id, object_id))
+    if not rows:
+        raise HTTPException(404, "zone not found")
+    db.execute("DELETE FROM site_zones WHERE id=?", (zone_id,))
+    evaluate_object(object_id)
+    return {"ok": True}
 
 
 @app.get("/api/objects/{object_id}/comments")
