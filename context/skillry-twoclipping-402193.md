@@ -14,3 +14,11 @@
 
 ## Зачем может быть полезно BuildWatch
 Референс motion/UI-демо и структура «агентского» промпта для генерации loop-видео без After Effects.
+
+## Внедрено в продукт (2026-09-29)
+Не promo-loop, а живые микроанимации:
+- токены `--ease-spring`, `--motion-*` в `frontend/app/globals.css`
+- главная: карточки, chips, segmented, portfolio switcher
+- карта: маркеры (morph radius), panel swap, issue cards stagger
+- объект: filmstrip, detection boxes, plan-fact / verdict / stages
+- без новых npm-зависимостей; `prefers-reduced-motion` учтён
