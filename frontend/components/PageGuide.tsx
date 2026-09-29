@@ -29,17 +29,17 @@ const BOTTOM_RESERVE = 24;
 const HOME: Guide = {
   name: "Портфель объектов",
   steps: [
-    { target: ".review-cta", side: "bottom", title: "Очередь разбора",
+    { target: ".review-cta", side: "left", offset: [0, 0.15], title: "Очередь разбора",
       text: "Сигналы, которые ждут решения инспектора. Кнопка открывает первый объект сразу в режиме разбора." },
-    { target: ".assistant-center-cta", side: "bottom", title: "ИИ-помощник",
+    { target: ".assistant-center-cta", side: "left", offset: [0, 0.15], title: "ИИ-помощник",
       text: "Отвечает по данным всего портфеля: планам, снимкам и открытым сигналам." },
-    { target: ".view-controls", side: "bottom", offset: [0.08, 0], title: "Фильтры и вид",
+    { target: ".view-controls", side: "left", offset: [0, 0.05], title: "Фильтры и вид",
       text: "Тип объекта и переключение между картой и списком. Поиск выше ищет по названию, адресу и этапу." },
-    { target: ".map-feed", side: "inside", offset: [0.02, 0.04], title: "Сводка портфеля",
+    { target: ".map-feed", side: "left", offset: [0, 0.06], title: "Сводка портфеля",
       text: "Сколько объектов в норме, с вопросами и с проблемами. Раскройте строку, чтобы увидеть объекты." },
-    { target: ".map-canvas", side: "inside", offset: [0.32, 0.06], title: "Карта Москвы",
+    { target: ".map-canvas", side: "top", offset: [0.22, 0], title: "Карта Москвы",
       text: "На маркере число открытых сигналов, цвет — статус объекта. Нажмите маркер, чтобы открыть сводку." },
-    { target: ".map-details", side: "inside", offset: [0.04, 0.04], title: "Карточка объекта",
+    { target: ".map-details", side: "right", offset: [0, 0.06], title: "Карточка объекта",
       text: "Этап по плану и факт по последнему снимку, прогноз и сравнение нужной техники с увиденной." },
   ],
 };
@@ -47,20 +47,20 @@ const HOME: Guide = {
 const OBJECT: Guide = {
   name: "Карточка объекта",
   steps: [
-    { target: ".oc-status", side: "bottom", title: "Статус по графику",
+    { target: ".oc-status", side: "left", offset: [0, 0.08], title: "Статус по графику",
       text: "Итог сверки снимков с календарным планом и динамика сигналов за 30 дней." },
-    { target: ".oc-forecast", side: "bottom", title: "Прогноз",
+    { target: ".oc-forecast", side: "left", offset: [0, 0.08], title: "Прогноз",
       text: "Оценка отставания по серии снимков: этап по плану, этап по факту и темп работ." },
-    { target: ".oc-stages", side: "bottom", offset: [0.15, 0], title: "Этапы плана",
+    { target: ".oc-stages", side: "left", offset: [0, 0.12], title: "Этапы плана",
       text: "Календарный график объекта. Текущий этап выделен, завершённые отмечены галочкой." },
-    { target: ".oc-viewer .canvas", side: "inside", offset: [0.04, 0.08], title: "Снимок с распознаванием",
+    { target: ".oc-viewer", side: "left", offset: [0, 0.1], title: "Снимок с распознаванием",
       text: "Рамки YOLO с уверенностью модели. Кнопка «Зоны» размечает опасную зону и склад (R-09, R-10)." },
-    { target: ".oc-fact", side: "inside", offset: [0.06, 0.08], title: "План и факт",
+    { target: ".oc-fact", side: "right", offset: [0, 0.08], title: "План и факт",
       text: "Какая техника нужна этапу, что видно на кадре и вывод о вероятной активности на площадке." },
     { target: ".chronology-nav-link", side: "bottom", title: "Хронология",
       text: "Прокрутка к ленте этапов, снимков и сигналов внизу страницы. Там же откроется гайд по хронологии." },
-    { target: ".report-nav-link", side: "bottom", title: "Отчёт и снимки",
-      text: "Отчёт по объекту для печати и загрузка нового снимка камеры." },
+    { target: ".report-nav-link", side: "bottom", title: "Отчёт",
+      text: "Отчёт по объекту для печати и выгрузки в PDF." },
   ],
 };
 
@@ -68,11 +68,11 @@ const OBJECT: Guide = {
 const CHRONOLOGY_ON_OBJECT: Guide = {
   name: "Хронология на карточке",
   steps: [
-    { target: ".oc-timeline-head", side: "bottom", title: "Блок хронологии",
+    { target: ".oc-timeline-head", side: "left", offset: [0, 0.1], title: "Блок хронологии",
       text: "Здесь собраны этапы плана, снимки камеры, проблемы, вопросы и записи инспектора на одной линии." },
-    { target: ".object-timeline", side: "inside", offset: [0.03, 0.05], title: "Лента по фазам",
+    { target: ".object-timeline", side: "left", offset: [0, 0.05], title: "Лента по фазам",
       text: "Раскройте фазу — увидите события по дате. Клик по снимку открывает кадр; цвет узла: проблема, вопрос или действие человека." },
-    { target: ".timeline-editor-link", side: "left", title: "Календарь и редактор",
+    { target: ".timeline-editor-link", side: "bottom", title: "Календарь и редактор",
       text: "Отдельная страница: вид «календарь», добавление события инспектора и правка этапов плана (CSV/XLSX)." },
   ],
 };
@@ -112,13 +112,13 @@ const ASSISTANT: Guide = {
 const REPORT: Guide = {
   name: "Отчёт по объекту",
   steps: [
-    { target: ".report-metrics", side: "inside", offset: [0.04, 0.15], title: "Ключевые цифры",
+    { target: ".report-metrics", side: "left", offset: [0, 0.12], title: "Ключевые цифры",
       text: "Время по плану, последний снимок, открытые проблемы и решения инспектора." },
-    { target: ".report-section", index: 0, side: "inside", offset: [0.04, 0.1], title: "Прогноз по графику",
+    { target: ".report-section", index: 0, side: "left", offset: [0, 0.08], title: "Прогноз по графику",
       text: "Отставание, этап по факту и техника, которой не хватает на последних снимках." },
-    { target: ".report-section", index: 1, side: "inside", offset: [0.04, 0.1], title: "Динамика",
+    { target: ".report-section", index: 1, side: "left", offset: [0, 0.08], title: "Динамика",
       text: "По неделям: сколько снимков, какой этап по дате, проблемы и вопросы." },
-    { target: ".report-section", index: 2, side: "inside", offset: [0.04, 0.1], title: "Качество распознавания",
+    { target: ".report-section", index: 2, side: "left", offset: [0, 0.08], title: "Качество распознавания",
       text: "Статистика вердиктов инспектора: сколько выводов модели верны." },
     { target: ".report-print", side: "bottom", title: "Печать и PDF",
       text: "Отчёт готов к печати и выгрузке в PDF для совещания." },
@@ -189,15 +189,20 @@ function place(steps: Step[]): Placed[] {
     const ox = (step.offset?.[0] ?? 0) * visW;
     const oy = (step.offset?.[1] ?? 0) * visH;
     const raw = anchor(step.side, rect, ox, oy);
-    let x = clamp(raw.x, EDGE, vw - CALLOUT_W - EDGE);
-    let y = clamp(raw.y, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
+    let x = raw.x;
+    let y = raw.y;
+    // Left gutter: keep callouts in the margin, not over the block.
+    if (step.side === "left" && x < EDGE) x = EDGE;
+    if (step.side === "right" && x + CALLOUT_W > vw - EDGE) x = vw - CALLOUT_W - EDGE;
+    x = clamp(x, EDGE, vw - CALLOUT_W - EDGE);
+    y = clamp(y, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
 
-    // Short nudges only — never jump to another region of the screen.
-    for (let attempt = 0; attempt < 8; attempt++) {
+    // Resolve overlaps by sliding along the free axis, staying on the chosen side.
+    for (let attempt = 0; attempt < 12; attempt++) {
       const hit = out.find((prev) => overlaps({ x, y }, prev));
       if (!hit) break;
       if (step.side === "bottom" || step.side === "top") {
-        x = clamp(hit.x + (raw.x >= hit.x ? CALLOUT_W + 10 : -(CALLOUT_W + 10)), EDGE, vw - CALLOUT_W - EDGE);
+        x = clamp(hit.x + (x >= hit.x ? CALLOUT_W + 10 : -(CALLOUT_W + 10)), EDGE, vw - CALLOUT_W - EDGE);
       } else {
         y = clamp(hit.y + CALLOUT_H + 10, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
       }
