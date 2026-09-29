@@ -379,16 +379,18 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
     if (!sorted.length) return <p className="map-feed-empty">{emptyLabel}</p>;
     return (
       <ul className="map-feed-projects">
-        {sorted.map((project) => (
-          <li key={project.id}>
-            <button type="button" onClick={() => onSelect(project.id)}>
-              <span>{project.name}</span>
-              <b className={kind === "reviews" ? "review" : kind === "violations" ? "danger" : "neutral"}>
-                {feedBadge(project, kind)}
-              </b>
-            </button>
-          </li>
-        ))}
+        {sorted.map((project) => {
+          const count = feedBadge(project, kind);
+          const tone = kind === "reviews" ? "review" : kind === "violations" ? "danger" : "neutral";
+          return (
+            <li key={project.id}>
+              <button type="button" className="map-feed-row" onClick={() => onSelect(project.id)}>
+                <span className="map-feed-name">{project.name}</span>
+                <span className={`map-feed-count ${tone}`} aria-label={`${count}`}>{count}</span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
     );
   }
@@ -467,8 +469,11 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
           <div className="map-feed-head"><strong>Состояние портфеля</strong><span>Сейчас</span></div>
           <div className="map-feed-list">
             <FeedMetric id="objects" tone="objects" count={totals.projects} label="объектов в мониторинге" icon={<IconBuilding size={17} />} open={feedOpen.includes("objects")} onToggle={() => toggleFeed("objects")}>
-              <p className="map-feed-detail-caption">Все объекты текущего портфеля</p>
-              {renderProjectList(projects, "В портфеле пока нет объектов", "portfolio")}
+              <p className="map-feed-detail-caption">
+                {projects.length
+                  ? `${projects.length} объектов на карте — выберите маркер или строку ниже в блоках проблем и вопросов.`
+                  : "В портфеле пока нет объектов"}
+              </p>
             </FeedMetric>
             <FeedMetric id="danger" tone="danger" count={totals.violations} label="открытых проблем" icon={<IconWarning size={17} />} open={feedOpen.includes("danger")} onToggle={() => toggleFeed("danger")}>
               <p className="map-feed-detail-caption">Только объекты с нарушениями · число справа — открытые проблемы</p>

@@ -144,7 +144,7 @@ img{display:block}
 .map-legend span{display:inline-flex;align-items:center;gap:5px}
 .map-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--label3);flex-shrink:0}
 .map-dot.danger{background:var(--red)}.map-dot.review{background:var(--orange)}.map-dot.clear{background:var(--green)}
-.map-layout{display:grid;grid-template-columns:230px minmax(0,1fr) 310px;min-height:540px}
+.map-layout{display:grid;grid-template-columns:minmax(240px,260px) minmax(0,1fr) 310px;min-height:540px}
 .map-feed{padding:18px 14px;background:var(--card2);border-right:1px solid var(--sep);min-width:0}
 .map-feed-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:3px 6px 13px;border-bottom:1px solid var(--sep);color:var(--label)}
 .map-feed-head strong{font-size:13px}.map-feed-head span{font-size:11px;color:var(--label2)}
@@ -159,12 +159,16 @@ img{display:block}
 .map-feed-value{display:flex;min-width:0;flex:1;flex-direction:column;gap:1px}.map-feed-value b{font-family:var(--font-display);font-size:22px;line-height:1}.map-feed-value>span{font-size:11px;line-height:1.25;color:var(--label2)}
 .map-feed-chevron,.map-fact-chevron{color:var(--label2);font-size:18px;line-height:1;transition:transform .2s var(--ease)}
 .map-feed-group.open .map-feed-chevron,.map-fact.open .map-fact-chevron{transform:rotate(180deg)}
-.map-feed-detail{padding:0 10px 11px 47px;animation:feed-open .2s var(--ease) both}
-.map-feed-detail-caption{margin-bottom:7px;color:var(--label2);font-size:11px;line-height:1.35}
-.map-feed-projects{display:grid;gap:4px;list-style:none}
-.map-feed-projects button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:6px 0;border:0;background:none;text-align:left;font-size:11px;line-height:1.25}
-.map-feed-projects button:hover{color:var(--blue)}.map-feed-projects button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.map-feed-projects button b{flex:none;font-family:var(--mono);font-size:10px}
-.map-feed-projects button b.danger{color:var(--red-text)}.map-feed-projects button b.review{color:var(--orange-text)}.map-feed-projects button b.neutral{color:var(--label2)}
+.map-feed-detail{padding:0 12px 11px 12px;animation:feed-open .2s var(--ease) both}
+.map-feed-detail-caption{margin:0;color:var(--label2);font-size:11px;line-height:1.35}
+.map-feed-projects{display:grid;gap:4px;list-style:none;margin:8px 0 0;padding:0}
+.map-feed-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;padding:6px 0;border:0;background:none;text-align:left;font-size:11px;line-height:1.25;cursor:pointer}
+.map-feed-row:hover .map-feed-name{color:var(--blue)}
+.map-feed-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--label)}
+.map-feed-count{flex:none;min-width:22px;padding:2px 7px;border-radius:4px;font:700 10px var(--mono);line-height:1.3;text-align:center}
+.map-feed-count.danger{color:var(--red-text);background:color-mix(in srgb,var(--red) 14%,transparent)}
+.map-feed-count.review{color:var(--orange-text);background:color-mix(in srgb,var(--orange) 16%,transparent)}
+.map-feed-count.neutral{color:var(--label2);background:var(--fill2)}
 .map-feed-empty{color:var(--label2);font-size:11px;line-height:1.35}
 @keyframes feed-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .map-canvas{position:relative;min-height:540px;overflow:hidden;background:#e8e4df}
