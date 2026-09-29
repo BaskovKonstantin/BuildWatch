@@ -126,7 +126,6 @@ export default function ObjectPage() {
     <main className={`page v-${theme}`}>
       <NavBar wide title={card.object.name} back={{ href: "/", label: "Объекты" }}
         right={<>
-          <Link className="mini" href={`/objects/${id}#quality`}>Качество</Link>
           <Link className="mini" href={`/objects/${id}#chronology`}>Хронология</Link>
           <Link className="mini report-nav-link" href={`/objects/${id}/report`}>Отчёт</Link>
           <label className="btn small" style={{ cursor: "pointer" }}>
@@ -144,43 +143,39 @@ export default function ObjectPage() {
             <h1>{card.object.name}</h1>
             {location && <div className="hero-addr"><IconPin size={15} />{location}</div>}
           </div>
-          <div className="oc-verdicts">
-            <div className={`oc-verdict ${schedule.tone}`}>
+        </section>
+
+        <section className={`oc-verdict ${forecast ? "split" : ""} ${forecast && FORECAST_TONE[forecast.verdict] === "late" ? "late" : schedule.tone}`}>
+            <div className="oc-status">
               <span className="oc-kicker">Статус по графику</span>
               <strong>{schedule.label}</strong>
               <p>{schedule.note}</p>
             </div>
             {forecast && (
-              <div className={`oc-verdict forecast ${FORECAST_TONE[forecast.verdict]}`}>
-                <span className="oc-kicker">Прогноз по графику</span>
-                <strong>{forecast.headline}</strong>
-                <p>Факт: {forecast.fact_stage ?? "нет снимка в сроках плана"} · план: {forecast.plan_stage ?? "—"}</p>
-                <p>{`Темп: ${forecast.pace_label}. ${forecast.drivers[0] ?? ""}`}</p>
-                <p>{forecast.disclaimer}</p>
+              <div className="oc-forecast">
+                <div className="oc-forecast-head">
+                  <span className="oc-kicker">Прогноз · умеренный сценарий</span>
+                  {forecast.days_delta != null && forecast.days_delta !== 0 && (
+                    <b className={`oc-delta ${forecast.days_delta > 0 ? "late" : "ok"}`}>
+                      {forecast.days_delta > 0 ? `+${forecast.days_delta}` : forecast.days_delta} дн.
+                    </b>
+                  )}
+                </div>
+                <strong className="oc-cap">{forecast.headline.replace(/^Прогноз:\s*/i, "").replace(/\s*\(сценарий умеренный\)/i, "")}</strong>
+                <div className="oc-forecast-stages">
+                  <span><small>План</small>{forecast.plan_stage ?? "—"}</span>
+                  <span><small>Факт</small>{forecast.fact_stage ?? "нет снимка в сроках"}</span>
+                  <span><small>Темп</small>{forecast.pace_label}</span>
+                </div>
+                {forecast.drivers.length > 0 && (
+                  <ul className="oc-drivers">
+                    {forecast.drivers.slice(0, 3).map((d) => <li key={d}>{d}</li>)}
+                  </ul>
+                )}
+                <small className="oc-disclaimer">{forecast.disclaimer}</small>
               </div>
             )}
-          </div>
         </section>
-
-        {card.dynamics && <p className="oc-dynamics">{card.dynamics.sentence}</p>}
-        {card.dynamics && card.dynamics.points.length > 0 && (
-          <div className="oc-weeks">
-            <table>
-              <thead><tr><th>Неделя</th><th>Снимки</th><th>Этап по дате</th><th>Проблемы</th><th>Вопросы</th></tr></thead>
-              <tbody>
-                {card.dynamics.points.map((point) => (
-                  <tr key={point.date}>
-                    <td>{fmt(point.date)}</td>
-                    <td>{point.snapshots}</td>
-                    <td>{point.stage_name ?? "—"}</td>
-                    <td>{point.violations}</td>
-                    <td>{point.reviews}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
 
         {card.stages.length > 0 && (
           <ol className="oc-stages" aria-label="Этапы плана">
@@ -191,6 +186,32 @@ export default function ObjectPage() {
               </li>
             ))}
           </ol>
+        )}
+
+        {card.dynamics && card.dynamics.points.length > 0 && (
+          <section className="oc-dyn" aria-label="Динамика по неделям">
+            <div className="oc-dyn-head">
+              <span className="oc-kicker">Динамика · {card.dynamics.window_days} дн.</span>
+              <p>{card.dynamics.sentence}</p>
+            </div>
+            {card.dynamics.points.length > 1 && <ol className="oc-dyn-weeks">
+              {card.dynamics.points.map((p) => {
+                const peak = Math.max(1, ...card.dynamics!.points.map((x) => x.violations + x.reviews));
+                return (
+                  <li key={p.date} title={`${fmt(p.date)} · ${p.stage_name ?? "вне плана"} · снимков ${p.snapshots}`}>
+                    <span className="oc-dyn-bar" aria-hidden="true">
+                      <i className="rv" style={{ height: `${(p.reviews / peak) * 100}%` }} />
+                      <i className="vl" style={{ height: `${(p.violations / peak) * 100}%` }} />
+                    </span>
+                    <b>{p.violations}<em>/{p.reviews}</em></b>
+                    <small>{fmt(p.date).slice(0, 5)}</small>
+                    {p.snapshots === 0 && <span className="oc-dyn-gap">нет снимков</span>}
+                  </li>
+                );
+              })}
+            </ol>}
+            {card.dynamics.points.length > 1 && <div className="oc-dyn-legend"><span><i className="vl" />проблемы</span><span><i className="rv" />вопросы</span></div>}
+          </section>
         )}
 
         <section className="oc-main">
@@ -248,20 +269,26 @@ export default function ObjectPage() {
                 <div><dt>Этап по плану</dt><dd>{planStage?.name ?? "—"}</dd></div>
                 <div><dt>Нужна техника</dt><dd>{requirements.length ? requirements.map((r) => r.name).join(", ") : "—"}</dd></div>
                 <div><dt>Видно на кадре</dt><dd>{observed.size ? [...observed].map(equipmentRu).join(", ") : "техника не найдена"}</dd></div>
-                {forecast && (
-                  <div><dt>Активность (по серии снимков)</dt><dd>{forecast.activity.label}</dd></div>
-                )}
               </dl>
-              {forecast && <p className="oc-activity-note">{forecast.activity.note}</p>}
+              {forecast && (
+                <div className={`oc-activity ${forecast.activity.verdict}`}>
+                  <span className="oc-activity-dot" aria-hidden="true" />
+                  <div><b>{forecast.activity.label}</b><small>{forecast.activity.note}</small></div>
+                </div>
+              )}
               {gap.length > 0 && (
-                <table className="oc-gap">
-                  <thead><tr><th>На этапе нужно</th><th>Последние {forecast?.equipment_gap.window ?? 3} снимка</th><th>Не хватает</th></tr></thead>
-                  <tbody>
+                <div className="oc-gap">
+                  <span className="oc-gap-title">Техника этапа · последние {forecast?.equipment_gap.window ?? 3} снимка</span>
+                  <ul>
                     {gap.map((row) => (
-                      <tr key={row.name}><td>{row.name}</td><td>{row.seen ? "видели" : "не видно"}</td><td>{row.missing ? "да" : "—"}</td></tr>
+                      <li key={row.name} className={row.missing ? "miss" : "seen"}>
+                        {row.missing ? <IconClose size={12} /> : <IconCheck size={12} />}
+                        <span>{row.name}</span>
+                        <em>{row.missing ? "не видно" : "видели"}</em>
+                      </li>
                     ))}
-                  </tbody>
-                </table>
+                  </ul>
+                </div>
               )}
               <div className={`oc-conclusion ${conclusion.tone}`}>
                 {conclusion.tone === "bad" ? <IconWarning size={16} /> : conclusion.tone === "ok" ? <IconCheck size={16} /> : null}
@@ -269,14 +296,32 @@ export default function ObjectPage() {
               </div>
             </div>
 
-            <button type="button" className="oc-cta" onClick={() => setSwipeOpen(true)}>
-              <span className="oc-cta-stack" aria-hidden="true"><i /><i /><i /></span>
-              <span className="oc-cta-copy">
-                <strong>Проверить распознавание</strong>
-                <small>{toReview ? `${toReview} карточек · свайп вправо верно, влево ошибка` : `Всё проверено · ${reviewed} решений`}</small>
-              </span>
-              <b className="oc-cta-n">{toReview}</b>
-            </button>
+            <div className="oc-review" id="quality">
+              <button type="button" className="oc-cta" onClick={() => setSwipeOpen(true)}>
+                <span className="oc-cta-stack" aria-hidden="true"><i /><i /><i /></span>
+                <span className="oc-cta-copy">
+                  <strong>Проверить распознавание</strong>
+                  <small>{toReview ? `${toReview} карточек · ← ошибка, → верно` : `Всё проверено · ${reviewed} решений`}</small>
+                </span>
+                <b className="oc-cta-n">{toReview}</b>
+              </button>
+              {card.quality && card.quality.total > 0 && (
+                <div className="oc-quality" title={card.quality.note}>
+                  <div className="oc-quality-bar" aria-hidden="true">
+                    <i className="ok" style={{ width: `${(card.quality.correct / card.quality.total) * 100}%` }} />
+                    <i className="bad" style={{ width: `${(card.quality.wrong / card.quality.total) * 100}%` }} />
+                  </div>
+                  <div className="oc-quality-row">
+                    <span><b>{card.quality.correct}</b> верно</span>
+                    <span><b>{card.quality.wrong}</b> ошибка</span>
+                    <span><b>{card.quality.pending}</b> ждут</span>
+                    <span className="oc-quality-share">
+                      {card.quality.correct_share == null ? "точность —" : `точность ${Math.round(card.quality.correct_share * 100)}%`}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <Link className="oc-link" href={`/objects/${id}/timeline`}>
               <span><strong>Календарь и редактор плана</strong><small>{openSignals ? `${openSignals} открытых сигналов · события, CSV/XLSX` : "События, календарь, импорт плана"}</small></span>
@@ -284,20 +329,6 @@ export default function ObjectPage() {
             </Link>
           </aside>
         </section>
-
-        {card.quality && (
-          <section className="oc-quality" id="quality">
-            <span className="oc-kicker">Качество распознавания</span>
-            <h2>Вердикты инспектора</h2>
-            <p>{card.quality.note}</p>
-            <div className="oc-quality-grid">
-              <div><b>{card.quality.correct}</b><span>верно</span></div>
-              <div><b>{card.quality.wrong}</b><span>ошибка</span></div>
-              <div><b>{card.quality.pending}</b><span>без вердикта</span></div>
-              <div><b>{card.quality.correct_share == null ? "—" : `${Math.round(card.quality.correct_share * 100)}%`}</b><span>верных среди проверенных</span></div>
-            </div>
-          </section>
-        )}
 
         <section className="oc-timeline" id="chronology" aria-labelledby="oc-chronology-title">
           <header className="oc-timeline-head">
