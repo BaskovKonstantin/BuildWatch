@@ -4,6 +4,7 @@ import "./globals.css";
 import "./oc.css";
 import "leaflet/dist/leaflet.css";
 import { AssistantDock } from "@/components/AssistantDock";
+import { PageGuide } from "@/components/PageGuide";
 
 // SF Pro is used natively on Apple devices; Inter is the closest open
 // substitute for Windows/Linux and keeps the iOS look consistent.
@@ -40,7 +41,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}<AssistantDock /></body>
+      <body>{children}<AssistantDock /><PageGuide /></body>
     </html>
   );
 }
