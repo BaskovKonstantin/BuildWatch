@@ -235,10 +235,11 @@ export default function ObjectPage() {
             {snap ? (
               <div className="canvas">
                 <img src={`/api/snapshots/${snap.id}/file`} alt={`Снимок ${fmt(snap.captured_at)}`} />
-                {showBoxes && snap.detections.filter((d) => d.score >= BOX_CONF && d.verdict !== "wrong").map((d) => (
+                {showBoxes && snap.detections.filter((d) => d.score >= BOX_CONF && d.verdict !== "wrong").map((d, boxIndex) => (
                   <div key={d.id} className={`box b-${d.match} ${d.verdict === "correct" ? "verified" : ""}`} style={{
                     left: `${(d.x1 / snap.width) * 100}%`, top: `${(d.y1 / snap.height) * 100}%`,
                     width: `${((d.x2 - d.x1) / snap.width) * 100}%`, height: `${((d.y2 - d.y1) / snap.height) * 100}%`,
+                    animationDelay: `${boxIndex * 40}ms`,
                   }}><span className="tag">{equipmentRu(d.label)} · {d.score.toFixed(2)}</span></div>
                 ))}
                 <SiteZoneLayer objectId={id} zones={card.zones ?? []} enabled={zonesOn} kind={zoneKind} onChanged={() => void load()} onError={setError} />
@@ -252,9 +253,11 @@ export default function ObjectPage() {
             ) : <div className="empty">Загрузите первый снимок площадки</div>}
             {card.snapshots.length > 1 && (
               <div className="filmstrip" role="listbox" aria-label="Снимки объекта">
-                {card.snapshots.map((s) => (
+                {card.snapshots.map((s, filmIndex) => (
                   <button key={s.id} type="button" role="option" aria-selected={s.id === snapId}
-                    className={`film ${snapshotTone(s)} ${s.id === snapId ? "on" : ""}`} onClick={() => setSnapId(s.id)}>
+                    className={`film ${snapshotTone(s)} ${s.id === snapId ? "on" : ""}`}
+                    style={{ animationDelay: `${filmIndex * 35}ms` }}
+                    onClick={() => setSnapId(s.id)}>
                     <img src={`/api/snapshots/${s.id}/file`} alt="" loading="lazy" />
                     <span>{fmt(s.captured_at).slice(0, 5)}</span>
                   </button>

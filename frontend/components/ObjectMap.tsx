@@ -491,7 +491,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
 
         <aside className="map-details" aria-live="polite">
           {selected && selectedStatus ? (
-            <>
+            <div className="map-details-body" key={selected.id}>
               <div className={`map-status ${selectedStatus.className}`}><i className="map-dot" />{selectedStatus.label}</div>
               <h3>{selected.name}</h3>
               <p className="map-address"><IconPin size={15} />{selected.district} · {selected.address}</p>
@@ -523,12 +523,17 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
                       {detailsLoading && <p className="map-comment-muted">Загружаю распознавания…</p>}
                       {!detailsLoading && mapWarnings.length === 0 && <p className="map-comment-muted">Открытых проблем по снимкам нет.</p>}
                       <div className="map-issues-list">
-                        {mapWarnings.map((warning) => {
+                        {mapWarnings.map((warning, issueIndex) => {
                           const snapshot = selectedCard?.snapshots.find((item) => item.id === warning.snapshot_id);
                           const decision = warningDecisions[warning.id];
                           const related = snapshot?.detections.filter((detection) => detection.match !== "ok").slice(0, 3) ?? [];
                           return (
-                            <article className={`map-issue-card ${warning.severity === "violation" ? "danger" : "review"}`} key={warning.id} tabIndex={0}>
+                            <article
+                              className={`map-issue-card ${warning.severity === "violation" ? "danger" : "review"}`}
+                              key={warning.id}
+                              tabIndex={0}
+                              style={{ animationDelay: `${issueIndex * 45}ms` }}
+                            >
                               <div className="map-issue-preview" aria-hidden="true"><img src={`/api/snapshots/${warning.snapshot_id}/file`} alt="" /></div>
                               <div className="map-issue-copy">
                                 <div className="map-issue-meta"><span>{warning.severity === "violation" ? "Проблема" : "Вопрос"}</span><time>{shortDate(warning.captured_at)}</time></div>
@@ -565,7 +570,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
               <Link className="map-open" href={`/objects/${selected.id}`} onClick={() => { if (!routePending) setRoutePending(true); }} aria-disabled={routePending}>
                 <span>Открыть объект</span><IconArrowUpRight size={16} />
               </Link>
-            </>
+            </div>
           ) : (
             <div className="map-empty"><span className="map-empty-mark"><IconPin size={20} /></span><h3>Выберите объект</h3><p>Нажмите на маркер, чтобы увидеть текущий этап, прогресс и проблемы.</p></div>
           )}
