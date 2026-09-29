@@ -131,7 +131,7 @@ export default function ObjectPage() {
     <main className={`page v-${theme}`}>
       <NavBar wide title={card.object.name} back={{ href: "/", label: "Объекты" }}
         right={<>
-          <Link className="mini" href={`/objects/${id}#chronology`}>Хронология</Link>
+          <Link className="mini chronology-nav-link" href={`/objects/${id}#chronology`}>Хронология</Link>
           <Link className="mini report-nav-link" href={`/objects/${id}/report`}>Отчёт</Link>
           <label className="btn small" style={{ cursor: "pointer" }}>
             <IconUpload size={16} /><span className="hide-sm">Снимок</span>
@@ -355,7 +355,7 @@ export default function ObjectPage() {
               <h2>Этапы, снимки и сигналы</h2>
               <p>Лента по фазам плана — те же события, что на отдельной странице. Клик по событию открывает снимок.</p>
             </div>
-            <Link className="mini tinted" href={`/objects/${id}/timeline`}>Календарь и редактор</Link>
+            <Link className="mini tinted timeline-editor-link" href={`/objects/${id}/timeline`}>Календарь и редактор</Link>
           </header>
           {card && (
             <ObjectTimelineFeed objectId={id} card={card} humanEvents={humanEvents} wide
