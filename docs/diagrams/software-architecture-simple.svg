@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title description">
+  <title id="title">Упрощённая архитектура ПО BuildWatch</title>
+  <desc id="description">Поток от интерфейса через API и локальную детекцию к проверяемым сигналам. Общая база хранит очередь задач и результаты; ИИ-помощник показан как дополнительная интеграция.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="12" refY="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L13 7 L1 13" fill="none" stroke="#FF0053" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow-muted" markerWidth="14" markerHeight="14" refX="12" refY="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1 L13 7 L1 13" fill="none" stroke="#9B8EAE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .title{font:700 52px Arial,sans-serif;fill:#26123D}
+      .sub{font:24px Arial,sans-serif;fill:#5D5B69}
+      .num{font:700 24px Arial,sans-serif;fill:#FF0053}
+      .heading{font:700 31px Arial,sans-serif;fill:#26123D}
+      .body{font:21px Arial,sans-serif;fill:#4C4758}
+      .tag{font:700 19px Arial,sans-serif;fill:#6A5A9F}
+      .small{font:19px Arial,sans-serif;fill:#514B61}
+      .white{fill:#fff}
+      .card{fill:#fff;stroke:#E3DFEC;stroke-width:2}
+      .arrow{fill:none;stroke:#FF0053;stroke-width:3.5;marker-end:url(#arrow)}
+      .data-link{fill:none;stroke:#9B8EAE;stroke-width:2.5;marker-end:url(#arrow-muted)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F7FA"/>
+  <text class="title" x="70" y="88">Архитектура ПО BuildWatch</text>
+  <text class="sub" x="72" y="130">От снимка до проверяемого сигнала инспектору</text>
+
+  <rect class="card" x="65" y="215" width="330" height="245" rx="24"/>
+  <text class="num" x="92" y="258">01</text>
+  <text class="heading" x="92" y="312">Интерфейс</text>
+  <text class="body" x="92" y="351">Объекты · план · снимки</text>
+  <text class="body" x="92" y="382">Отчёты · проверка сигналов</text>
+  <rect x="90" y="404" width="225" height="38" rx="11" fill="#F0EBF8"/>
+  <text class="tag" x="108" y="430">Next.js 15</text>
+
+  <rect class="card" x="445" y="215" width="330" height="245" rx="24"/>
+  <text class="num" x="472" y="258">02</text>
+  <text class="heading" x="472" y="312">API</text>
+  <text class="body" x="472" y="351">Планы · снимки · задания</text>
+  <text class="body" x="472" y="382">Доступ · правила · ответы</text>
+  <rect x="470" y="404" width="225" height="38" rx="11" fill="#F0EBF8"/>
+  <text class="tag" x="488" y="430">FastAPI · Python</text>
+
+  <rect class="card" x="825" y="215" width="330" height="245" rx="24"/>
+  <text class="num" x="852" y="258">03</text>
+  <text class="heading" x="852" y="312">Детекция</text>
+  <text class="body" x="852" y="351">Worker обрабатывает снимок</text>
+  <text class="body" x="852" y="382">YOLO распознаёт технику</text>
+  <rect x="850" y="404" width="245" height="38" rx="11" fill="#F0EBF8"/>
+  <text class="tag" x="868" y="430">YOLO · PyTorch</text>
+
+  <rect x="1205" y="215" width="330" height="245" rx="24" fill="#35105D"/>
+  <text class="num" x="1232" y="258">04</text>
+  <text class="heading white" x="1232" y="312">Сигналы</text>
+  <text class="body white" x="1232" y="351">Правила R-01…03 · R-08…10</text>
+  <text class="body white" x="1232" y="382">Прогноз · зоны кадра</text>
+  <text class="small white" x="1232" y="427">Инспектор: верно / ошибка</text>
+
+  <path class="arrow" d="M399 337 H432"/>
+  <path class="arrow" d="M779 337 H812"/>
+  <path class="arrow" d="M1159 337 H1192"/>
+
+  <path class="data-link" d="M610 462 V523"/>
+  <path class="data-link" d="M990 462 V523"/>
+  <path class="data-link" d="M1370 462 V523"/>
+  <rect x="445" y="528" width="1090" height="108" rx="22" fill="#F0EBF8" stroke="#DCD2EF" stroke-width="2"/>
+  <text class="heading" x="478" y="572">Общее хранилище</text>
+  <text class="body" x="478" y="609">SQLite: задачи, планы, детекции, зоны, сигналы и вердикты  ·  Файлы снимков отдельно</text>
+
+  <rect x="65" y="706" width="1470" height="112" rx="22" fill="#35105D"/>
+  <text class="heading white" x="94" y="750">ИИ-помощник — дополнительная интеграция</text>
+  <text class="body white" x="94" y="788">FastAPI ↔ OpenCode Zen  ·  предлагает перенос дат, который применяется только после подтверждения</text>
+  <text class="small" x="70" y="860">Docker Compose: frontend, API и отдельный worker</text>
+</svg>

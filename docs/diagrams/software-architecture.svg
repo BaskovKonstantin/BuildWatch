@@ -53,7 +53,7 @@
   <rect x="1285" y="215" width="265" height="260" rx="24" fill="#35105D"/>
   <text class="num" x="1313" y="262">05</text>
   <text class="heading white" x="1313" y="318">Решение</text>
-  <text class="body white" x="1313" y="356">R-01 / 02 / 03 / 07</text>
+  <text class="body white" x="1313" y="356">R-01…03 · R-08…10</text>
   <text class="body white" x="1313" y="391">Проверка человеком</text>
 
   <path class="line" d="M334 345 H359"/><path class="line" d="M639 345 H664"/>
