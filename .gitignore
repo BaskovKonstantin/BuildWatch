@@ -47,6 +47,12 @@ tools/pptx/node_modules/
 .agents/skills/
 skills-lock.json
 context/pptx_final_slides/
+context/pptx_final_now.md
+context/lct_template.pptx
+context/lct_template_slides/
+context/video/*.wav
+/Dockerfile
+/requirements-docker.txt
 
 # Local agent scratch / build dumps (tracked deploy helpers under .codex-build stay)
 .bb/

@@ -10,6 +10,11 @@ services:
       BUILDWATCH_ZEN_MODEL: ${BUILDWATCH_ZEN_MODEL:-glm-5.3-flash}
       BUILDWATCH_ZEN_KEY: ${BUILDWATCH_ZEN_KEY:-}
       BUILDWATCH_DETECTOR_MODEL: equipment
+      HTTP_PROXY: ${BUILDWATCH_HTTP_PROXY:-}
+      HTTPS_PROXY: ${BUILDWATCH_HTTPS_PROXY:-}
+      NO_PROXY: ${BUILDWATCH_NO_PROXY:-127.0.0.1,localhost,api,buildwatch-public-api-1}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - buildwatch-data:/data
       - buildwatch-media:/app/backend/media
@@ -68,6 +73,7 @@ services:
     ports:
       - "127.0.0.1:8701:3000"
     volumes:
+      - ./frontend/.next-prod:/app/.next-prod:ro
       - ./frontend/public/moscow-schematic.svg:/app/public/moscow-schematic.svg:ro
     depends_on:
       - api

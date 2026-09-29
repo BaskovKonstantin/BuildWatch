@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""One-shot trained equipment detector for BuildWatch (Windows venv, CPU).
+"""Sliced trained equipment detector for BuildWatch (Windows venv, CPU).
 
 Input: JSON file {image, weights, out} (Windows paths, passed by the API).
-Output: JSON {image, detections: [{label, score, box:[x1,y1,x2,y2]}]}.
+Output: JSON {model, image, detections: [{label, score, box:[x1,y1,x2,y2]}]}.
 
 Closed-class YOLOv8m@1280 trained on external construction equipment data
 (context/external/equipment_external_v2/training_run_m1280). Inference runs at
@@ -16,6 +16,9 @@ from pathlib import Path
 
 IMGSZ = 1280
 CONF = 0.15
+SLICE_SIZE = 1280
+SLICE_OVERLAP = 0.15
+MERGE_THRESHOLD = 0.5
 
 
 def main() -> None:
@@ -23,21 +26,45 @@ def main() -> None:
     image_path = Path(args["image"])
     out_path = Path(args["out"])
     weights = args.get("weights", "yolov8s-world.pt")
+    model_name = str(args.get("model") or "equipment")
 
-    from ultralytics import YOLO
+    from sahi import AutoDetectionModel
+    from sahi.predict import get_sliced_prediction
 
-    model = YOLO(weights)
-    result = model.predict(str(image_path), conf=CONF, imgsz=IMGSZ, device="cpu", verbose=False)[0]
+    model = AutoDetectionModel.from_pretrained(
+        model_type="ultralytics",
+        model_path=str(weights),
+        confidence_threshold=CONF,
+        device="cpu",
+        image_size=IMGSZ,
+    )
+    result = get_sliced_prediction(
+        str(image_path),
+        model,
+        slice_height=SLICE_SIZE,
+        slice_width=SLICE_SIZE,
+        overlap_height_ratio=SLICE_OVERLAP,
+        overlap_width_ratio=SLICE_OVERLAP,
+        # Keep a full-frame pass so large equipment is still evaluated at
+        # scene scale; SAHI shifts and merges these boxes with tile results.
+        perform_standard_pred=True,
+        postprocess_type="GREEDYNMM",
+        postprocess_match_metric="IOS",
+        postprocess_match_threshold=MERGE_THRESHOLD,
+        postprocess_class_agnostic=False,
+        verbose=0,
+    )
     detections = []
-    if result.boxes is not None:
-        for box in result.boxes:
-            detections.append({
-                "label": result.names.get(int(box.cls[0]), str(int(box.cls[0]))),
-                "score": float(box.conf[0]),
-                "box": [float(v) for v in box.xyxy[0].tolist()],
-            })
+    for prediction in result.object_prediction_list:
+        detections.append({
+            "label": prediction.category.name,
+            "score": float(prediction.score.value),
+            # SAHI returns tile predictions shifted back into original-image
+            # coordinates and merges duplicate boxes across overlapping tiles.
+            "box": [float(v) for v in prediction.bbox.to_xyxy()],
+        })
     payload = json.dumps(
-        {"model": "equipment", "image": image_path.name, "detections": detections},
+        {"model": model_name, "image": image_path.name, "detections": detections},
         ensure_ascii=False,
     )
     temporary = out_path.with_name(out_path.name + ".tmp")

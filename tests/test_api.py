@@ -98,6 +98,41 @@ class UploadApiTest(unittest.TestCase):
         self.assertEqual(deleted.status_code, 200)
         self.assertFalse(path.exists())
 
+    def test_object_comments_are_validated_and_persisted(self):
+        empty = self.client.post(
+            f"/api/objects/{self.object_id}/comments", json={"body": "  "}
+        )
+        self.assertEqual(empty.status_code, 422)
+
+        created = self.client.post(
+            f"/api/objects/{self.object_id}/comments",
+            json={"body": "Проверить фасад до пятницы"},
+        )
+        self.assertEqual(created.status_code, 200, created.text)
+        self.assertEqual(created.json()["body"], "Проверить фасад до пятницы")
+
+        listed = self.client.get(f"/api/objects/{self.object_id}/comments")
+        self.assertEqual(listed.status_code, 200)
+        self.assertEqual(listed.json()[0]["body"], "Проверить фасад до пятницы")
+
+    def test_human_events_are_validated_and_persisted(self):
+        invalid = self.client.post(
+            f"/api/objects/{self.object_id}/events",
+            json={"title": "Выезд", "event_date": "завтра"},
+        )
+        self.assertEqual(invalid.status_code, 422)
+
+        created = self.client.post(
+            f"/api/objects/{self.object_id}/events",
+            json={"title": "Выезд инспектора", "body": "Проверили фасад", "event_date": "2026-09-27"},
+        )
+        self.assertEqual(created.status_code, 200, created.text)
+        self.assertEqual(created.json()["event_type"], "human")
+
+        listed = self.client.get(f"/api/objects/{self.object_id}/events")
+        self.assertEqual(listed.status_code, 200)
+        self.assertEqual(listed.json()[0]["title"], "Выезд инспектора")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -62,8 +62,8 @@ export default function TimelinePage() {
       <NavBar wide title={card ? `Хронология · ${card.object.name}` : "Хронология"}
         back={{ href: `/objects/${id}`, label: "Объект" }}
         right={card && <>
-          <button type="button" className="mini" onClick={() => setFormOpen((v) => !v)}><IconPlus size={13} /> Событие</button>
-          <button type="button" className="mini tinted" onClick={() => setEditorOpen(true)}>Редактор плана</button>
+          <button type="button" className="mini tl-add-event" onClick={() => setFormOpen((v) => !v)}><IconPlus size={13} /> Событие</button>
+          <button type="button" className="mini tinted tl-plan-editor" onClick={() => setEditorOpen(true)}>Редактор плана</button>
         </>} />
       {error && <div className="toast error" role="alert">{error} <button onClick={() => setError("")} aria-label="Закрыть"><IconClose size={14} /></button></div>}
       <div className="content tl-page">
