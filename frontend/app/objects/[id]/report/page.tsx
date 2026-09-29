@@ -113,13 +113,13 @@ export default function ReportPage() {
                 <p>Верно {data.quality.correct}, ошибка {data.quality.wrong}, без вердикта {data.quality.pending}. Среди проверенных верных: {data.quality.correct_share == null ? "ещё нет" : `${Math.round(data.quality.correct_share * 100)}%`}.</p>
               </section>
             )}
-            <section className="report-section">
+            <section className="report-section report-plan">
               <div className="report-section-head"><h2>Календарный план</h2><span>{data.stages.length} {plural(data.stages.length, ["этап", "этапа", "этапов"])} · завершение {data.summary.planned_finish ? shortDate(data.summary.planned_finish) : "не указано"}</span></div>
               {data.stages.length ? <div className="report-table-wrap"><table><thead><tr><th>Этап</th><th>Начало</th><th>Окончание</th><th>Статус в плане</th></tr></thead><tbody>
                 {data.stages.map((stage) => <tr key={stage.id}><td>{stage.name}</td><td>{numericDate(stage.date_from)}</td><td>{numericDate(stage.date_to)}</td><td>{stage.status === "done" ? "Отмечен завершённым" : stage.status === "current" ? "Текущий" : "Предстоящий"}</td></tr>)}
               </tbody></table></div> : <p className="report-empty">Календарный план не загружен.</p>}
             </section>
-            <section className="report-section">
+            <section className="report-section report-evidence">
               <div className="report-section-head"><h2>Проблемы и доказательства</h2><span>{stats.open} {plural(stats.open, ["открытая проблема", "открытые проблемы", "открытых проблем"])} · {stats.confirmed} подтверждено · {stats.dismissed} отклонено</span></div>
               {data.warnings.length ? <div className="report-cases">{data.warnings.map((warning) => <div className="report-case" key={warning.id}>
                 <div><span className="report-rule">{warning.rule}</span><strong>{warning.title}</strong><span className={`report-case-status ${warning.status}`}>{STATUS[warning.status] ?? warning.status}</span><small>{ruleCaption(warning.rule)}</small></div>

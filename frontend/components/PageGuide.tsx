@@ -65,6 +65,15 @@ function homeGuide(portfolioView: "map" | "list"): Guide {
   };
 }
 
+const OBJECT_CHRONOLOGY_STEPS: Step[] = [
+  { target: ".oc-timeline", side: "left", offset: [0, 0.06], title: "Блок хронологии",
+    text: "Этапы плана, снимки камеры, проблемы, вопросы и записи инспектора на одной линии." },
+  { target: ".oc-timeline .object-timeline", side: "left", offset: [0, 0.05], title: "Лента по фазам",
+    text: "Раскройте фазу — увидите события по дате. Клик по снимку открывает кадр; цвет узла: проблема, вопрос или действие человека." },
+  { target: ".timeline-editor-link", side: "left", offset: [0, 0.1], title: "Календарь и редактор",
+    text: "Отдельная страница: вид «календарь», событие инспектора и правка этапов плана (CSV/XLSX)." },
+];
+
 const OBJECT: Guide = {
   name: "Карточка объекта",
   steps: [
@@ -79,23 +88,17 @@ const OBJECT: Guide = {
     { target: ".oc-fact", side: "right", offset: [0, 0.08], title: "План и факт",
       text: "Какая техника нужна этапу, что видно на кадре и вывод о вероятной активности на площадке." },
     { target: ".chronology-nav-link", side: "top", title: "Хронология",
-      text: "Прокрутка к ленте этапов, снимков и сигналов внизу страницы. Там же откроется гайд по хронологии." },
+      text: "Быстрый переход к блоку хронологии внизу страницы." },
     { target: ".report-nav-link", side: "top", title: "Отчёт",
       text: "Отчёт по объекту для печати и выгрузки в PDF." },
+    ...OBJECT_CHRONOLOGY_STEPS,
   ],
 };
 
-/** Карточка объекта с якорем #chronology — пояснения у блока ленты, а не «где-то на странице». */
+/** Карточка объекта с якорем #chronology — только блок ленты. */
 const CHRONOLOGY_ON_OBJECT: Guide = {
   name: "Хронология на карточке",
-  steps: [
-    { target: ".oc-timeline-head", side: "left", offset: [0, 0.1], title: "Блок хронологии",
-      text: "Здесь собраны этапы плана, снимки камеры, проблемы, вопросы и записи инспектора на одной линии." },
-    { target: ".object-timeline", side: "left", offset: [0, 0.05], title: "Лента по фазам",
-      text: "Раскройте фазу — увидите события по дате. Клик по снимку открывает кадр; цвет узла: проблема, вопрос или действие человека." },
-    { target: ".timeline-editor-link", side: "bottom", title: "Календарь и редактор",
-      text: "Отдельная страница: вид «календарь», добавление события инспектора и правка этапов плана (CSV/XLSX)." },
-  ],
+  steps: OBJECT_CHRONOLOGY_STEPS,
 };
 
 const TIMELINE: Guide = {
@@ -141,6 +144,10 @@ const REPORT: Guide = {
       text: "По неделям: сколько снимков, какой этап по дате, проблемы и вопросы." },
     { target: ".report-section", index: 2, side: "left", offset: [0, 0.08], title: "Качество распознавания",
       text: "Статистика вердиктов инспектора: сколько выводов модели верны." },
+    { target: ".report-plan", side: "left", offset: [0, 0.08], title: "Календарный план",
+      text: "Этапы с датами начала и окончания и статус в плане — для сверки с фактом по снимкам." },
+    { target: ".report-evidence", side: "left", offset: [0, 0.08], title: "Проблемы и доказательства",
+      text: "Каждая строка — правило, формулировка, статус инспектора и ссылка на снимок-доказательство." },
     { target: ".report-print", side: "left", title: "Печать и PDF",
       text: "Отчёт готов к печати и выгрузке в PDF для совещания." },
   ],
