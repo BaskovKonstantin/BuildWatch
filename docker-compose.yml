@@ -11,6 +11,7 @@ services:
       - buildwatch-data:/data
       - buildwatch-media:/app/backend/media
       - ./context/dgp_extract:/app/context/dgp_extract:ro
+      - ./weights:/app/weights:ro
     ports: ["8600:8600"]
     command: ["sh", "-c", "if [ ! -f /data/buildwatch.db ]; then if [ -f /app/context/dgp_extract/Сводный перечень строительных работ_ЛТЦ.xlsx ] && [ -f /app/context/detector_compare.json ]; then python seed.py; else python /app/scripts/seed_public_demo.py; fi; fi && uvicorn app:app --host 0.0.0.0 --port 8600"]
   worker:

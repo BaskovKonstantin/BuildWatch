@@ -87,6 +87,18 @@ class AssistantApiTest(unittest.TestCase):
         self.assertEqual(ask.call_count, 2)
         self.assertEqual(ask.call_args.args[3], assistant_service.GO_URL)
 
+    def test_zen_request_body_uses_allowed_reasoning_effort(self):
+        body = assistant_service._zen_request_body("Какой этап?", {"scope": "portfolio", "objects": []})
+        self.assertIn(body["reasoning_effort"], assistant_service.REASONING_EFFORTS)
+        self.assertNotEqual(body["reasoning_effort"], "minimal")
+        self.assertTrue(body["model"])
+        self.assertEqual(body["messages"][0]["role"], "system")
+        self.assertEqual(body["messages"][1]["role"], "user")
+
+    def test_invalid_reasoning_effort_env_falls_back_to_low(self):
+        with patch.dict(environ, {"BUILDWATCH_ZEN_REASONING_EFFORT": "minimal"}, clear=False):
+            self.assertEqual(assistant_service._zen_reasoning_effort(), "low")
+
 
 if __name__ == "__main__":
     unittest.main()

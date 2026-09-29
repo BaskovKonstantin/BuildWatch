@@ -13,7 +13,7 @@ flowchart LR
 
     subgraph App[Серверная часть]
         API[FastAPI\nREST API, авторизация, загрузка файлов]
-        Rules[Правила и оценка\nR-01 … R-03, R-07 … R-10]
+        Rules[Правила и оценка\nR-01 … R-03, R-08 … R-10]
         Forecast[Прогноз и динамика\nforecast.py, без новой модели]
         Assistant[Сервис ИИ-помощника\nконтекст, ссылки на данные, предложения]
         Worker[Фоновый worker\nочередь detection_jobs, повторы]

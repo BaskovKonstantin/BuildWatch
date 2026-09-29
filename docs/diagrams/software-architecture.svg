@@ -67,7 +67,7 @@
 
   <rect class="support" x="980" y="520" width="570" height="145" rx="22"/>
   <text class="heading" x="1009" y="565">Локальная модель</text>
-  <text class="body" x="1009" y="604">equipment_v6_m1280_best.pt</text>
+  <text class="body" x="1009" y="604">equipment_v12ft_2_best.pt</text>
   <text class="small" x="1009" y="636">Веса подключаются на сервере; в Git не входят</text>
 
   <rect x="65" y="714" width="1485" height="112" rx="22" fill="#35105D"/>
