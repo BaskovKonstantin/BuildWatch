@@ -39,9 +39,15 @@ class RulesTest(unittest.TestCase):
         self.assertFalse(any(w["rule"] == "R-03" for w in warnings))
 
     def test_low_confidence_stage_mismatch_requires_review(self):
-        stages = stage("facade")
+        stages = stage("excavation")
         self.assertEqual(rules.detection_match(self.det("truck crane", .21), stages, "2026-06-01"), "review")
         self.assertEqual(rules.detection_match(self.det("truck crane", .8), stages, "2026-06-01"), "mismatch")
+
+    def test_crane_is_allowed_on_facade_stage(self):
+        stages = stage("facade")
+        self.assertEqual(rules.detection_match(self.det("truck crane", .8), stages, "2026-06-01"), "ok")
+        warnings = rules.evaluate_snapshot(self.snap(), [self.det("truck crane", .8)], stages)
+        self.assertFalse(any(w["rule"].startswith("R-01") for w in warnings))
 
     def test_overlapping_boxes_from_two_models_form_one_group(self):
         detections = [

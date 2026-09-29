@@ -33,7 +33,7 @@ type ReportData = {
 };
 
 function ruleCaption(rule: string): string {
-  if (rule.startsWith("R-01") || rule.startsWith("R-07")) return "функциональная зона (этап)";
+  if (rule.startsWith("R-01")) return "функциональная зона (этап)";
   if (rule.startsWith("R-08")) return "активность по серии снимков";
   if (rule.startsWith("R-09")) return "опасная зона";
   if (rule.startsWith("R-10")) return "склад на монтаже";

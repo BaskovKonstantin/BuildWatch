@@ -3,7 +3,6 @@
 Rule codes (referenced in the UI as "Почему: правило R-xx"):
 - R-01: machinery class is not allowed on the active stage.
 - R-02: low confidence (< 0.5) or conflicting classes on one box — review.
-- R-07: crane classes are only allowed on mounting stages (frame/roof).
 
 The work-type vocabulary comes from the ЛТЦ catalog; the stage dates come
 from the object plan (stages editor) — the ЛТЦ file itself has no calendar.
@@ -216,13 +215,9 @@ def evaluate_snapshot(
             f"Активный этап «{stage['name']}» ({stage['date_from']} – {stage['date_to']})."
         )
         if primary not in allowed:
-            rule = "R-07" if primary in CRANES and stage["kind"] == "facade" else "R-01"
+            rule = "R-01"
             low = conf < CONF_THRESHOLD
-            title = (
-                "Техника не соответствует этапу «%s»" % stage["name"]
-                if rule == "R-07"
-                else "Техника вне перечня этапа «%s»" % stage["name"]
-            )
+            title = "Техника вне перечня этапа «%s»" % stage["name"]
             body = (
                 "На снимке от %s обнаружен %s (уверенность %.2f). "
                 "Этап «%s» не предполагает этот класс техники."
@@ -230,7 +225,6 @@ def evaluate_snapshot(
             )
             why = (
                 f"Почему: правило {rule} "
-                + ("«крановые классы → этапы монтажа»; " if rule == "R-07" else "")
                 + f"класс «{primary}» не входит в перечень допустимых. {why_base}"
                 + (f" Уверенность низкая ({conf}) — требуется визуальная проверка." if low else "")
             )
