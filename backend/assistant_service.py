@@ -179,7 +179,7 @@ def _ask_zen(question: str, context: dict, key: str, endpoint: str) -> dict:
         "model": ZEN_MODEL,
         "temperature": 0.1,
         "max_tokens": 1800,
-        "reasoning_effort": "minimal",
+        "reasoning_effort": "low",
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": json.dumps({"data": context, "question": question}, ensure_ascii=False)},
