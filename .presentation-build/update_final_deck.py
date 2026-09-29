@@ -1,8 +1,11 @@
 """Refresh docs/BuildWatch-ЛЦТ2026-final.pptx in place for the ЛЦТ submission."""
 
+import copy
+import sys
 from pathlib import Path
 
 from lxml import etree
+from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.oxml.ns import qn
@@ -10,6 +13,7 @@ from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parent.parent
 DECK = ROOT / "docs" / "BuildWatch-ЛЦТ2026-final.pptx"
+BASE = ROOT / "docs" / "backups" / "BuildWatch-ЛЦТ2026-final.20260929-072347.pptx"
 SHOTS = ROOT / "context" / "ui_shots"
 DIAGRAMS = ROOT / "docs" / "diagrams"
 
@@ -152,37 +156,6 @@ def slide_team(s):
     ])
 
 
-def slide_solution(s):
-    set_text_keep_style(shape(s, "Текст 14"), "Техническая суть решения")
-    right_title = shape(s, "Текст 16")
-    set_text_keep_style(right_title, "Маркетинговая суть решения")
-    right_run = right_title.text_frame.paragraphs[0].runs[0]
-    right_run.font.name = None
-    right_run.font.size = Pt(20)
-    fill(shape(s, "Текст 2").text_frame, [
-        ("Снимок → этап плана. ", "Кадр с датой привязывается к объекту и этапу календарного графика."),
-        ("YOLOv8m + SAHI. ", "Детектор находит 8 классов техники, правила сверяют её с этапом."),
-        ("Сигнал с объяснением. ", "Инспектор подтверждает или отклоняет вывод."),
-    ], size=11, space=4)
-    pipeline = {f"Прямоугольник: скругленные углы {n}" for n in (27, 29, 31, 35, 38)}
-    pipeline |= {f"Прямоугольник {n}" for n in (28, 30, 32, 36, 39)}
-    pipeline |= {"Стрелка: вправо 33", "Стрелка: вправо 34",
-                 "Прямая соединительная линия 37", "Прямая соединительная линия 40"}
-    for sh in list(s.shapes):
-        if sh.name in pipeline:
-            remove(sh)
-    tb = textbox(s, 7.1, 2.1, 5.4, 4.3)
-    fill(tb.text_frame, [
-        ("Для кого: ", "инспекторы стройконтроля ДГП, технадзор заказчика и девелоперы."),
-        ("Ценность: ", "вместо ручного просмотра камер — очередь сигналов с доказательством на кадре."),
-        ("Эффект: ", "раннее выявление отставания по графику и простоя техники, меньше выездов."),
-        ("Внедрение: ", "работает на существующих камерах площадок, без нового оборудования."),
-        ("Развитие: ", "база знаний объекта, сметы, переписка, распознавание в реальном времени."),
-    ], size=12, space=7)
-    set_notes(s, "Слайд повторяет строгий шаблон «Коротко о решении»: слева техническая суть, "
-                 "справа маркетинговая. Пример детекции — реальный кадр с рамками модели.")
-
-
 def slide_concept(s):
     label = shape(s, "Прямоугольник 14")
     set_text_keep_style(label, "КОНЦЕПЦИЯ И АРХИТЕКТУРА")
@@ -217,99 +190,145 @@ def slide_tech(s):
                  "SAHI нужен для мелкой техники на обзорных кадрах. Помощник — GLM-5.3 Flash.")
 
 
-def slide_main_screen(s):
-    picture_fit(s, SHOTS / "crop_home.png", 0.6, 2.05, 7.0, 3.8)
-    tb = textbox(s, 7.75, 2.1, 4.7, 3.7)
-    fill(tb.text_frame, [
-        ("Карта Москвы: ", "на маркере число сигналов, цвет — проблемы, вопросы или норма."),
-        ("Карточка объекта сбоку: ", "этап по плану и факт на снимке, прогноз отставания, техника этапа."),
-        ("«Начать разбор»: ", "очередь сигналов, которые ждут решения инспектора."),
-        ("«Спросить BuildWatch»: ", "ИИ-помощник по всему портфелю."),
-        ("Фильтры и список: ", "по типу объекта и статусу."),
-    ], size=11.5, space=6, heading="Главный экран — портфель объектов", heading_size=15)
-    set_notes(s, "Скриншот рабочего прототипа, 29.09.2026. Демо-данные: 6 объектов в Москве.")
+PREVIEW_SCALE = 3200 / 1024
+
+DEMOS = {
+    "home": ("Пример работы. Главный экран", [
+        ((565, 52, 785, 93), "Очередь разбора", "сигналы, которые ждут решения инспектора."),
+        ((792, 52, 978, 93), "ИИ-помощник", "вопросы по всему портфелю объектов."),
+        ((45, 150, 480, 180), "Фильтры", "поиск, тип объекта, «с проблемами»."),
+        ((58, 262, 208, 475), "Сводка портфеля", "сколько объектов в норме, с вопросами и проблемами."),
+        ((215, 252, 740, 576), "Карта Москвы", "на маркере число сигналов, цвет — статус."),
+        ((750, 290, 965, 570), "Карточка объекта", "этап по плану и факт на снимке, прогноз."),
+    ]),
+    "object": ("Пример работы. Карточка объекта", [
+        ((72, 116, 382, 236), "Статус по графику", "итог сверки снимков с планом за 30 дней."),
+        ((385, 116, 955, 236), "Прогноз", "сценарий отставания, этап по плану и по факту."),
+        ((72, 245, 955, 283), "Этапы плана", "календарный график, текущий этап выделен."),
+        ((72, 293, 722, 576), "Снимок", "рамки YOLO с уверенностью, зоны кадра (R-09, R-10)."),
+        ((732, 293, 955, 545), "План и факт", "какая техника нужна этапу и что увидели."),
+        ((695, 4, 980, 30), "Действия", "отчёт, помощник, загрузка снимков."),
+    ]),
+    "assistant": ("Пример работы. ИИ-помощник", [
+        ((745, 15, 1010, 75), "Контекст", "помощник видит текущий объект, его план и снимки."),
+        ((765, 98, 1000, 132), "Вопрос", "свободная формулировка инспектора."),
+        ((745, 140, 1010, 400), "Ответ по данным", "ссылки на правила, сигналы и даты снимков."),
+        ((745, 425, 1010, 503), "Вопрос или команда", "например, перенести дату этапа."),
+        ((745, 535, 1010, 576), "Контроль человеком", "план меняется только после подтверждения."),
+    ]),
+    "report": ("Пример работы. Отчёт по объекту", [
+        ((180, 158, 845, 244), "Ключевые цифры", "время по плану, последний снимок, проблемы, вердикты."),
+        ((180, 260, 845, 400), "Прогноз по графику", "отставание, этап по факту, нужная техника."),
+        ((180, 418, 845, 504), "Динамика", "недели, число снимков, этап, проблемы."),
+        ((180, 520, 845, 570), "Качество распознавания", "статистика вердиктов инспектора."),
+        ((795, 2, 982, 32), "Помощник и печать", "вопрос по отчёту, выгрузка в PDF."),
+    ]),
+}
 
 
-def slide_object_card(s):
-    set_text_keep_style(shape(s, "Прямоугольник 1"), "Пример работы. Карточка объекта и отчёт")
-    picture_fit(s, SHOTS / "crop_object.png", 0.65, 2.05, 4.9, 3.8)
-    picture_fit(s, SHOTS / "crop_report.png", 5.6, 2.05, 5.2, 3.8)
-    tb = textbox(s, 10.95, 2.1, 1.6, 3.7)
-    steps = ["Снимок", "Детекция YOLO", "Этап на дату кадра", "Правило → сигнал", "Вердикт инспектора",
-             "Прогноз и отчёт"]
-    tf = tb.text_frame
-    tf.clear()
-    tf.word_wrap = True
-    add_run(tf.paragraphs[0], "От кадра до результата", 11, PURPLE, bold=True)
-    tf.paragraphs[0].space_after = Pt(6)
-    for i, step in enumerate(steps, 1):
-        p = tf.add_paragraph()
-        add_run(p, f"{i}  ", 10, ACCENT, bold=True)
-        add_run(p, step, 10, DARK)
-        p.space_after = Pt(5)
-    cap = textbox(s, 0.6, 6.1, 12.0, 0.9)
-    fill(cap.text_frame, [
-        ("Карточка: ", "статус и прогноз, этапы плана, снимок с рамками YOLO и зонами, план/факт, "
-                       "активность техники, сигналы. "),
-        ("Отчёт: ", "прогноз, динамика за 30 дней, качество распознавания по вердиктам, план и снимки; печать в PDF."),
-    ], size=10, color=WHITE, lead_color=WHITE, space=2)
-    set_notes(s, "Скриншоты рабочего прототипа, объект «ЖК Северный, корп. 12». "
-                 "Показан весь путь: распознавание техники → сопоставление с этапом → сигнал → отчёт.")
+def annotate(name, items):
+    img = Image.open(SHOTS / f"ui_{name}.png").convert("RGB")
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("arialbd.ttf", 68)
+    for i, (box, *_rest) in enumerate(items, 1):
+        x0, y0, x1, y1 = (round(v * PREVIEW_SCALE) for v in box)
+        draw.rounded_rectangle((x0, y0, x1, y1), radius=18, outline="#FF0053", width=12)
+        r = 52
+        cx = min(max(x0 + r - 6, r + 6), img.width - r - 6)
+        cy = min(max(y0 + r - 6, r + 6), img.height - r - 6)
+        draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill="#FF0053", outline="white", width=8)
+        draw.text((cx, cy), str(i), fill="white", font=font, anchor="mm")
+    out = SHOTS / f"ui_{name}_annotated.png"
+    img.save(out)
+    return out
+
+
+def duplicate_slide(prs, src, index):
+    new = prs.slides.add_slide(src.slide_layout)
+    for ph in list(new.placeholders):
+        remove(ph)
+    for el in src.shapes._spTree.iterchildren():
+        if el.tag in (qn("p:sp"), qn("p:cxnSp")):
+            new.shapes._spTree.append(copy.deepcopy(el))
+    ids = prs.slides._sldIdLst
+    moved = ids[-1]
+    ids.remove(moved)
+    ids.insert(index, moved)
+    return new
+
+
+def slide_demo(s, name):
+    title, items = DEMOS[name]
+    set_text_keep_style(shape(s, "Прямоугольник 1"), title)
+    box = shape(s, "Прямоугольник: скругленные углы 3")
+    box.left, box.top, box.width, box.height = Inches(0.37), Inches(1.68), Inches(12.22), Inches(5.38)
+    w, h = 5.9, 5.9 * 9 / 16
+    picture_fit(s, SHOTS / f"ui_{name}.png", 0.55, 1.83, w, h)
+    picture_fit(s, annotate(name, items), 6.87, 1.83, w, h)
+    for x, text in ((0.55, "Экран прототипа"), (6.87, "Что на нём")):
+        lbl = textbox(s, x, 1.83 + h + 0.03, w, 0.28)
+        add_run(lbl.text_frame.paragraphs[0], text, 9, PURPLE, bold=True)
+    half = (len(items) + 1) // 2
+    for col, chunk in enumerate((items[:half], items[half:])):
+        tb = textbox(s, 0.55 + col * 6.32, 5.45, 5.9, 1.5)
+        tf = tb.text_frame
+        tf.clear()
+        tf.word_wrap = True
+        for j, (_box, lead, rest) in enumerate(chunk):
+            p = tf.paragraphs[0] if j == 0 else tf.add_paragraph()
+            add_run(p, f"{col * half + j + 1}  ", 11, ACCENT, bold=True)
+            add_run(p, f"{lead}: ", 11, PURPLE, bold=True)
+            add_run(p, rest, 11, DARK)
+            p.space_after = Pt(4)
+    set_notes(s, f"{title}. Слева чистый скриншот рабочего прототипа (29.09.2026), справа тот же экран "
+                 "с пронумерованными элементами; расшифровка внизу.")
 
 
 def slide_scaling(s):
-    boxes = sorted((sh for sh in s.shapes if sh.name.startswith("Прямоугольник: скругленные углы")),
-                   key=lambda sh: sh.left)
-    horizontal = [
-        ("База знаний по объекту: ", "проектная и исполнительная документация, акты, предписания."),
-        ("Подключение планов: ", "импорт графиков из MS Project, Primavera и систем ДГП."),
-        ("Сообщения и переписка: ", "сигнал связывается с чатом подрядчика, уведомления в Telegram."),
-        ("Сметы и объёмы: ", "сверка техники и видов работ со сметой и ресурсной ведомостью."),
-        ("Масштаб портфеля: ", "PostgreSQL, пул воркеров, роли для ДГП, заказчиков и подрядчиков."),
-    ]
-    vertical = [
-        ("Качество распознавания: ", "дообучение на московских кадрах по вердиктам инспекторов."),
-        ("Реальное время: ", "RTSP-потоки, трекинг техники, учёт моточасов и простоев."),
-        ("Новые классы: ", "башенный кран, сваебой, асфальтоукладчик, люди и СИЗ."),
-        ("Геометрия площадки: ", "маска обзора камеры, калибровка зон по стройгенплану."),
-        ("Оценка прогресса: ", "несколько камер на объект, объёмы работ и этажность по кадрам."),
-    ]
-    for box, (title, subtitle, items) in zip(boxes, [
-        ("Горизонтальное развитие", "больше функций вокруг объекта", horizontal),
-        ("Вертикальное развитие", "глубже и точнее распознавание", vertical),
-    ]):
-        x = box.left / 914400 + 0.3
-        tb = textbox(s, x, box.top / 914400 + 0.25, box.width / 914400 - 0.6, box.height / 914400 - 0.4)
-        tf = tb.text_frame
-        fill(tf, items, size=11.5, space=6, heading=title, heading_size=17, subheading=subtitle)
-    arrow_h = textbox(s, 0.8, 6.15, 5.2, 0.35)
-    add_run(arrow_h.text_frame.paragraphs[0], "→  шире: новые данные и сценарии", 10, WHITE, bold=True)
-    arrow_v = textbox(s, 7.1, 6.15, 5.2, 0.35)
-    add_run(arrow_v.text_frame.paragraphs[0], "↑  глубже: точность и скорость CV", 10, WHITE, bold=True)
-    set_notes(s, "Две оси развития. Горизонталь — больше функций и данных вокруг объекта. "
-                 "Вертикаль — качество и скорость распознавания.")
+    remove(shape(s, "Прямоугольник: скругленные углы 3"))
+    box = shape(s, "Прямоугольник: скругленные углы 2")
+    box.left, box.top, box.width, box.height = Inches(0.37), Inches(1.75), Inches(12.22), Inches(4.45)
+    s.shapes.add_picture(str(DIAGRAMS / "scaling-axes.png"), Inches(0.5), Inches(1.9), width=Inches(11.96))
+    cap = textbox(s, 0.5, 6.35, 12.0, 0.6)
+    add_run(cap.text_frame.paragraphs[0], "Горизонталь — больше данных и функций вокруг объекта. "
+            "Вертикаль — точнее и быстрее распознавание. Вместе они ведут к цифровому стройконтролю.",
+            11, WHITE)
+    set_notes(s, "Две оси развития. Горизонталь: база знаний, планы, переписка, сметы, масштаб портфеля. "
+                 "Вертикаль: дообучение по вердиктам, новые классы, геометрия площадки, реальное время, "
+                 "оценка прогресса.")
+
+
+def slide_cameras(s):
+    replace_picture(s, shape(s, "Рисунок 6"), DIAGRAMS / "camera-placement.png")
+    set_notes(s, "Рекомендации по установке камер: обзорная A и рабочая B перекрывают слепые зоны друг друга; "
+                 "план площадки нарисован по типовому объекту.")
 
 
 def main():
-    prs = Presentation(str(DECK))
+    prs = Presentation(str(BASE))
+    out = Path(sys.argv[1]) if len(sys.argv) > 1 else DECK
     slides = list(prs.slides)
     slide_team(slides[2])
-    slide_solution(slides[4])
     slide_concept(slides[5])
     slide_tech(slides[6])
-    slide_main_screen(slides[7])
-    slide_object_card(slides[8])
     slide_scaling(slides[10])
+    slide_cameras(slides[11])
     set_notes(slides[9], "Схема обработки кадра: SAHI-нарезка, YOLO, сборка рамок, сопоставление с этапом плана "
                          "на дату снимка и отображение в карточке.")
-    set_notes(slides[11], "Рекомендации по установке камер: две камеры — обзорная A и рабочая B; "
-                          "требования к видимости техники в кадре.")
+    for sh in list(slides[8].shapes):
+        if sh.name not in {"Прямоугольник 1", "Прямоугольник: скругленные углы 3", "Прямоугольник 12",
+                           "Прямоугольник 13"}:
+            remove(sh)
+    demo = [slides[7], slides[8], duplicate_slide(prs, slides[7], 9), duplicate_slide(prs, slides[7], 10)]
+    for s, name in zip(demo, ("home", "object", "assistant", "report")):
+        slide_demo(s, name)
+    slides = list(prs.slides)
     for i, s in enumerate(slides[5:], 6):
         for sh in s.shapes:
             if sh.name == "Прямоугольник 13" and sh.has_text_frame:
                 set_text_keep_style(sh, f"{i:02d}")
-    prs.save(str(DECK))
-    print("saved", DECK)
+    prs.save(str(out))
+    print("saved", out)
 
 
 if __name__ == "__main__":

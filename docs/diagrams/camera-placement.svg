@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1230 1000" width="1230" height="1000">
+  <defs>
+    <clipPath id="site"><rect x="150" y="155" width="900" height="675"/></clipPath>
+    <pattern id="hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="14" height="14" fill="#FFE1EA"/>
+      <line x1="0" y1="0" x2="0" y2="14" stroke="#FF0053" stroke-width="3" opacity="0.55"/>
+    </pattern>
+    <pattern id="grid" width="56.25" height="56.25" patternUnits="userSpaceOnUse" x="150" y="155">
+      <path d="M56.25 0 H0 V56.25" fill="none" stroke="#E6DDF3" stroke-width="1"/>
+    </pattern>
+    <style>
+      text { font-family: Montserrat, Arial, sans-serif; }
+      .zone { font-size: 20px; font-weight: 700; fill: #35105D; }
+      .small { font-size: 15px; fill: #6B6480; }
+    </style>
+  </defs>
+  <rect width="1230" height="1000" rx="28" fill="#FFFFFF"/>
+  <text x="150" y="80" font-size="30" font-weight="700" fill="#35105D">План площадки · вид сверху</text>
+  <text x="150" y="115" class="small">сетка 5 м · две камеры перекрывают слепые зоны друг друга</text>
+
+  <rect x="150" y="155" width="900" height="675" rx="6" fill="#F7F4FB" stroke="#35105D" stroke-width="3"/>
+  <rect x="150" y="155" width="900" height="675" fill="url(#grid)"/>
+
+  <g clip-path="url(#site)">
+    <path d="M127.5 852.5 L 80 -250 L 1230 900 Z" fill="#3B82F6" opacity="0.14"/>
+    <path d="M1072.5 132.5 L -200 605 L 950 830 L 990 1400 Z" fill="#F5B301" opacity="0.22"/>
+    <polygon points="487,324 712,549 1413,185 918,-310" fill="url(#hatch)" opacity="0.8"/>
+  </g>
+  <path d="M127.5 852.5 L 80 -250" stroke="#3B82F6" stroke-width="2" stroke-dasharray="8 6" clip-path="url(#site)"/>
+  <path d="M127.5 852.5 L 1230 900" stroke="#3B82F6" stroke-width="2" stroke-dasharray="8 6" clip-path="url(#site)"/>
+  <path d="M1072.5 132.5 L -200 605" stroke="#D99A00" stroke-width="2" stroke-dasharray="8 6" clip-path="url(#site)"/>
+  <path d="M1072.5 132.5 L 950 830" stroke="#D99A00" stroke-width="2" stroke-dasharray="8 6" clip-path="url(#site)"/>
+
+  <rect x="240" y="560" width="225" height="180" rx="10" fill="#D9CCF0" stroke="#8A83D1" stroke-width="2"/>
+  <text class="zone" x="262" y="600">Котлован</text>
+  <text class="small" x="262" y="626">экскаватор, самосвал</text>
+
+  <rect x="825" y="492" width="202" height="170" rx="10" fill="#FFE8B0" stroke="#F5B301" stroke-width="2"/>
+  <text class="zone" x="843" y="530">Разгрузка</text>
+  <text class="small" x="843" y="556">бетон, металл,</text>
+  <text class="small" x="843" y="576">автокран</text>
+
+  <rect x="847" y="725" width="180" height="90" rx="10" fill="#FFFFFF" stroke="#8A83D1" stroke-width="2" stroke-dasharray="6 5"/>
+  <text class="small" x="862" y="760" font-weight="700" fill="#35105D">Ожидание</text>
+  <text class="small" x="862" y="784">транспорта</text>
+
+  <rect x="487" y="324" width="225" height="225" rx="8" fill="#35105D"/>
+  <text x="600" y="430" font-size="24" font-weight="700" fill="#FFFFFF" text-anchor="middle">Корпус</text>
+  <text x="600" y="458" font-size="15" fill="#FFD6E4" text-anchor="middle">бетонирование</text>
+
+  <path d="M1050 694 H 800 V 662" fill="none" stroke="#FF0053" stroke-width="4" stroke-dasharray="12 8"/>
+  <rect x="1044" y="669" width="12" height="50" fill="#FF0053"/>
+  <text x="1070" y="700" font-size="16" font-weight="700" fill="#FF0053">въезд</text>
+
+  <rect x="745" y="226" width="235" height="58" rx="8" fill="#FFFFFF" opacity="0.92"/>
+  <text x="760" y="250" font-size="17" font-weight="700" fill="#FF0053">Слепая зона A</text>
+  <text x="760" y="272" class="small">закрыта корпусом — видит B</text>
+
+  <circle cx="127.5" cy="852.5" r="22" fill="#3B82F6" stroke="#FFFFFF" stroke-width="5"/>
+  <text x="127.5" y="860" font-size="20" font-weight="700" fill="#FFFFFF" text-anchor="middle">A</text>
+  <text x="165" y="890" font-size="16" font-weight="700" fill="#1F4FA8">A · обзорная, 10–12 м, 90–100°</text>
+
+  <circle cx="1072.5" cy="132.5" r="22" fill="#F5B301" stroke="#FFFFFF" stroke-width="5"/>
+  <text x="1072.5" y="140" font-size="20" font-weight="700" fill="#35105D" text-anchor="middle">B</text>
+  <text x="1040" y="100" font-size="16" font-weight="700" fill="#9A6A00" text-anchor="end">B · рабочая, 6–8 м, 45–55°</text>
+
+  <g transform="translate(1150 230)">
+    <circle r="34" fill="#FFFFFF" stroke="#DCD2EF" stroke-width="2"/>
+    <path d="M0 -26 L9 4 L0 -2 L-9 4 Z" fill="#FF0053"/>
+    <text y="24" font-size="15" font-weight="700" fill="#35105D" text-anchor="middle">С</text>
+  </g>
+
+  <g transform="translate(150 945)">
+    <circle cx="10" cy="0" r="10" fill="#3B82F6"/>
+    <text x="30" y="6" class="small">обзор A</text>
+    <rect x="130" y="-10" width="20" height="20" fill="#F5B301" opacity="0.6"/>
+    <text x="160" y="6" class="small">обзор B</text>
+    <rect x="260" y="-10" width="20" height="20" fill="url(#hatch)"/>
+    <text x="290" y="6" class="small">слепая зона A</text>
+    <path d="M430 0 H 542" stroke="#FF0053" stroke-width="3" stroke-dasharray="10 6"/>
+    <text x="555" y="6" class="small">маршрут техники</text>
+    <path d="M760 8 V0 H872.5 V8" fill="none" stroke="#35105D" stroke-width="3"/>
+    <text x="816" y="-8" class="small" text-anchor="middle">10 м</text>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 610" width="1800" height="610">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto">
+      <path d="M0 0 L12 6 L0 12 z" fill="#35105D"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M0 0 L12 6 L0 12 z" fill="#FF0053"/>
+    </marker>
+    <style>
+      text { font-family: Montserrat, Arial, sans-serif; }
+      .chip { fill: #FFFFFF; stroke: #DCD2EF; stroke-width: 2; }
+      .t { font-size: 19px; font-weight: 700; fill: #35105D; }
+      .s { font-size: 14px; fill: #6B6480; }
+      .axis { stroke: #35105D; stroke-width: 4; marker-end: url(#arrow); }
+      .lbl { font-size: 17px; font-weight: 700; fill: #FF0053; letter-spacing: 1px; }
+    </style>
+  </defs>
+  <rect width="1800" height="610" rx="28" fill="#F7F4FB"/>
+
+  <line class="axis" x1="150" y1="540" x2="1765" y2="540"/>
+  <line class="axis" x1="150" y1="540" x2="150" y2="30"/>
+  <text class="lbl" x="1765" y="585" text-anchor="end">ГОРИЗОНТАЛЬ → ШИРЕ: НОВЫЕ ФУНКЦИИ И ДАННЫЕ</text>
+  <text class="lbl" transform="translate(112 530) rotate(-90)">ВЕРТИКАЛЬ → ГЛУБЖЕ: КАЧЕСТВО И СКОРОСТЬ CV</text>
+
+  <circle cx="150" cy="540" r="16" fill="#FF0053"/>
+  <text x="178" y="588" font-size="16" font-weight="700" fill="#35105D">BuildWatch сегодня: снимок → этап → сигнал</text>
+
+  <g>
+    <rect class="chip" x="560" y="455" width="225" height="70" rx="14"/>
+    <text class="t" x="578" y="485">База знаний</text>
+    <text class="s" x="578" y="508">документы, акты, предписания</text>
+    <rect class="chip" x="800" y="455" width="225" height="70" rx="14"/>
+    <text class="t" x="818" y="485">Планы и графики</text>
+    <text class="s" x="818" y="508">MS Project, Primavera, ДГП</text>
+    <rect class="chip" x="1040" y="455" width="225" height="70" rx="14"/>
+    <text class="t" x="1058" y="485">Переписка</text>
+    <text class="s" x="1058" y="508">чат подрядчика, Telegram</text>
+    <rect class="chip" x="1280" y="455" width="225" height="70" rx="14"/>
+    <text class="t" x="1298" y="485">Сметы и объёмы</text>
+    <text class="s" x="1298" y="508">техника и работы против сметы</text>
+    <rect class="chip" x="1520" y="455" width="225" height="70" rx="14"/>
+    <text class="t" x="1538" y="485">Масштаб портфеля</text>
+    <text class="s" x="1538" y="508">PostgreSQL, воркеры, роли</text>
+  </g>
+
+  <g>
+    <rect class="chip" x="180" y="350" width="330" height="62" rx="14"/>
+    <text class="t" x="198" y="377">Дообучение по вердиктам</text>
+    <text class="s" x="198" y="399">московские кадры, активное обучение</text>
+    <rect class="chip" x="180" y="278" width="330" height="62" rx="14"/>
+    <text class="t" x="198" y="305">Новые классы</text>
+    <text class="s" x="198" y="327">башенный кран, сваебой, люди и СИЗ</text>
+    <rect class="chip" x="180" y="206" width="330" height="62" rx="14"/>
+    <text class="t" x="198" y="233">Геометрия площадки</text>
+    <text class="s" x="198" y="255">маска обзора, зоны по стройгенплану</text>
+    <rect class="chip" x="180" y="134" width="330" height="62" rx="14"/>
+    <text class="t" x="198" y="161">Реальное время</text>
+    <text class="s" x="198" y="183">RTSP-потоки, трекинг, моточасы</text>
+    <rect class="chip" x="180" y="62" width="330" height="62" rx="14"/>
+    <text class="t" x="198" y="89">Оценка прогресса</text>
+    <text class="s" x="198" y="111">несколько камер, объёмы, этажность</text>
+  </g>
+
+  <path d="M560 420 C 900 360, 1150 260, 1270 150" fill="none" stroke="#FF0053" stroke-width="4"
+        stroke-dasharray="14 10" marker-end="url(#arrowAccent)"/>
+  <rect x="1290" y="60" width="455" height="118" rx="20" fill="#35105D"/>
+  <text x="1316" y="102" font-size="21" font-weight="700" fill="#FFFFFF">Цифровой стройконтроль</text>
+  <text x="1316" y="132" font-size="15" fill="#FFD6E4">вся площадка в одном окне: камеры, план,</text>
+  <text x="1316" y="155" font-size="15" fill="#FFD6E4">документы и сметы, сигналы в реальном времени</text>
+</svg>
