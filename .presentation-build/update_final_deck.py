@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 from lxml import etree
-from PIL import Image, ImageDraw, ImageFont
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.oxml.ns import qn
@@ -190,57 +189,20 @@ def slide_tech(s):
                  "SAHI нужен для мелкой техники на обзорных кадрах. Помощник — GLM-5.3 Flash.")
 
 
-PREVIEW_SCALE = 3200 / 1024
-
 DEMOS = {
-    "home": ("Пример работы. Главный экран", [
-        ((565, 52, 785, 93), "Очередь разбора", "сигналы, которые ждут решения инспектора."),
-        ((792, 52, 978, 93), "ИИ-помощник", "вопросы по всему портфелю объектов."),
-        ((45, 150, 480, 180), "Фильтры", "поиск, тип объекта, «с проблемами»."),
-        ((58, 262, 208, 475), "Сводка портфеля", "сколько объектов в норме, с вопросами и проблемами."),
-        ((215, 252, 740, 576), "Карта Москвы", "на маркере число сигналов, цвет — статус."),
-        ((750, 290, 965, 570), "Карточка объекта", "этап по плану и факт на снимке, прогноз."),
-    ]),
-    "object": ("Пример работы. Карточка объекта", [
-        ((72, 116, 382, 236), "Статус по графику", "итог сверки снимков с планом за 30 дней."),
-        ((385, 116, 955, 236), "Прогноз", "сценарий отставания, этап по плану и по факту."),
-        ((72, 245, 955, 283), "Этапы плана", "календарный график, текущий этап выделен."),
-        ((72, 293, 722, 576), "Снимок", "рамки YOLO с уверенностью, зоны кадра (R-09, R-10)."),
-        ((732, 293, 955, 545), "План и факт", "какая техника нужна этапу и что увидели."),
-        ((695, 4, 980, 30), "Действия", "отчёт, помощник, загрузка снимков."),
-    ]),
-    "assistant": ("Пример работы. ИИ-помощник", [
-        ((745, 15, 1010, 75), "Контекст", "помощник видит текущий объект, его план и снимки."),
-        ((765, 98, 1000, 132), "Вопрос", "свободная формулировка инспектора."),
-        ((745, 140, 1010, 400), "Ответ по данным", "ссылки на правила, сигналы и даты снимков."),
-        ((745, 425, 1010, 503), "Вопрос или команда", "например, перенести дату этапа."),
-        ((745, 535, 1010, 576), "Контроль человеком", "план меняется только после подтверждения."),
-    ]),
-    "report": ("Пример работы. Отчёт по объекту", [
-        ((180, 158, 845, 244), "Ключевые цифры", "время по плану, последний снимок, проблемы, вердикты."),
-        ((180, 260, 845, 400), "Прогноз по графику", "отставание, этап по факту, нужная техника."),
-        ((180, 418, 845, 504), "Динамика", "недели, число снимков, этап, проблемы."),
-        ((180, 520, 845, 570), "Качество распознавания", "статистика вердиктов инспектора."),
-        ((795, 2, 982, 32), "Помощник и печать", "вопрос по отчёту, выгрузка в PDF."),
-    ]),
+    "home": ("Пример работы. Главный экран",
+             "Портфель на карте: очередь разбора, ИИ-помощник, сводка статусов и карточка объекта "
+             "с планом и фактом. При первом заходе кнопка «?» подсвечивается и предлагает гайд."),
+    "object": ("Пример работы. Карточка объекта",
+               "От кадра до вывода: статус и прогноз по графику, этапы плана, снимок с рамками YOLO и зонами, "
+               "сравнение нужной техники с увиденной."),
+    "assistant": ("Пример работы. ИИ-помощник",
+                  "GLM-5.3 Flash отвечает по данным объекта со ссылками на правила и снимки. "
+                  "Изменения плана применяются только после подтверждения человеком."),
+    "report": ("Пример работы. Отчёт по объекту",
+               "Отчёт для совещания: ключевые цифры, прогноз, динамика по неделям и качество "
+               "распознавания по вердиктам инспектора; печать в PDF."),
 }
-
-
-def annotate(name, items):
-    img = Image.open(SHOTS / f"ui_{name}.png").convert("RGB")
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("arialbd.ttf", 68)
-    for i, (box, *_rest) in enumerate(items, 1):
-        x0, y0, x1, y1 = (round(v * PREVIEW_SCALE) for v in box)
-        draw.rounded_rectangle((x0, y0, x1, y1), radius=18, outline="#FF0053", width=12)
-        r = 52
-        cx = min(max(x0 + r - 6, r + 6), img.width - r - 6)
-        cy = min(max(y0 + r - 6, r + 6), img.height - r - 6)
-        draw.ellipse((cx - r, cy - r, cx + r, cy + r), fill="#FF0053", outline="white", width=8)
-        draw.text((cx, cy), str(i), fill="white", font=font, anchor="mm")
-    out = SHOTS / f"ui_{name}_annotated.png"
-    img.save(out)
-    return out
 
 
 def duplicate_slide(prs, src, index):
@@ -258,30 +220,22 @@ def duplicate_slide(prs, src, index):
 
 
 def slide_demo(s, name):
-    title, items = DEMOS[name]
+    title, summary = DEMOS[name]
     set_text_keep_style(shape(s, "Прямоугольник 1"), title)
     box = shape(s, "Прямоугольник: скругленные углы 3")
-    box.left, box.top, box.width, box.height = Inches(0.37), Inches(1.68), Inches(12.22), Inches(5.38)
-    w, h = 5.9, 5.9 * 9 / 16
-    picture_fit(s, SHOTS / f"ui_{name}.png", 0.55, 1.83, w, h)
-    picture_fit(s, annotate(name, items), 6.87, 1.83, w, h)
-    for x, text in ((0.55, "Экран прототипа"), (6.87, "Что на нём")):
-        lbl = textbox(s, x, 1.83 + h + 0.03, w, 0.28)
-        add_run(lbl.text_frame.paragraphs[0], text, 9, PURPLE, bold=True)
-    half = (len(items) + 1) // 2
-    for col, chunk in enumerate((items[:half], items[half:])):
-        tb = textbox(s, 0.55 + col * 6.32, 5.45, 5.9, 1.5)
-        tf = tb.text_frame
-        tf.clear()
-        tf.word_wrap = True
-        for j, (_box, lead, rest) in enumerate(chunk):
-            p = tf.paragraphs[0] if j == 0 else tf.add_paragraph()
-            add_run(p, f"{col * half + j + 1}  ", 11, ACCENT, bold=True)
-            add_run(p, f"{lead}: ", 11, PURPLE, bold=True)
-            add_run(p, rest, 11, DARK)
-            p.space_after = Pt(4)
+    box.left, box.top, box.width, box.height = Inches(0.37), Inches(1.68), Inches(12.22), Inches(4.9)
+    small_w, big_w = 4.4, 7.25
+    picture_fit(s, SHOTS / f"ui_{name}.png", 0.55, 1.9, small_w, small_w * 9 / 16)
+    picture_fit(s, SHOTS / f"ui_{name}_guide.png", 5.15, 1.9, big_w, big_w * 9 / 16)
+    for x, y, w, text in ((0.55, 1.9 + small_w * 9 / 16 + 0.05, small_w, "Экран прототипа"),
+                          (5.15, 1.9 + big_w * 9 / 16 + 0.05, big_w, "Тот же экран с включённым гайдом «?»")):
+        lbl = textbox(s, x, y, w, 0.3)
+        add_run(lbl.text_frame.paragraphs[0], text, 10, PURPLE, bold=True)
+    tb = textbox(s, 0.55, 4.85, small_w, 2.0)
+    tb.text_frame.word_wrap = True
+    add_run(tb.text_frame.paragraphs[0], summary, 12, DARK)
     set_notes(s, f"{title}. Слева чистый скриншот рабочего прототипа (29.09.2026), справа тот же экран "
-                 "с пронумерованными элементами; расшифровка внизу.")
+                 "с интерактивным гайдом: подписи закреплены у структурных блоков.")
 
 
 def slide_scaling(s):
