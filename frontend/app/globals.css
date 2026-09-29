@@ -1194,7 +1194,12 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .oc-link:hover{border-color:var(--label)}
 .oc-link>span{display:grid;gap:3px;flex:1}
 .oc-link strong{font-size:14px}.oc-link small{font-size:12px;color:var(--label2)}
-@media(max-width:1000px){.oc-hero,.oc-main{grid-template-columns:minmax(0,1fr)}.oc-side{position:static}.oc-stages{grid-auto-flow:row;grid-auto-columns:auto}.oc-stages li{border-left:0;border-top:1px solid var(--sep)}.oc-stages li:first-child{border-top:0}}
+.oc-timeline{scroll-margin-top:72px;margin-top:28px;padding:20px 22px 8px;border:1.5px solid var(--sep-strong);border-radius:8px;background:var(--card)}
+.oc-timeline-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:12px;padding-bottom:14px;border-bottom:1px solid var(--sep)}
+.oc-timeline-head h2{margin:6px 0 4px;font-size:clamp(20px,2.2vw,26px);letter-spacing:-.02em}
+.oc-timeline-head p{margin:0;max-width:520px;font-size:13px;color:var(--label2);line-height:1.45}
+.oc-timeline .object-timeline{padding-left:4px;padding-right:4px}
+@media(max-width:1000px){.oc-hero,.oc-main{grid-template-columns:minmax(0,1fr)}.oc-side{position:static}.oc-stages{grid-auto-flow:row;grid-auto-columns:auto}.oc-stages li{border-left:0;border-top:1px solid var(--sep)}.oc-stages li:first-child{border-top:0}.oc-timeline-head{flex-direction:column;align-items:flex-start}}
 
 /* ─── Swipe review ─── */
 .sw-back{position:fixed;inset:0;z-index:200;display:grid;grid-template-rows:auto auto 1fr auto auto;background:#111418;color:#fff;animation:swIn .25s var(--ease)}

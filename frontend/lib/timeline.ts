@@ -55,3 +55,18 @@ export function buildTimeline(card: Card, humanEvents: HumanEvent[]): TimelineEv
   return [...manual, ...warnings, ...snapshots]
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 }
+
+export type EventGroup = { head: TimelineEvent; count: number };
+
+export function groupTimelineEvents(events: TimelineEvent[]): EventGroup[] {
+  const groups: EventGroup[] = [];
+  for (const event of events) {
+    const last = groups.at(-1);
+    if (last && event.kind !== "human" && last.head.title === event.title && last.head.snapshotId === event.snapshotId) {
+      last.count += 1;
+    } else {
+      groups.push({ head: event, count: 1 });
+    }
+  }
+  return groups;
+}

@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { NavBar } from "@/components/NavBar";
+import { ObjectTimelineFeed } from "@/components/ObjectTimelineFeed";
 import { SwipeReview, reviewItems } from "@/components/SwipeReview";
 import { IconArrowUpRight, IconCheck, IconClose, IconPin, IconUpload, IconWarning } from "@/components/Icons";
 import { apiFetch } from "@/lib/api";
-import { Card, fmt, snapshotTone, stageForDate, useObjectCard } from "@/lib/objectCard";
+import { Card, HumanEvent, fmt, snapshotTone, stageForDate, useObjectCard } from "@/lib/objectCard";
 import { equipmentRu, shortDate, typeTint } from "@/lib/format";
 import { useThemeId } from "@/lib/themes";
 
@@ -38,7 +39,14 @@ export default function ObjectPage() {
   const [snapId, setSnapId] = useState<number | null>(null);
   const [showBoxes, setShowBoxes] = useState(true);
   const [swipeOpen, setSwipeOpen] = useState(false);
+  const [humanEvents, setHumanEvents] = useState<HumanEvent[]>([]);
   const [error, setError] = useState("");
+
+  const loadEvents = useCallback(async () => {
+    const res = await apiFetch(`/api/objects/${id}/events`);
+    if (res.ok) setHumanEvents(await res.json());
+  }, [id]);
+  useEffect(() => { void loadEvents(); }, [loadEvents]);
 
   useEffect(() => {
     if (!card) return;
@@ -101,7 +109,7 @@ export default function ObjectPage() {
     <main className={`page v-${theme}`}>
       <NavBar wide title={card.object.name} back={{ href: "/", label: "Объекты" }}
         right={<>
-          <Link className="mini" href={`/objects/${id}/timeline`}>Хронология</Link>
+          <Link className="mini" href={`/objects/${id}#chronology`}>Хронология</Link>
           <Link className="mini report-nav-link" href={`/objects/${id}/report`}>Отчёт</Link>
           <label className="btn small" style={{ cursor: "pointer" }}>
             <IconUpload size={16} /><span className="hide-sm">Снимок</span>
@@ -196,10 +204,25 @@ export default function ObjectPage() {
             </button>
 
             <Link className="oc-link" href={`/objects/${id}/timeline`}>
-              <span><strong>Хронология и план</strong><small>{openSignals ? `${openSignals} открытых сигналов · этапы, события, редактор` : "Этапы, события, редактор плана"}</small></span>
+              <span><strong>Календарь и редактор плана</strong><small>{openSignals ? `${openSignals} открытых сигналов · события, CSV/XLSX` : "События, календарь, импорт плана"}</small></span>
               <IconArrowUpRight size={16} />
             </Link>
           </aside>
+        </section>
+
+        <section className="oc-timeline" id="chronology" aria-labelledby="oc-chronology-title">
+          <header className="oc-timeline-head">
+            <div>
+              <span className="oc-kicker" id="oc-chronology-title">Хронология</span>
+              <h2>Этапы, снимки и сигналы</h2>
+              <p>Лента по фазам плана — те же события, что на отдельной странице. Клик по событию открывает снимок.</p>
+            </div>
+            <Link className="mini tinted" href={`/objects/${id}/timeline`}>Календарь и редактор</Link>
+          </header>
+          {card && (
+            <ObjectTimelineFeed objectId={id} card={card} humanEvents={humanEvents} wide
+              onStagesChanged={() => void load()} onError={(msg) => setError(msg)} />
+          )}
         </section>
       </div>
 
