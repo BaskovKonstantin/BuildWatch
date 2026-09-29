@@ -20,8 +20,12 @@ type Guide = { name: string; steps: Step[] };
 
 const SEEN_KEY = "buildwatch_guide_seen";
 const CALLOUT_W = 280;
-const GAP = 14;
-const BOTTOM_RESERVE = 84;
+const CALLOUT_H = 118;
+const GAP = 10;
+const EDGE = 12;
+/** Keep callouts clear of the top guide chrome (trigger + bar). */
+const TOP_RESERVE = 72;
+const BOTTOM_RESERVE = 24;
 
 const HOME: Guide = {
   name: "Портфель объектов",
@@ -30,13 +34,13 @@ const HOME: Guide = {
       text: "Сигналы, которые ждут решения инспектора. Кнопка открывает первый объект сразу в режиме разбора." },
     { target: ".assistant-center-cta", side: "bottom", title: "ИИ-помощник",
       text: "Отвечает по данным всего портфеля: планам, снимкам и открытым сигналам." },
-    { target: ".view-controls", side: "bottom", title: "Фильтры и вид",
+    { target: ".view-controls", side: "bottom", offset: [0.02, 0], title: "Фильтры и вид",
       text: "Тип объекта и переключение между картой и списком. Поиск выше ищет по названию, адресу и этапу." },
-    { target: ".map-feed", side: "right", title: "Сводка портфеля",
+    { target: ".map-feed", side: "inside", offset: [0.04, 0.08], title: "Сводка портфеля",
       text: "Сколько объектов в норме, с вопросами и с проблемами. Раскройте строку, чтобы увидеть объекты." },
-    { target: ".map-canvas", side: "inside", offset: [0.45, 0.45], title: "Карта Москвы",
+    { target: ".map-canvas", side: "inside", offset: [0.28, 0.08], title: "Карта Москвы",
       text: "На маркере число открытых сигналов, цвет — статус объекта. Нажмите маркер, чтобы открыть сводку." },
-    { target: ".map-details", side: "left", title: "Карточка объекта",
+    { target: ".map-details", side: "inside", offset: [0.06, 0.08], title: "Карточка объекта",
       text: "Этап по плану и факт по последнему снимку, прогноз и сравнение нужной техники с увиденной." },
   ],
 };
@@ -44,15 +48,15 @@ const HOME: Guide = {
 const OBJECT: Guide = {
   name: "Карточка объекта",
   steps: [
-    { target: ".oc-status", side: "top", title: "Статус по графику",
+    { target: ".oc-status", side: "bottom", title: "Статус по графику",
       text: "Итог сверки снимков с календарным планом и динамика сигналов за 30 дней." },
-    { target: ".oc-forecast", side: "top", title: "Прогноз",
+    { target: ".oc-forecast", side: "bottom", title: "Прогноз",
       text: "Оценка отставания по серии снимков: этап по плану, этап по факту и темп работ." },
-    { target: ".oc-stages", side: "bottom", offset: [0.3, 0], title: "Этапы плана",
+    { target: ".oc-stages", side: "bottom", offset: [0.15, 0], title: "Этапы плана",
       text: "Календарный график объекта. Текущий этап выделен, завершённые отмечены галочкой." },
-    { target: ".oc-viewer .canvas", side: "inside", offset: [0, 0.35], title: "Снимок с распознаванием",
+    { target: ".oc-viewer .canvas", side: "inside", offset: [0.04, 0.08], title: "Снимок с распознаванием",
       text: "Рамки YOLO с уверенностью модели. Кнопка «Зоны» размечает опасную зону и склад (R-09, R-10)." },
-    { target: ".oc-fact", side: "left", title: "План и факт",
+    { target: ".oc-fact", side: "inside", offset: [0.06, 0.08], title: "План и факт",
       text: "Какая техника нужна этапу, что видно на кадре и вывод о вероятной активности на площадке." },
     { target: ".report-nav-link", side: "bottom", title: "Отчёт и снимки",
       text: "Хронология, отчёт по объекту для печати и загрузка нового снимка камеры." },
@@ -62,15 +66,15 @@ const OBJECT: Guide = {
 const ASSISTANT: Guide = {
   name: "ИИ-помощник",
   steps: [
-    { target: ".assistant-head", side: "left", title: "Контекст",
+    { target: ".assistant-head", side: "inside", offset: [0.04, 0.2], title: "Контекст",
       text: "Помощник видит текущий объект: план, снимки, распознавания и сигналы. На главной — весь портфель." },
     { target: ".assistant-question", last: true, side: "left", title: "Вопрос",
       text: "Свободная формулировка или готовая подсказка." },
-    { target: ".assistant-answer", last: true, side: "left", offset: [0, 0.3], title: "Ответ по данным",
+    { target: ".assistant-answer", last: true, side: "left", title: "Ответ по данным",
       text: "Ссылается на правила, сигналы и даты снимков, отделяет факты от эвристик." },
-    { target: ".assistant-compose textarea", side: "left", title: "Вопрос или команда",
+    { target: ".assistant-compose textarea", side: "top", title: "Вопрос или команда",
       text: "Можно попросить, например, перенести дату этапа — помощник подготовит изменение." },
-    { target: ".assistant-disclaimer", side: "left", offset: [-0.9, -0.2], title: "Контроль человеком",
+    { target: ".assistant-disclaimer", side: "top", title: "Контроль человеком",
       text: "План меняется только после подтверждения инспектора." },
   ],
 };
@@ -78,13 +82,13 @@ const ASSISTANT: Guide = {
 const REPORT: Guide = {
   name: "Отчёт по объекту",
   steps: [
-    { target: ".report-metrics", side: "right", title: "Ключевые цифры",
+    { target: ".report-metrics", side: "inside", offset: [0.04, 0.15], title: "Ключевые цифры",
       text: "Время по плану, последний снимок, открытые проблемы и решения инспектора." },
-    { target: ".report-section", index: 0, side: "right", title: "Прогноз по графику",
+    { target: ".report-section", index: 0, side: "inside", offset: [0.04, 0.1], title: "Прогноз по графику",
       text: "Отставание, этап по факту и техника, которой не хватает на последних снимках." },
-    { target: ".report-section", index: 1, side: "left", title: "Динамика",
+    { target: ".report-section", index: 1, side: "inside", offset: [0.04, 0.1], title: "Динамика",
       text: "По неделям: сколько снимков, какой этап по дате, проблемы и вопросы." },
-    { target: ".report-section", index: 2, side: "right", title: "Качество распознавания",
+    { target: ".report-section", index: 2, side: "inside", offset: [0.04, 0.1], title: "Качество распознавания",
       text: "Статистика вердиктов инспектора: сколько выводов модели верны." },
     { target: ".report-print", side: "bottom", title: "Печать и PDF",
       text: "Отчёт готов к печати и выгрузке в PDF для совещания." },
@@ -106,39 +110,128 @@ function findTarget(step: Step): Element | null {
   return all[step.last ? all.length - 1 : step.index ?? 0] ?? null;
 }
 
+function clamp(v: number, min: number, max: number) {
+  return Math.min(Math.max(v, min), max);
+}
+
+/** Anchor a callout next to (or on) the target block — never free-float into unrelated regions. */
+function anchor(side: Side, rect: DOMRect, ox: number, oy: number): { x: number; y: number } {
+  const left = rect.left + ox;
+  const top = rect.top + oy;
+  switch (side) {
+    case "top":
+      return { x: left, y: rect.top - GAP - CALLOUT_H + oy };
+    case "bottom":
+      return { x: left, y: rect.bottom + GAP + oy };
+    case "left":
+      return { x: rect.left - GAP - CALLOUT_W + ox, y: top };
+    case "right":
+      return { x: rect.right + GAP + ox, y: top };
+    case "inside":
+      return { x: left + 16, y: top + 16 };
+    default: {
+      const never: never = side;
+      return never;
+    }
+  }
+}
+
+function sideOrder(preferred: Side): Side[] {
+  const rest: Side[] = ["inside", "bottom", "top", "right", "left"].filter((s) => s !== preferred);
+  return [preferred, ...rest];
+}
+
+function overlaps(a: { x: number; y: number }, b: { x: number; y: number }) {
+  return a.x < b.x + CALLOUT_W + 8 && b.x < a.x + CALLOUT_W + 8
+    && a.y < b.y + CALLOUT_H + 8 && b.y < a.y + CALLOUT_H + 8;
+}
+
+function fitsViewport(p: { x: number; y: number }, vw: number, vh: number) {
+  return p.x >= EDGE
+    && p.y >= EDGE + TOP_RESERVE
+    && p.x + CALLOUT_W <= vw - EDGE
+    && p.y + CALLOUT_H <= vh - BOTTOM_RESERVE;
+}
+
+/** Keep the card overlapping or touching the highlighted block. */
+function nearTarget(p: { x: number; y: number }, rect: DOMRect) {
+  const cx = p.x + CALLOUT_W / 2;
+  const cy = p.y + CALLOUT_H / 2;
+  const pad = 28;
+  return cx >= rect.left - pad - CALLOUT_W / 2
+    && cx <= rect.right + pad + CALLOUT_W / 2
+    && cy >= rect.top - pad - CALLOUT_H / 2
+    && cy <= rect.bottom + pad + CALLOUT_H / 2;
+}
+
+function score(
+  p: { x: number; y: number },
+  rect: DOMRect,
+  preferred: Side,
+  side: Side,
+  occupied: { x: number; y: number }[],
+  vw: number,
+  vh: number,
+) {
+  let s = 0;
+  if (side === preferred) s += 40;
+  if (fitsViewport(p, vw, vh)) s += 30;
+  if (nearTarget(p, rect)) s += 25;
+  if (occupied.some((o) => overlaps(p, o))) s -= 50;
+  // Prefer staying close to the badge (top-left of the spot).
+  const dx = (p.x + CALLOUT_W / 2) - rect.left;
+  const dy = (p.y + CALLOUT_H / 2) - rect.top;
+  s -= Math.hypot(dx, dy) / 40;
+  return s;
+}
+
 function place(steps: Step[]): Placed[] {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
   const out: Placed[] = [];
+
   steps.forEach((step, i) => {
     const el = findTarget(step);
     if (!el) return;
     const rect = el.getBoundingClientRect();
     if (rect.width < 4 || rect.height < 4 || rect.bottom < 0 || rect.top > vh) return;
-    const h = 110;
-    let x = rect.left;
-    let y = rect.bottom + GAP;
-    switch (step.side) {
-      case "top": y = rect.top - GAP - h; break;
-      case "bottom": break;
-      case "left": x = rect.left - GAP - CALLOUT_W; y = rect.top; break;
-      case "right": x = rect.right + GAP; y = rect.top; break;
-      case "inside": x = rect.left + 20; y = rect.top + 20; break;
-      default: { const never: never = step.side; return never; }
+
+    const visLeft = Math.max(rect.left, 0);
+    const visTop = Math.max(rect.top, 0);
+    const visW = Math.min(rect.right, vw) - visLeft;
+    const visH = Math.min(rect.bottom, vh) - visTop;
+    const ox = (step.offset?.[0] ?? 0) * visW;
+    const oy = (step.offset?.[1] ?? 0) * visH;
+    const occupied = out.map(({ x, y }) => ({ x, y }));
+
+    let best: { x: number; y: number; s: number } | null = null;
+    for (const side of sideOrder(step.side)) {
+      const raw = anchor(side, rect, ox, oy);
+      const clamped = {
+        x: clamp(raw.x, EDGE, vw - CALLOUT_W - EDGE),
+        y: clamp(raw.y, EDGE + TOP_RESERVE, vh - CALLOUT_H - BOTTOM_RESERVE),
+      };
+      // Nudge along the free axis if overlapping a prior card, still near this target.
+      const candidates = [clamped];
+      for (const dy of [0, CALLOUT_H + 10, -(CALLOUT_H + 10), (CALLOUT_H + 10) * 2]) {
+        for (const dx of [0, 24, -24, 48, -48]) {
+          if (dx === 0 && dy === 0) continue;
+          candidates.push({
+            x: clamp(clamped.x + dx, EDGE, vw - CALLOUT_W - EDGE),
+            y: clamp(clamped.y + dy, EDGE + TOP_RESERVE, vh - CALLOUT_H - BOTTOM_RESERVE),
+          });
+        }
+      }
+      for (const p of candidates) {
+        const s = score(p, rect, step.side, side, occupied, vw, vh);
+        if (!best || s > best.s) best = { ...p, s };
+      }
     }
-    const visW = Math.min(rect.right, vw) - Math.max(rect.left, 0);
-    const visH = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
-    x += (step.offset?.[0] ?? 0) * visW;
-    y += (step.offset?.[1] ?? 0) * visH;
-    x = Math.min(Math.max(x, 12), vw - CALLOUT_W - 12);
-    y = Math.max(y, 12);
-    for (const prev of out) {
-      const overlapX = x < prev.x + CALLOUT_W && prev.x < x + CALLOUT_W;
-      if (overlapX && y < prev.y + h && prev.y < y + h) y = prev.y + h + 8;
-    }
-    y = Math.min(y, vh - h - BOTTOM_RESERVE);
-    out.push({ step, n: i + 1, rect, x, y });
+
+    const pick = best ?? { x: EDGE, y: EDGE, s: 0 };
+    out.push({ step, n: i + 1, rect, x: pick.x, y: pick.y });
   });
+
   return out;
 }
 
@@ -215,10 +308,19 @@ export function PageGuide() {
           </div>
         </div>
       )}
-      <button type="button" className={`guide-trigger ${fresh ? "fresh" : ""} ${open ? "on" : ""}`}
-        onClick={toggle} aria-expanded={open} aria-label={open ? "Скрыть подсказки" : "Как устроен этот экран"}>
-        {open ? "×" : "?"}
-        {fresh && !open && <span className="guide-hint">Как устроен этот экран?</span>}
+      <button
+        type="button"
+        className={`guide-trigger ${fresh ? "fresh" : ""} ${open ? "on" : ""}`}
+        onClick={toggle}
+        aria-expanded={open}
+        aria-label={open ? "Скрыть подсказки" : "Как устроен этот экран"}
+      >
+        <span className="guide-q" aria-hidden="true">{open ? "×" : "?"}</span>
+        {!open && (
+          <span className="guide-label">
+            {fresh ? "Как устроен этот экран?" : "Гайд"}
+          </span>
+        )}
       </button>
     </>
   );
