@@ -1403,14 +1403,16 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .tl-count{margin-left:8px;padding:1px 6px;border-radius:3px;background:var(--label);color:var(--card);font:600 10.5px var(--mono);font-style:normal}
 .timeline-event.done{opacity:.55}
 @media(max-width:700px){.tl-head{flex-direction:column;align-items:flex-start}}
-/* Page guide: top-right CTA; first visit gets a pulsing orange pill with full label. */
-.guide-trigger{position:fixed;top:58px;right:18px;left:auto;bottom:auto;z-index:1010;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 12px 0 8px;border:1.5px solid #17191d;border-radius:8px;background:#fff;color:#17191d;font:800 13px/1.1 var(--font-inter),system-ui,sans-serif;letter-spacing:-.01em;box-shadow:4px 4px 0 rgba(217,83,11,.36);cursor:pointer;transition:transform .18s,box-shadow .18s,background .18s,color .18s}
-.guide-trigger .guide-q{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;font-size:15px;font-weight:800;line-height:1}
+/* Page guide: lives in the nav bar (see .nav-guide-anchor), not over the map corner. */
+.nav-guide-anchor{display:flex;align-items:center;flex-shrink:0}
+.guide-trigger{position:relative;z-index:2;display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 10px 0 6px;border:1.5px solid #17191d;border-radius:4px;background:#fff;color:#17191d;font:800 12px/1 var(--font-inter),system-ui,sans-serif;letter-spacing:-.01em;box-shadow:3px 3px 0 rgba(217,83,11,.32);cursor:pointer;transition:transform .18s,box-shadow .18s,background .18s,color .18s}
+.guide-trigger .guide-q{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;font-size:13px;font-weight:800;line-height:1}
 .guide-trigger .guide-label{white-space:nowrap}
-.guide-trigger:hover{transform:translateY(-2px);box-shadow:4px 6px 0 rgba(217,83,11,.45)}
-.guide-trigger.on{background:#17191d;color:#fff;padding:0;width:40px;height:40px;min-height:40px;justify-content:center;border-radius:50%}
-.guide-trigger.on .guide-q{border-color:transparent;width:auto;height:auto;font-size:22px}
-.guide-trigger.fresh{background:#D9530B;border-color:#17191d;color:#fff;padding:0 16px 0 10px;min-height:44px;font-size:14px;box-shadow:5px 5px 0 #17191d;animation:guide-pulse 1.6s ease-out infinite}
+.guide-trigger:hover{transform:translateY(-1px);box-shadow:4px 4px 0 rgba(217,83,11,.4)}
+.guide-trigger.on{background:#17191d;color:#fff;padding:0 8px;min-width:36px;justify-content:center}
+.guide-trigger.on .guide-label{display:none}
+.guide-trigger.on .guide-q{border-color:transparent;width:auto;height:auto;font-size:18px;line-height:1}
+.guide-trigger.fresh{background:#D9530B;border-color:#17191d;color:#fff;padding:0 12px 0 8px;min-height:38px;font-size:12px;box-shadow:4px 4px 0 #17191d;animation:guide-pulse 1.6s ease-out infinite}
 .guide-trigger.fresh .guide-q{border-color:#fff;background:rgba(0,0,0,.18)}
 @keyframes guide-pulse{0%{box-shadow:0 0 0 0 rgba(217,83,11,.65),5px 5px 0 #17191d}70%{box-shadow:0 0 0 18px rgba(217,83,11,0),5px 5px 0 #17191d}100%{box-shadow:0 0 0 0 rgba(217,83,11,0),5px 5px 0 #17191d}}
 .guide-layer{position:fixed;inset:0;z-index:1000;background:rgba(17,20,24,.38);animation:guide-in .18s ease-out}
@@ -1422,12 +1424,13 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .guide-callout b{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:15.5px;font-weight:800}
 .guide-callout p{margin:0;color:#3d4148;font-size:13.5px;line-height:1.4}
 @keyframes guide-pop{from{opacity:0;transform:translateY(6px) scale(.97)}to{opacity:1;transform:none}}
-.guide-bar{position:fixed;top:108px;right:18px;left:auto;bottom:auto;display:flex;align-items:center;gap:14px;padding:7px 8px 7px 16px;border:1.5px solid #17191d;border-radius:4px;background:#17191d;color:#fff;font-size:13px;font-weight:700;z-index:1001;box-shadow:4px 4px 0 rgba(217,83,11,.36)}
+.guide-bar{position:fixed;top:56px;right:max(16px,env(safe-area-inset-right));left:auto;bottom:auto;display:flex;align-items:center;gap:14px;max-width:min(420px,calc(100vw - 24px));padding:7px 8px 7px 16px;border:1.5px solid #17191d;border-radius:4px;background:#17191d;color:#fff;font-size:13px;font-weight:700;z-index:1001;box-shadow:4px 4px 0 rgba(217,83,11,.36)}
 .guide-bar button{padding:6px 14px;border:0;border-radius:3px;background:#D9530B;color:#fff;font-weight:700;cursor:pointer}
 @media (max-width:720px){
-  .guide-trigger,.guide-trigger.fresh{top:58px;right:12px;left:12px;justify-content:center}
-  .guide-trigger.on{left:auto;right:12px;width:40px}
-  .guide-bar{top:110px;right:12px;left:12px;justify-content:space-between}
+  .nav-guide-anchor .guide-trigger:not(.fresh){width:36px;min-width:36px;padding:0;justify-content:center}
+  .nav-guide-anchor .guide-trigger:not(.fresh) .guide-label{display:none}
+  .nav-guide-anchor .guide-trigger.fresh .guide-label{display:none}
+  .guide-bar{top:52px;right:12px;left:12px;justify-content:space-between}
 }
 @media print{.guide-trigger,.guide-layer{display:none}}
 
@@ -1442,11 +1445,14 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .ring-value{transition:stroke-dashoffset .9s var(--ease-spring)}
 .cover img{transition:transform .8s var(--ease-spring)}
 
-/* Page route transitions (spring-slide v1 — swap via data-page-transition later) */
-.page-transition{min-height:100vh;will-change:transform,opacity}
-.page-transition--forward{animation:page-slide-forward .5s var(--ease-spring) both}
-.page-transition--back{animation:page-slide-back .5s var(--ease-spring) both}
-.page-transition--same{animation:page-spring-in .42s var(--ease-spring) both}
+/* Page route transitions — mode via PageTransition PAGE_TRANSITION_MODE */
+.page-transition{min-height:100vh}
+.page-transition--spring.page-transition--forward{animation:page-slide-forward .5s var(--ease-spring) both}
+.page-transition--spring.page-transition--back{animation:page-slide-back .5s var(--ease-spring) both}
+.page-transition--spring.page-transition--same{animation:page-spring-in .42s var(--ease-spring) both}
+.page-transition--fade.page-transition--forward,
+.page-transition--fade.page-transition--back,
+.page-transition--fade.page-transition--same{animation:page-fade-in .38s var(--ease-out) both}
 @keyframes page-slide-forward{
   from{opacity:0;transform:translateX(32px) scale(.985)}
   70%{opacity:1;transform:translateX(-3px) scale(1.005)}
@@ -1461,9 +1467,41 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
   from{opacity:0;transform:translateY(12px) scale(.988)}
   to{opacity:1;transform:none}
 }
+@keyframes page-fade-in{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+
+/* View Transition morph (variant 3) — Chromium / Safari 18+ */
+.page-transition--view-morph{view-transition-name:bw-page}
+.nav{view-transition-name:bw-nav}
+.assistant-trigger{view-transition-name:bw-assistant}
+.guide-trigger{view-transition-name:bw-guide}
+::view-transition-group(bw-page){animation-duration:.48s;animation-timing-function:var(--ease-spring)}
+::view-transition-old(bw-page){animation:vt-page-out .48s var(--ease-spring) both}
+::view-transition-new(bw-page){animation:vt-page-in .48s var(--ease-spring) both}
+::view-transition-image-pair(bw-page){animation:vt-via-blur .48s var(--ease-out) both}
+::view-transition-group(bw-nav),
+::view-transition-group(bw-assistant),
+::view-transition-group(bw-guide){animation-duration:.28s;animation-timing-function:var(--ease-out)}
+html[data-vt-direction=forward]::view-transition-old(bw-page){animation-name:vt-page-out-forward}
+html[data-vt-direction=forward]::view-transition-new(bw-page){animation-name:vt-page-in-forward}
+html[data-vt-direction=back]::view-transition-old(bw-page){animation-name:vt-page-out-back}
+html[data-vt-direction=back]::view-transition-new(bw-page){animation-name:vt-page-in-back}
+@keyframes vt-via-blur{30%{filter:blur(4px)}}
+@keyframes vt-page-out{to{opacity:0;transform:scale(.97)}}
+@keyframes vt-page-in{from{opacity:0;transform:scale(1.02)}}
+@keyframes vt-page-out-forward{to{opacity:0;transform:translateX(-18px) scale(.98);filter:blur(3px)}}
+@keyframes vt-page-in-forward{from{opacity:0;transform:translateX(28px) scale(.985);filter:blur(3px)}}
+@keyframes vt-page-out-back{to{opacity:0;transform:translateX(18px) scale(.98);filter:blur(3px)}}
+@keyframes vt-page-in-back{from{opacity:0;transform:translateX(-28px) scale(.985);filter:blur(3px)}}
 
 @media (prefers-reduced-motion:reduce){
   .project:hover,.chip-btn:hover,.map-issue-card:hover,.warn-card:hover,.oc-verdict:hover,.oc-fact:hover,
   .film:hover,.widget:hover,.map-feed-item:hover{transform:none!important}
-  .page-transition--forward,.page-transition--back,.page-transition--same{animation:none!important}
+  .page-transition--forward,.page-transition--back,.page-transition--same,
+  .page-transition--spring.page-transition--forward,.page-transition--spring.page-transition--back,
+  .page-transition--spring.page-transition--same,.page-transition--fade.page-transition--forward,
+  .page-transition--fade.page-transition--back,.page-transition--fade.page-transition--same{animation:none!important}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
 }

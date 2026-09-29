@@ -62,6 +62,7 @@ export function NavBar({
               <span aria-hidden="true">✳</span><span>Спросить BuildWatch</span>
             </button>}
           <ThemePicker />
+          <div id="nav-guide-anchor" className="nav-guide-anchor" />
           {right}
         </div>
       </div>

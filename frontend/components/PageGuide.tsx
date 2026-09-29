@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type Side = "top" | "bottom" | "left" | "right" | "inside";
 
@@ -210,11 +211,20 @@ function place(steps: Step[]): Placed[] {
 
 export function PageGuide() {
   const pathname = usePathname();
+  const [navAnchor, setNavAnchor] = useState<HTMLElement | null>(null);
   const [hash, setHash] = useState("");
   const [open, setOpen] = useState(false);
   const [fresh, setFresh] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [placed, setPlaced] = useState<Placed[]>([]);
+
+  useEffect(() => {
+    const syncAnchor = () => setNavAnchor(document.getElementById("nav-guide-anchor"));
+    syncAnchor();
+    const mo = new MutationObserver(syncAnchor);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, [pathname]);
 
   useEffect(() => {
     const syncHash = () => setHash(window.location.hash);
@@ -286,6 +296,23 @@ export function PageGuide() {
     }
   };
 
+  const trigger = (
+    <button
+      type="button"
+      className={`guide-trigger ${fresh ? "fresh" : ""} ${open ? "on" : ""}`}
+      onClick={toggle}
+      aria-expanded={open}
+      aria-label={open ? "Скрыть подсказки" : "Как устроен этот экран"}
+    >
+      <span className="guide-q" aria-hidden="true">{open ? "×" : "?"}</span>
+      {!open && (
+        <span className="guide-label">
+          {fresh ? "Как устроен экран?" : "Гайд"}
+        </span>
+      )}
+    </button>
+  );
+
   return (
     <>
       {open && (
@@ -308,20 +335,7 @@ export function PageGuide() {
           </div>
         </div>
       )}
-      <button
-        type="button"
-        className={`guide-trigger ${fresh ? "fresh" : ""} ${open ? "on" : ""}`}
-        onClick={toggle}
-        aria-expanded={open}
-        aria-label={open ? "Скрыть подсказки" : "Как устроен этот экран"}
-      >
-        <span className="guide-q" aria-hidden="true">{open ? "×" : "?"}</span>
-        {!open && (
-          <span className="guide-label">
-            {fresh ? "Как устроен этот экран?" : "Гайд"}
-          </span>
-        )}
-      </button>
+      {navAnchor ? createPortal(trigger, navAnchor) : trigger}
     </>
   );
 }
