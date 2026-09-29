@@ -409,6 +409,28 @@ def resolve_warning(warning_id: int, action: str = Form(...)) -> dict:
     return {"ok": True}
 
 
+@app.post("/api/detections/{detection_id}/verdict")
+def set_detection_verdict(detection_id: int, verdict: str = Form(...)) -> dict:
+    """Inspector's swipe decision; linked open warnings follow it."""
+    if verdict not in ("correct", "wrong", ""):
+        raise HTTPException(400, "verdict must be correct|wrong|''")
+    rows = db.query("SELECT * FROM detections WHERE id=?", (detection_id,))
+    if not rows:
+        raise HTTPException(404, "detection not found")
+    det = dict(rows[0])
+    db.execute("UPDATE detections SET verdict=? WHERE id=?", (verdict, detection_id))
+    marker = f"{det['label']} {det['score']:.2f}"
+    marker_long = f"{det['label']} (уверенность {det['score']:.2f})"
+    status = {"correct": "confirmed", "wrong": "dismissed", "": "open"}[verdict]
+    linked = [
+        w["id"] for w in db.query("SELECT id, body FROM warnings WHERE snapshot_id=?", (det["snapshot_id"],))
+        if marker in w["body"] or marker_long in w["body"]
+    ]
+    for warning_id in linked:
+        db.execute("UPDATE warnings SET status=? WHERE id=?", (status, warning_id))
+    return {"ok": True, "warnings_updated": len(linked)}
+
+
 @app.get("/api/catalog")
 def get_catalog(q: str = "") -> list[dict]:
     if q:

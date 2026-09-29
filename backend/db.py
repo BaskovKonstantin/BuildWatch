@@ -161,6 +161,9 @@ def init() -> None:
     columns = {row["name"] for row in con.execute("PRAGMA table_info(detection_jobs)")}
     if "model" not in columns:
         con.execute("ALTER TABLE detection_jobs ADD COLUMN model TEXT NOT NULL DEFAULT 'yolo_world'")
+    detection_columns = {row["name"] for row in con.execute("PRAGMA table_info(detections)")}
+    if "verdict" not in detection_columns:
+        con.execute("ALTER TABLE detections ADD COLUMN verdict TEXT NOT NULL DEFAULT ''")
     object_columns = {row["name"] for row in con.execute("PRAGMA table_info(objects)")}
     for column in OBJECT_TEXT_COLUMNS:
         if column not in object_columns:
