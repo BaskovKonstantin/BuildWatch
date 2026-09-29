@@ -258,11 +258,6 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
   }, [coordinates, mapReady, projects, selectedId, onSelect]);
 
   useEffect(() => {
-    if (!mapRef.current || !selected) return;
-    mapRef.current.panTo(coordinates.get(selected.id) ?? coordinatesFor(selected), { animate: true, duration: 0.35 });
-  }, [coordinates, selected]);
-
-  useEffect(() => {
     setIssuesOpen(false);
     setComments([]);
     setCommentsLoadedFor(null);
