@@ -184,7 +184,7 @@ export default function Home() {
               </button>
               </div>
             </div>
-            {view === "list" && <section className="widgets" aria-label="Сводка">
+            {view === "list" && <section className="widgets home-widgets" aria-label="Сводка">
               <Widget tint="blue" icon={<IconBuilding size={18} />} label="Объекты"
                 value={projects ? totals.projects : "—"} />
               <Widget tint="red" icon={<IconWarning size={18} />} label="Проблемы и риски"
@@ -200,7 +200,7 @@ export default function Home() {
               <Widget tint="orange" icon={<IconEye size={18} />} label="Требует внимания"
                 value={projects ? totals.reviews : "—"} />
             </section>}
-            <div className="toolbar">
+            <div className="toolbar home-toolbar">
               <label className="search">
                 <IconSearch size={17} />
                 <input type="search" value={q} onChange={(e) => setQ(e.target.value)}
@@ -290,7 +290,7 @@ export default function Home() {
         ) : (
           <>
             {!filtersActive && <AttentionSlider list={visible} />}
-            <div className="grid">
+            <div className="grid home-project-grid">
               {visible.map((p, i) => <ProjectCard key={p.id} p={p} index={i} />)}
             </div>
           </>
@@ -574,7 +574,7 @@ function AttentionSlider({ list }: { list: Project[] }) {
   if (items.length === 0) return null;
 
   return (
-    <section className="att" aria-label="Стоит проверить">
+    <section className="att home-attention" aria-label="Стоит проверить">
       <div className="att-head">
         <h2>Стоит проверить</h2>
         {items.length > 1 && (

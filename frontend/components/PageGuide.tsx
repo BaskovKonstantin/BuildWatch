@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Side = "top" | "bottom" | "left" | "right" | "inside";
@@ -24,25 +24,46 @@ const CALLOUT_W = 280;
 const CALLOUT_H = 118;
 const GAP = 10;
 const EDGE = 12;
-const BOTTOM_RESERVE = 24;
+/** Space for the fixed «Понятно» bar at the bottom of the viewport. */
+const BOTTOM_RESERVE = 64;
 
-const HOME: Guide = {
-  name: "Портфель объектов",
-  steps: [
-    { target: ".review-cta", side: "left", offset: [0, 0.15], title: "Очередь разбора",
-      text: "Сигналы, которые ждут решения инспектора. Кнопка открывает первый объект сразу в режиме разбора." },
-    { target: ".assistant-center-cta", side: "left", offset: [0, 0.15], title: "ИИ-помощник",
-      text: "Отвечает по данным всего портфеля: планам, снимкам и открытым сигналам." },
-    { target: ".view-controls", side: "left", offset: [0, 0.05], title: "Фильтры и вид",
-      text: "Тип объекта и переключение между картой и списком. Поиск выше ищет по названию, адресу и этапу." },
-    { target: ".map-feed", side: "left", offset: [0, 0.06], title: "Сводка портфеля",
-      text: "Сколько объектов в норме, с вопросами и с проблемами. Раскройте строку, чтобы увидеть объекты." },
-    { target: ".map-canvas", side: "top", offset: [0.22, 0], title: "Карта Москвы",
-      text: "На маркере число открытых сигналов, цвет — статус объекта. Нажмите маркер, чтобы открыть сводку." },
-    { target: ".map-details", side: "right", offset: [0, 0.06], title: "Карточка объекта",
-      text: "Этап по плану и факт по последнему снимку, прогноз и сравнение нужной техники с увиденной." },
-  ],
-};
+const HOME_COMMON: Step[] = [
+  { target: ".review-cta", side: "left", offset: [0, 0.15], title: "Очередь разбора",
+    text: "Сигналы, которые ждут решения инспектора. Кнопка открывает первый объект сразу в режиме разбора." },
+  { target: ".assistant-center-cta", side: "left", offset: [0, 0.15], title: "ИИ-помощник",
+    text: "Отвечает по данным всего портфеля: планам, снимкам и открытым сигналам." },
+];
+
+const HOME_MAP: Step[] = [
+  { target: ".view-controls", side: "left", offset: [0, 0.05], title: "Фильтры и вид",
+    text: "Тип объекта и переключение между картой и списком. Поиск выше ищет по названию, адресу и этапу." },
+  { target: ".map-feed", side: "left", offset: [0, 0.06], title: "Сводка портфеля",
+    text: "Сколько объектов в норме, с вопросами и с проблемами. Раскройте строку, чтобы увидеть объекты." },
+  { target: ".map-canvas", side: "top", offset: [0.22, 0], title: "Карта Москвы",
+    text: "На маркере число открытых сигналов, цвет — статус объекта. Нажмите маркер, чтобы открыть сводку." },
+  { target: ".map-details", side: "right", offset: [0, 0.06], title: "Карточка объекта",
+    text: "Этап по плану и факт по последнему снимку, прогноз и сравнение нужной техники с увиденной." },
+];
+
+const HOME_LIST: Step[] = [
+  { target: ".home-widgets", side: "left", offset: [0, 0.08], title: "Сводка портфеля",
+    text: "Объекты в мониторинге, открытые проблемы и вопросы на проверку. Мини-график показывает, где риски выше." },
+  { target: ".home-toolbar", side: "left", offset: [0, 0.06], title: "Поиск и фильтр",
+    text: "Поиск по названию, адресу и этапу. Вкладки «С проблемами» и «Без проблем» сужают список." },
+  { target: ".view-controls", side: "left", offset: [0, 0.05], title: "Тип и представление",
+    text: "Чипы — тип объекта. Переключатель «Карта / Список» возвращает к карте Москвы с маркерами." },
+  { target: ".home-attention", side: "left", offset: [0, 0.1], title: "Стоит проверить",
+    text: "Крупные карточки объектов с наибольшим числом проблем и вопросов — быстрый вход без поиска." },
+  { target: ".home-project-grid", side: "left", offset: [0, 0.06], title: "Карточки объектов",
+    text: "Этап по плану, прогресс, последний снимок и счётчики сигналов. Клик открывает карточку объекта." },
+];
+
+function homeGuide(portfolioView: "map" | "list"): Guide {
+  return {
+    name: "Портфель объектов",
+    steps: [...HOME_COMMON, ...(portfolioView === "list" ? HOME_LIST : HOME_MAP)],
+  };
+}
 
 const OBJECT: Guide = {
   name: "Карточка объекта",
@@ -125,9 +146,14 @@ const REPORT: Guide = {
   ],
 };
 
-function guideFor(pathname: string, assistantOpen: boolean, hash: string): Guide | null {
+function guideFor(
+  pathname: string,
+  assistantOpen: boolean,
+  hash: string,
+  portfolioView: "map" | "list",
+): Guide | null {
   if (assistantOpen) return ASSISTANT;
-  if (pathname === "/") return HOME;
+  if (pathname === "/") return homeGuide(portfolioView);
   if (/^\/objects\/[^/]+\/report\/?$/.test(pathname)) return REPORT;
   if (/^\/objects\/[^/]+\/timeline\/?$/.test(pathname)) return TIMELINE;
   if (/^\/objects\/[^/]+\/?$/.test(pathname)) {
@@ -256,6 +282,23 @@ export function PageGuide() {
   const [fresh, setFresh] = useState(false);
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [placed, setPlaced] = useState<Placed[]>([]);
+  const [portfolioView, setPortfolioView] = useState<"map" | "list">("map");
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+    const readView = () => {
+      const pressed = document.querySelector('.portfolio-switcher button[aria-pressed="true"]');
+      setPortfolioView(pressed?.textContent?.trim() === "Список" ? "list" : "map");
+    };
+    readView();
+    const mo = new MutationObserver(readView);
+    mo.observe(document.body, { subtree: true, attributes: true, attributeFilter: ["aria-pressed", "class"] });
+    window.addEventListener("click", readView, true);
+    return () => {
+      mo.disconnect();
+      window.removeEventListener("click", readView, true);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const syncAnchor = () => setNavAnchor(document.getElementById("nav-guide-anchor"));
@@ -289,7 +332,10 @@ export function PageGuide() {
     return () => mo.disconnect();
   }, []);
 
-  const guide = guideFor(pathname, assistantOpen, hash);
+  const guide = useMemo(
+    () => guideFor(pathname, assistantOpen, hash, portfolioView),
+    [pathname, assistantOpen, hash, portfolioView],
+  );
 
   const relayout = useCallback(() => {
     if (open && guide) setPlaced(place(guide.steps));
