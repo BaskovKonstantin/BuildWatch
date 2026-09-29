@@ -42,3 +42,13 @@ docs/backups/
 tools/pptx/node_modules/
 .agents/skills/
 context/pptx_final_slides/
+
+# Agent notes. Project documentation lives in README.md and docs/.
+/context.md
+/AGENTS.md
+/context/defense-gaps.md
+/context/pptx_final_study.md
+/context/_analyze_out.txt
+/context/_image_stats.txt
+/.cursor/
+/docs/superpowers/
