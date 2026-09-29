@@ -57,9 +57,9 @@ const OBJECT: Guide = {
       text: "Рамки YOLO с уверенностью модели. Кнопка «Зоны» размечает опасную зону и склад (R-09, R-10)." },
     { target: ".oc-fact", side: "right", offset: [0, 0.08], title: "План и факт",
       text: "Какая техника нужна этапу, что видно на кадре и вывод о вероятной активности на площадке." },
-    { target: ".chronology-nav-link", side: "bottom", title: "Хронология",
+    { target: ".chronology-nav-link", side: "top", title: "Хронология",
       text: "Прокрутка к ленте этапов, снимков и сигналов внизу страницы. Там же откроется гайд по хронологии." },
-    { target: ".report-nav-link", side: "bottom", title: "Отчёт",
+    { target: ".report-nav-link", side: "top", title: "Отчёт",
       text: "Отчёт по объекту для печати и выгрузки в PDF." },
   ],
 };
@@ -120,7 +120,7 @@ const REPORT: Guide = {
       text: "По неделям: сколько снимков, какой этап по дате, проблемы и вопросы." },
     { target: ".report-section", index: 2, side: "left", offset: [0, 0.08], title: "Качество распознавания",
       text: "Статистика вердиктов инспектора: сколько выводов модели верны." },
-    { target: ".report-print", side: "bottom", title: "Печать и PDF",
+    { target: ".report-print", side: "left", title: "Печать и PDF",
       text: "Отчёт готов к печати и выгрузке в PDF для совещания." },
   ],
 };
@@ -150,11 +150,12 @@ function clamp(v: number, min: number, max: number) {
 
 /** Pin the callout to the configured side of its target — stay next to that block. */
 function anchor(side: Side, rect: DOMRect, ox: number, oy: number): { x: number; y: number } {
+  const cx = rect.left + (rect.width - CALLOUT_W) / 2;
   switch (side) {
     case "top":
-      return { x: rect.left + ox, y: rect.top - GAP - CALLOUT_H };
+      return { x: cx + ox, y: rect.top - GAP - CALLOUT_H };
     case "bottom":
-      return { x: rect.left + ox, y: rect.bottom + GAP };
+      return { x: cx + ox, y: rect.bottom + GAP };
     case "left":
       return { x: rect.left - GAP - CALLOUT_W, y: rect.top + oy };
     case "right":
@@ -173,9 +174,32 @@ function overlaps(a: { x: number; y: number }, b: { x: number; y: number }) {
     && a.y < b.y + CALLOUT_H + 8 && b.y < a.y + CALLOUT_H + 8;
 }
 
+function overlapsRect(x: number, y: number, r: DOMRect, pad = 8) {
+  return x < r.right + pad && x + CALLOUT_W > r.left - pad
+    && y < r.bottom + pad && y + CALLOUT_H > r.top - pad;
+}
+
+function nudgeFromBar(x: number, y: number, bar: DOMRect | null, vh: number) {
+  if (!bar) return { x, y };
+  let nx = x;
+  let ny = y;
+  for (let i = 0; i < 10 && overlapsRect(nx, ny, bar, 6); i++) {
+    if (bar.bottom + GAP + CALLOUT_H <= vh - BOTTOM_RESERVE) {
+      ny = bar.bottom + GAP;
+    } else if (bar.top - GAP - CALLOUT_H >= EDGE) {
+      ny = bar.top - GAP - CALLOUT_H;
+    } else {
+      nx = bar.left - GAP - CALLOUT_W;
+      if (nx < EDGE) nx = bar.right + GAP;
+    }
+  }
+  return { x: nx, y: ny };
+}
+
 function place(steps: Step[]): Placed[] {
   const vw = window.innerWidth;
   const vh = window.innerHeight;
+  const bar = document.querySelector(".guide-bar")?.getBoundingClientRect() ?? null;
   const out: Placed[] = [];
 
   steps.forEach((step, i) => {
@@ -198,15 +222,25 @@ function place(steps: Step[]): Placed[] {
     y = clamp(y, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
 
     // Resolve overlaps by sliding along the free axis, staying on the chosen side.
-    for (let attempt = 0; attempt < 12; attempt++) {
+    for (let attempt = 0; attempt < 16; attempt++) {
       const hit = out.find((prev) => overlaps({ x, y }, prev));
       if (!hit) break;
       if (step.side === "bottom" || step.side === "top") {
-        x = clamp(hit.x + (x >= hit.x ? CALLOUT_W + 10 : -(CALLOUT_W + 10)), EDGE, vw - CALLOUT_W - EDGE);
+        const shifted = clamp(
+          hit.x + (x >= hit.x ? CALLOUT_W + 10 : -(CALLOUT_W + 10)),
+          EDGE,
+          vw - CALLOUT_W - EDGE,
+        );
+        if (!overlaps({ x: shifted, y }, hit)) x = shifted;
+        else y = clamp(hit.y + CALLOUT_H + 12, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
       } else {
         y = clamp(hit.y + CALLOUT_H + 10, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
       }
     }
+
+    ({ x, y } = nudgeFromBar(x, y, bar, vh));
+    x = clamp(x, EDGE, vw - CALLOUT_W - EDGE);
+    y = clamp(y, EDGE, vh - CALLOUT_H - BOTTOM_RESERVE);
 
     out.push({ step, n: i + 1, rect, x, y });
   });
@@ -334,7 +368,7 @@ export function PageGuide() {
               <p>{step.text}</p>
             </div>
           ))}
-          <div className="guide-bar">
+          <div className="guide-bar" id="guide-bar">
             <span>Гайд · {guide.name}</span>
             <button type="button" onClick={() => setOpen(false)}>Понятно</button>
           </div>
