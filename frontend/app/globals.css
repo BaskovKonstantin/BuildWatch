@@ -163,7 +163,8 @@ img{display:block}
 .map-feed-detail-caption{margin-bottom:7px;color:var(--label2);font-size:11px;line-height:1.35}
 .map-feed-projects{display:grid;gap:4px;list-style:none}
 .map-feed-projects button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:6px 0;border:0;background:none;text-align:left;font-size:11px;line-height:1.25}
-.map-feed-projects button:hover{color:var(--blue)}.map-feed-projects button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.map-feed-projects button b{flex:none;color:var(--red-text);font-family:var(--mono);font-size:10px}
+.map-feed-projects button:hover{color:var(--blue)}.map-feed-projects button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.map-feed-projects button b{flex:none;font-family:var(--mono);font-size:10px}
+.map-feed-projects button b.danger{color:var(--red-text)}.map-feed-projects button b.review{color:var(--orange-text)}.map-feed-projects button b.neutral{color:var(--label2)}
 .map-feed-empty{color:var(--label2);font-size:11px;line-height:1.35}
 @keyframes feed-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .map-canvas{position:relative;min-height:540px;overflow:hidden;background:#e8e4df}

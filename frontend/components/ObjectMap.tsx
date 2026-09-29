@@ -295,9 +295,7 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
   }, [selectedId]);
 
   function toggleFeed(id: FeedSection) {
-    setFeedOpen((current) => current.includes(id)
-      ? current.filter((item) => item !== id)
-      : [...current, id]);
+    setFeedOpen((current) => (current.includes(id) ? [] : [id]));
   }
 
   async function loadComments(objectId: number) {
@@ -359,15 +357,35 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
     } : current);
   }
 
-  function renderProjectList(items: MapProject[], emptyLabel: string) {
-    if (!items.length) return <p className="map-feed-empty">{emptyLabel}</p>;
+  type FeedMetricKind = "portfolio" | "violations" | "reviews";
+
+  function feedBadge(project: MapProject, kind: FeedMetricKind): string | number {
+    if (kind === "violations") return project.violations_open;
+    if (kind === "reviews") return project.reviews_open;
+    const open = project.violations_open + project.reviews_open;
+    return open > 0 ? open : "✓";
+  }
+
+  function sortForFeed(items: MapProject[], kind: FeedMetricKind): MapProject[] {
+    const copy = [...items];
+    if (kind === "violations") copy.sort((a, b) => b.violations_open - a.violations_open || a.name.localeCompare(b.name, "ru"));
+    else if (kind === "reviews") copy.sort((a, b) => b.reviews_open - a.reviews_open || a.name.localeCompare(b.name, "ru"));
+    else copy.sort((a, b) => a.name.localeCompare(b.name, "ru"));
+    return copy;
+  }
+
+  function renderProjectList(items: MapProject[], emptyLabel: string, kind: FeedMetricKind) {
+    const sorted = sortForFeed(items, kind);
+    if (!sorted.length) return <p className="map-feed-empty">{emptyLabel}</p>;
     return (
       <ul className="map-feed-projects">
-        {items.map((project) => (
+        {sorted.map((project) => (
           <li key={project.id}>
             <button type="button" onClick={() => onSelect(project.id)}>
               <span>{project.name}</span>
-              <b>{project.violations_open || project.reviews_open || "✓"}</b>
+              <b className={kind === "reviews" ? "review" : kind === "violations" ? "danger" : "neutral"}>
+                {feedBadge(project, kind)}
+              </b>
             </button>
           </li>
         ))}
@@ -450,15 +468,15 @@ export function ObjectMap({ projects, totals, selectedId, onSelect }: ObjectMapP
           <div className="map-feed-list">
             <FeedMetric id="objects" tone="objects" count={totals.projects} label="объектов в мониторинге" icon={<IconBuilding size={17} />} open={feedOpen.includes("objects")} onToggle={() => toggleFeed("objects")}>
               <p className="map-feed-detail-caption">Все объекты текущего портфеля</p>
-              {renderProjectList(projects, "В портфеле пока нет объектов")}
+              {renderProjectList(projects, "В портфеле пока нет объектов", "portfolio")}
             </FeedMetric>
             <FeedMetric id="danger" tone="danger" count={totals.violations} label="открытых проблем" icon={<IconWarning size={17} />} open={feedOpen.includes("danger")} onToggle={() => toggleFeed("danger")}>
-              <p className="map-feed-detail-caption">Объекты с несоответствием плану или этапу</p>
-              {renderProjectList(problemProjects, "Открытых проблем нет")}
+              <p className="map-feed-detail-caption">Только объекты с нарушениями · число справа — открытые проблемы</p>
+              {renderProjectList(problemProjects, "Открытых проблем нет", "violations")}
             </FeedMetric>
             <FeedMetric id="review" tone="review" count={totals.reviews} label="вопросов на проверку" icon={<IconEye size={17} />} open={feedOpen.includes("review")} onToggle={() => toggleFeed("review")}>
-              <p className="map-feed-detail-caption">Распознавания, которые должен проверить инженер</p>
-              {renderProjectList(reviewProjects, "Дополнительных наблюдений нет")}
+              <p className="map-feed-detail-caption">Только объекты с вопросами на проверку · число справа — вопросы, не проблемы</p>
+              {renderProjectList(reviewProjects, "Дополнительных наблюдений нет", "reviews")}
             </FeedMetric>
           </div>
         </aside>
