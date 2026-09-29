@@ -1167,18 +1167,14 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .oc-disclaimer{font-size:11px;line-height:1.35;color:var(--label2)}
 .oc-cap::first-letter{text-transform:uppercase}
 .map-forecast-line::first-letter{text-transform:none}
-.oc-dyn{width:fit-content;max-width:100%;display:grid;grid-template-columns:minmax(200px,320px) auto auto;justify-content:start;gap:18px;align-items:end;margin:0 0 18px;padding:14px 18px;border:1.5px solid var(--sep-strong);border-radius:6px;background:var(--card)}
-.oc-dyn-head p{margin:6px 0 0;font-size:13.5px;font-weight:600;line-height:1.35}
-.oc-dyn-weeks{display:flex;gap:6px;align-items:flex-end;margin:0;padding:0;list-style:none;overflow-x:auto}
-.oc-dyn-weeks li{position:relative;display:grid;justify-items:center;gap:3px;min-width:38px}
-.oc-dyn-bar{position:relative;display:flex;align-items:flex-end;gap:2px;width:22px;height:54px;padding:0 2px;border-bottom:1px solid var(--sep-strong)}
+.oc-dyn{display:grid;gap:4px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--sep-strong)}
+.oc-verdict .oc-dyn p{color:var(--label);font-weight:600;font-size:12.5px}
+.oc-dyn-weeks{display:flex;gap:4px;align-items:flex-end;margin:4px 0 0;padding:0;list-style:none;overflow-x:auto}
+.oc-dyn-weeks li{display:grid;justify-items:center;gap:2px;min-width:26px}
+.oc-dyn-bar{display:flex;align-items:flex-end;gap:2px;width:16px;height:32px;border-bottom:1px solid var(--sep-strong)}
 .oc-dyn-bar i{flex:1;min-height:2px;border-radius:2px 2px 0 0}
-.oc-dyn-bar .vl,.oc-dyn-legend .vl{background:var(--red)}.oc-dyn-bar .rv,.oc-dyn-legend .rv{background:var(--orange)}
-.oc-dyn-weeks b{font:700 11px var(--mono)}.oc-dyn-weeks b em{font-style:normal;color:var(--label2);font-weight:500}
-.oc-dyn-weeks small{font:10px var(--mono);color:var(--label2)}
-.oc-dyn-gap{position:absolute;top:18px;font-size:8.5px;color:var(--label3);writing-mode:vertical-rl}
-.oc-dyn-legend{display:grid;gap:4px;font-size:11px;color:var(--label2)}
-.oc-dyn-legend span{display:flex;align-items:center;gap:6px}.oc-dyn-legend i{width:8px;height:8px;border-radius:2px}
+.oc-dyn-bar .vl{background:var(--red)}.oc-dyn-bar .rv{background:var(--orange)}
+.oc-dyn-weeks small{font:9.5px var(--mono);color:var(--label2)}
 .oc-viewer-actions{display:flex;gap:10px;align-items:center}
 .zone-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 14px 0;color:var(--label2);font-size:12px}
 .zone{position:absolute;z-index:2;border:2px solid;pointer-events:none}
@@ -1232,14 +1228,24 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .oc-stage-t b{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oc-stage-t small{font:500 10.5px var(--mono);color:var(--label2)}
 .oc-stages li.future{opacity:.62}
-.oc-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.oc-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:stretch}
+.oc-signals{display:flex;flex:1;flex-direction:column;min-height:150px;border:1.5px solid var(--sep-strong);border-radius:6px;background:var(--card)}
+.oc-signals-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 8px;border-bottom:1px solid var(--sep)}
+.oc-signals-head a{font-size:12px;font-weight:600;color:var(--orange-text);text-decoration:none}
+.oc-signals-body{position:relative;flex:1}
+.oc-signals-body ul{position:absolute;inset:0;overflow:auto;margin:0;padding:6px 0;list-style:none}
+.oc-signals-body li{display:grid;gap:2px;padding:7px 14px 7px 12px;border-left:3px solid var(--orange)}
+.oc-signals-body li.bad{border-left-color:var(--red)}
+.oc-signals-body li b{font-size:12.5px;line-height:1.3}
+.oc-signals-body li small{font:10.5px var(--mono);color:var(--label2)}
+.oc-signals-empty{margin:0;padding:14px;font-size:12.5px;color:var(--label2)}
 .oc-viewer{background:var(--card);border:1.5px solid var(--label);border-radius:6px;box-shadow:4px 4px 0 rgba(20,24,29,.12);overflow:hidden;min-width:0}
 .oc-viewer-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--sep)}
 .oc-viewer .canvas{margin:14px 14px 10px;width:auto;border-radius:4px}
 .box.verified{border-style:solid;box-shadow:0 0 0 2px rgba(36,138,61,.9)}
 .canvas-state{position:absolute;right:12px;bottom:12px;padding:7px 11px;border:0;border-radius:4px;background:rgba(20,24,29,.85);color:#fff;font:600 12px var(--mono)}
 .canvas-state.action{cursor:pointer;background:var(--orange)}
-.oc-side{position:sticky;top:72px;display:grid;gap:14px}
+.oc-side{display:flex;flex-direction:column;gap:14px;min-height:0}
 .oc-fact{padding:16px;border:1.5px solid var(--label);border-radius:6px;background:var(--card)}
 .oc-fact dl{display:grid;gap:10px;margin:12px 0 14px}
 .oc-fact dl div{display:grid;gap:2px}
@@ -1268,7 +1274,7 @@ html:not([data-theme]) .hero-stats .stat-progress,html[data-theme="tech"] .hero-
 .oc-timeline-head h2{margin:6px 0 4px;font-size:clamp(20px,2.2vw,26px);letter-spacing:-.02em}
 .oc-timeline-head p{margin:0;max-width:520px;font-size:13px;color:var(--label2);line-height:1.45}
 .oc-timeline .object-timeline{padding-left:4px;padding-right:4px}
-@media(max-width:900px){.oc-dyn{grid-template-columns:minmax(0,1fr)}.oc-forecast-stages{grid-template-columns:minmax(0,1fr)}.oc-verdict.split{grid-template-columns:minmax(0,1fr);gap:14px}.oc-verdict.split .oc-forecast{padding:14px 0 0;border-left:0;border-top:1px dashed var(--sep-strong)}}
+@media(max-width:900px){.oc-forecast-stages{grid-template-columns:minmax(0,1fr)}.oc-verdict.split{grid-template-columns:minmax(0,1fr);gap:14px}.oc-verdict.split .oc-forecast{padding:14px 0 0;border-left:0;border-top:1px dashed var(--sep-strong)}}
 @media(max-width:1000px){.oc-hero,.oc-main{grid-template-columns:minmax(0,1fr)}.oc-side{position:static}.oc-stages{grid-auto-flow:row;grid-auto-columns:auto}.oc-stages li{border-left:0;border-top:1px solid var(--sep)}.oc-stages li:first-child{border-top:0}.oc-timeline-head{flex-direction:column;align-items:flex-start}}
 
 /* ─── Swipe review ─── */

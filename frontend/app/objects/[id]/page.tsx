@@ -7,7 +7,7 @@ import { NavBar } from "@/components/NavBar";
 import { ObjectTimelineFeed } from "@/components/ObjectTimelineFeed";
 import { SiteZoneLayer, type SiteZone } from "@/components/SiteZoneLayer";
 import { SwipeReview, reviewItems } from "@/components/SwipeReview";
-import { IconArrowUpRight, IconCheck, IconClose, IconPin, IconUpload, IconWarning } from "@/components/Icons";
+import { IconCheck, IconClose, IconPin, IconUpload, IconWarning } from "@/components/Icons";
 import { apiFetch } from "@/lib/api";
 import { Card, Forecast, HumanEvent, fmt, snapshotTone, stageForDate, useObjectCard } from "@/lib/objectCard";
 import { equipmentRu, shortDate, typeTint } from "@/lib/format";
@@ -116,6 +116,11 @@ export default function ObjectPage() {
   const gap = forecast?.equipment_gap.rows ?? [];
   const location = [card.object.district, card.object.address].filter(Boolean).join(" · ");
   const openSignals = (card.summary?.violations_open ?? 0) + (card.summary?.reviews_open ?? 0);
+  const snapWarnings = snap
+    ? card.warnings
+      .filter((w) => w.snapshot_id === snap.id && w.status === "open")
+      .sort((a, b) => Number(b.severity === "violation") - Number(a.severity === "violation"))
+    : [];
   const conclusion = !snap || ["new", "processing", "failed"].includes(snap.status) ? { tone: "none", text: "Недостаточно данных" }
     : !planStage ? { tone: "none", text: "Снимок вне сроков плана" }
       : !requirements.length ? { tone: "none", text: "Для этапа нет правила" }
@@ -150,6 +155,28 @@ export default function ObjectPage() {
               <span className="oc-kicker">Статус по графику</span>
               <strong>{schedule.label}</strong>
               <p>{schedule.note}</p>
+              {card.dynamics && card.dynamics.points.length > 0 && (
+                <div className="oc-dyn" aria-label="Динамика по неделям">
+                  <span className="oc-kicker">Динамика · {card.dynamics.window_days} дн.</span>
+                  <p>{card.dynamics.sentence}</p>
+                  {card.dynamics.points.length > 1 && (
+                    <ol className="oc-dyn-weeks">
+                      {card.dynamics.points.map((p) => {
+                        const peak = Math.max(1, ...card.dynamics!.points.map((x) => x.violations + x.reviews));
+                        return (
+                          <li key={p.date} title={`${fmt(p.date)} · ${p.stage_name ?? "вне плана"} · снимков ${p.snapshots} · проблем ${p.violations}, вопросов ${p.reviews}`}>
+                            <span className="oc-dyn-bar" aria-hidden="true">
+                              <i className="rv" style={{ height: `${(p.reviews / peak) * 100}%` }} />
+                              <i className="vl" style={{ height: `${(p.violations / peak) * 100}%` }} />
+                            </span>
+                            <small>{fmt(p.date).slice(0, 5)}</small>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  )}
+                </div>
+              )}
             </div>
             {forecast && (
               <div className="oc-forecast">
@@ -186,32 +213,6 @@ export default function ObjectPage() {
               </li>
             ))}
           </ol>
-        )}
-
-        {card.dynamics && card.dynamics.points.length > 0 && (
-          <section className="oc-dyn" aria-label="Динамика по неделям">
-            <div className="oc-dyn-head">
-              <span className="oc-kicker">Динамика · {card.dynamics.window_days} дн.</span>
-              <p>{card.dynamics.sentence}</p>
-            </div>
-            {card.dynamics.points.length > 1 && <ol className="oc-dyn-weeks">
-              {card.dynamics.points.map((p) => {
-                const peak = Math.max(1, ...card.dynamics!.points.map((x) => x.violations + x.reviews));
-                return (
-                  <li key={p.date} title={`${fmt(p.date)} · ${p.stage_name ?? "вне плана"} · снимков ${p.snapshots}`}>
-                    <span className="oc-dyn-bar" aria-hidden="true">
-                      <i className="rv" style={{ height: `${(p.reviews / peak) * 100}%` }} />
-                      <i className="vl" style={{ height: `${(p.violations / peak) * 100}%` }} />
-                    </span>
-                    <b>{p.violations}<em>/{p.reviews}</em></b>
-                    <small>{fmt(p.date).slice(0, 5)}</small>
-                    {p.snapshots === 0 && <span className="oc-dyn-gap">нет снимков</span>}
-                  </li>
-                );
-              })}
-            </ol>}
-            {card.dynamics.points.length > 1 && <div className="oc-dyn-legend"><span><i className="vl" />проблемы</span><span><i className="rv" />вопросы</span></div>}
-          </section>
         )}
 
         <section className="oc-main">
@@ -323,10 +324,24 @@ export default function ObjectPage() {
               )}
             </div>
 
-            <Link className="oc-link" href={`/objects/${id}/timeline`}>
-              <span><strong>Календарь и редактор плана</strong><small>{openSignals ? `${openSignals} открытых сигналов · события, CSV/XLSX` : "События, календарь, импорт плана"}</small></span>
-              <IconArrowUpRight size={16} />
-            </Link>
+            <div className="oc-signals">
+              <div className="oc-signals-head">
+                <span className="oc-kicker">Сигналы на снимке</span>
+                <a href="#chronology">все {openSignals} →</a>
+              </div>
+              <div className="oc-signals-body">
+                {snapWarnings.length ? (
+                  <ul>
+                    {snapWarnings.map((w) => (
+                      <li key={w.id} className={w.severity === "violation" ? "bad" : "warn"} title={w.why}>
+                        <b>{w.title}</b>
+                        <small>{w.severity === "violation" ? "Проблема" : "Вопрос"} · {w.rule}</small>
+                      </li>
+                    ))}
+                  </ul>
+                ) : <p className="oc-signals-empty">Открытых сигналов по этому снимку нет.</p>}
+              </div>
+            </div>
           </aside>
         </section>
 
