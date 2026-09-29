@@ -2,6 +2,7 @@
 .venv-cpu/
 frontend/node_modules/
 frontend/.next/
+frontend/.next-stale*/
 backend/buildwatch.db
 backend/media/
 __pycache__/
@@ -39,9 +40,38 @@ context/holdout_perclass_full.json
 
 # PPTX agent tooling / backups (keep on disk, not in git)
 docs/backups/
+docs/~$*
+docs/*.bak
+docs/*.inspect.ndjson
 tools/pptx/node_modules/
 .agents/skills/
+skills-lock.json
 context/pptx_final_slides/
+
+# Local agent scratch / build dumps (tracked deploy helpers under .codex-build stay)
+.bb/
+.codex-build-ml-infographic/
+.codex-finalizer/
+.codex-build/*.zip
+.codex-build/*.tar.gz
+.codex-build/*.exe
+.codex-build/*.png
+.codex-build/*.webp
+.codex-build/cv-training-editable/
+.presentation-build/node_modules/
+.presentation-build/.codex-finalizer/
+.presentation-build/final/
+.presentation-build/**/*-render/
+.presentation-build/template-audit/
+.presentation-build/*.png
+.presentation-build/*.webp
+.presentation-build/*.mjs
+artifacts/
+artifacts-output/
+backups/
+camera-3d/
+/software-architecture.svg
+/software-architecture-simple.svg
 
 # Agent notes. Project documentation lives in README.md and docs/.
 /context.md
